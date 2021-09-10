@@ -1,6 +1,16 @@
 #ifndef COLA_PRIORIDAD_H
 #define COLA_PRIORIDAD_H
+#include <cstdlib>
+#include <iostream>
+#include <ctype.h>
+#include <iomanip>
 
+// INTEGRANTES:
+// Santiago Herrera - 20191020094
+// Juan Hurtado - 20191020082
+// David Saldarriaga - 20191020043
+
+using namespace std;
 
 class ColaPrioridad{
 	
@@ -21,23 +31,28 @@ class ColaPrioridad{
 };
 
 bool ColaPrioridad::insertar(int valor){
-	
-	int pivote = valor;
-	posActiva = ultimoElemento + 1;
-	do{
-		if(pivote > arreglo[posActiva / 2]){
-			int aux = arreglo[posActiva / 2];
-			arreglo[posActiva / 2] = pivote;
-			pivote = aux;
-		}else{
-			arreglo[posActiva] = pivote;
-		}
+	if (colaLlena()==false){
+		int pivote = valor;
+		posActiva = ultimoElemento + 1;
+		do{
+			if(pivote > arreglo[posActiva / 2]){
+				int aux = arreglo[posActiva / 2];
+				arreglo[posActiva / 2] = pivote;
+				pivote = aux;
+			}else{
+				arreglo[posActiva] = pivote;
+			}
+			
+			
+			posActiva /= 2;
+		}while(posActiva / 2 > 0);
 		
-		
-		posActiva /= 2;
-	}while(posActiva / 2 > 0);
+		ultimoElemento++;
+		return true;
+	}
 	
-	ultimoElemento++;
+	return false;
+	
 }
 
 int ColaPrioridad::atender(){
@@ -70,6 +85,9 @@ int ColaPrioridad::atender(){
 
 void ColaPrioridad::imprimirArreglo(){
 	
+	for(int i=1; i<=ultimoElemento; i++){
+		cout<<arreglo[i]<<"||"<<i<<endl;	
+	}
 }
 
 bool ColaPrioridad::colaLlena(){
