@@ -2,8 +2,6 @@
 #define PILA_H    
 #include "estructura.h"
 
-
-
 class pila{
 	nodo *cab;
     public: 
