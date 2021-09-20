@@ -24,12 +24,12 @@ HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
 CommandLine=
-Folders=Librerias,Modelo
+Folders=Librerias,Modelo,Utils
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
-UnitCount=8
+UnitCount=9
 
 [VersionInfo]
 Major=1
@@ -124,6 +124,16 @@ BuildCmd=
 FileName=Vacuna.h
 CompileCpp=1
 Folder=Modelo
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit9]
+FileName=Fecha.h
+CompileCpp=1
+Folder=Utils
 Compile=1
 Link=1
 Priority=1000
