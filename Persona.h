@@ -1,14 +1,10 @@
 #ifndef PERSONA_H
 #define PERSONA_H
 #include <string>
+#include "Vacuna.h"
+#include "Fecha.h"
 
 using namespace std;
-
-struct Fecha{
-	int dia;
-	int mes;
-	int anho;
-};
 
 struct Identificacion{
 	long long int numero;
@@ -33,6 +29,7 @@ class Persona{
 		Fecha f_nacimiento;
 		Fecha f_primera_dosis;
 		Fecha f_segunda_dosis;
+		Vacuna vacuna;
 	public:
 		Persona(){};
 		Persona(long long int numeroId,
@@ -52,6 +49,7 @@ class Persona{
 		Identificacion getId(){
 			return id;
 		}
+		bool Vacunar(Vacuna vacuna);
 };
 
 //--------- CONSTRUCTORES -----------//
@@ -87,4 +85,12 @@ Persona::Persona(long long int numeroId,
 	this->f_nacimiento = f_nacimiento; 
 }
 
+//-------------- METODOS -------------------//
+bool Persona::Vacunar(Vacuna vacuna, Fecha fecha){
+	if(this->f_segunda_dosis != NULL) return false;
+	this->vacuna = vacuna;
+	if(this->f_primera_dosis == NULL) this->f_primera_dosis = fecha;
+	else this->f_segunda_dosis = fecha;
+	return true;
+}
 #endif
