@@ -35,7 +35,10 @@ void empezarPrograma(){
 		cout<<"5. Ver todos las vacunas registradas"<<endl;
 		cout<<"6. Ver todas las EPSs"<<endl;
 		cout<<"7. Ver todas las IPSs"<<endl;
-		cout<<"8. SALIR"<<endl;
+		cout<<"8. SALIR"<<endl<<endl;
+		
+		cout<<"Opcion: ";
+		cin>>opcion;
 		
 		switch(opcion){
 			case 1:
@@ -72,7 +75,10 @@ void consultarPacientesPor(){
 		cout<<"2. Edad"<<endl;
 		cout<<"3. Vacunados con un tipo de vacuna"<<endl;
 		cout<<"4. Fecha de vacunacion"<<endl;
-		cout<<"5. Volver al menu principal"<<endl;
+		cout<<"5. Volver al menu principal"<<endl<<endl;
+		
+		cout<<"Opcion: ";
+		cin>>opcion;
 		cout<<"---------------------------------"<<endl;
 		
 		switch(opcion){
