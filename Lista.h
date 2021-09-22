@@ -1,7 +1,6 @@
 #ifndef LISTAS_H
 #define LISTAS_H
 #include <iostream>
-#include "Posgrado.h"
 
 using namespace std;
 

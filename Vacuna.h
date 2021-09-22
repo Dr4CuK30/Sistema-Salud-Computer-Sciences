@@ -1,6 +1,10 @@
 #ifndef PERSONA_H
 #define PERSONA_H
 #include <string>
+#include <iostream>
+
+
+using namespace std;
 
 class Vacuna{
 	public:
@@ -8,8 +12,8 @@ class Vacuna{
 		int cant;
 		Vacuna(){}
 		Vacuna(string nombre, int cant){
-			this.cant = cant;
-			this.nombre = nombre;
+			cant = cant;
+			nombre = nombre;
 		}
 };
 
