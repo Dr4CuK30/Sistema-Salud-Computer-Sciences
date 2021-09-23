@@ -3,6 +3,7 @@
 #include <string>
 #include "Vacuna.h"
 #include "Fecha.h"
+#include "Eps.h"
 
 using namespace std;
 
@@ -30,6 +31,7 @@ class Persona{
 		Fecha *f_primera_dosis;
 		Fecha *f_segunda_dosis;
 		Vacuna vacuna;
+		Eps eps;
 	public:
 		Persona(){};
 		Persona(long long int numeroId,
