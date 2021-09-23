@@ -3,6 +3,7 @@
 #include <string>
 #include "Vacuna.h"
 #include "Fecha.h"
+#include "Eps.h"
 
 using namespace std;
 
@@ -27,9 +28,10 @@ class Persona{
 		long long int telefono_cel;
 		long long int telefono_fijo;
 		Fecha f_nacimiento;
-		Fecha f_primera_dosis;
-		Fecha f_segunda_dosis;
+		Fecha *f_primera_dosis;
+		Fecha *f_segunda_dosis;
 		Vacuna vacuna;
+		Eps eps;
 	public:
 		Persona(){};
 		Persona(long long int numeroId,
@@ -49,7 +51,7 @@ class Persona{
 		Identificacion getId(){
 			return id;
 		}
-		bool Vacunar(Vacuna vacuna);
+		bool Vacunar(Vacuna vacuna, Fecha *fecha);
 };
 
 //--------- CONSTRUCTORES -----------//
@@ -86,7 +88,7 @@ Persona::Persona(long long int numeroId,
 }
 
 //-------------- METODOS -------------------//
-bool Persona::Vacunar(Vacuna vacuna, Fecha fecha){
+bool Persona::Vacunar(Vacuna vacuna, Fecha *fecha){
 	if(this->f_segunda_dosis != NULL) return false;
 	this->vacuna = vacuna;
 	if(this->f_primera_dosis == NULL) this->f_primera_dosis = fecha;

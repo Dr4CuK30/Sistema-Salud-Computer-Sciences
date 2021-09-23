@@ -1,5 +1,5 @@
-#ifndef PERSONA_H
-#define PERSONA_H
+#ifndef VACUNA_H
+#define VACUNA_H
 #include <string>
 #include <iostream>
 
