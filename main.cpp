@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <iomanip>
 #include "cola_prioridad.h"
+#include "controladorData.h"
 
 using namespace std;
 
@@ -11,8 +12,13 @@ void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
 int main(int argc, char *argv[]) {
+
 	
-	empezarPrograma();
+	//empezarPrograma();
+	
+	ControladorData data;
+	
+	
 	
     system("PAUSE");
     return EXIT_SUCCESS;
@@ -39,6 +45,7 @@ void empezarPrograma(){
 		
 		cout<<"Opcion: ";
 		cin>>opcion;
+		cout<<" "<<endl<<endl<<endl<<endl;
 		
 		switch(opcion){
 			case 1:
@@ -56,10 +63,15 @@ void empezarPrograma(){
 				break;
 			case 7:
 				break;
+			case 8:
+				cout<<"Hasta pronto..."<<endl;
+				break;
 			default:	
 				cout<<"Opcion no valida"<<endl<<endl;
 				break;
 		}
+		
+		
 	}	
 	
 	//guardar archivos

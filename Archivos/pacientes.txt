@@ -1,0 +1,3 @@
+Juanito;;Alimaña;;Sanitas;;Astrazeneca;;Sapo
+Juanita;;Alimaño;;Cafesalud;;Astrazeneca;;Sapo
+Juan;;Alimaña;;Sisben;;Astrazeneca;;Sapo

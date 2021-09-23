@@ -24,12 +24,12 @@ HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
 CommandLine=
-Folders=Librerias,Modelo,Utils
+Folders=Controlador,Librerias,Modelo,Utils
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
-UnitCount=14
+UnitCount=15
 
 [VersionInfo]
 Major=1
@@ -184,6 +184,16 @@ BuildCmd=
 FileName=Eps_Ips.h
 CompileCpp=1
 Folder=Modelo
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit15]
+FileName=controladorData.h
+CompileCpp=1
+Folder=Controlador
 Compile=1
 Link=1
 Priority=1000
