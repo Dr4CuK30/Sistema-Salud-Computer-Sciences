@@ -34,6 +34,8 @@ class ControladorData{
 		
 		//---------------------Arboles ordenados----------------------------------//
 		
+		ArbolBinarioOrdenado pacientesPorEdad;
+		
 		
 		
 		
