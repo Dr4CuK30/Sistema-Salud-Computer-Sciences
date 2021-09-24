@@ -9,7 +9,7 @@ class Eps{
 	protected:
 		string nombre;
 	public:
-		Eps();
+		Eps(){};
 		Eps(string nombre){
 			this->nombre = nombre;
 		}
