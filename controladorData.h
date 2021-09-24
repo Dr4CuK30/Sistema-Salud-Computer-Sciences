@@ -4,18 +4,24 @@
 #include "Lista.h"
 #include "Persona.h"
 #include "Vacuna.h"
-//#include "Eps.h"
+#include "Eps.h"
 #include "Eps_Ips.h"
 #include "Eps_Vacuna.h"
 #include "Ips.h"
 #include "Ips_Vacuna.h"
 
 #include "ArbolBinarioOrdenado.h"
+
 #include <iostream>
 #include <fstream>
+#include <cstdlib>  
+#include <string>
+
 
 
 using namespace std;
+
+const int CANT_ATRIBUTOS_VACUNA = 2;
 
 class ControladorData{
 	
@@ -32,11 +38,14 @@ class ControladorData{
 		//---------------------listas generales-----------------------------------//
 		Lista <Vacuna> listaVacunas;
 		Lista <Persona> listaPersonas;
-//		Lista <Eps> listaEPS;
+		Lista <Eps> listaEPS;
 		Lista <Ips> listaIPS;
 		Lista <Eps_Vacuna> listaEpsVacuna;
 		Lista <Ips_Vacuna> listaIpsVacuna;
 		Lista <Eps_Ips> listaEpsIps;
+		Lista <string> listaCiudades;
+		Lista <string> listaPaises;
+		
 		
 		//---------------------Arboles ordenados----------------------------------//
 		
@@ -52,11 +61,21 @@ class ControladorData{
 		Lista <ArbolBinarioOrdenado> listaPacientesPorLaburo;
 		Lista <ArbolBinarioOrdenado> listaPacientesPorVacuna;
 		
-		
-		//-------------------Formacion de estructuras----------------------------//
-		
+		//-------------------Carga de datos--------------------------------------//
 		void cargarArchivosLocales();
 		void guardarDatos();
+		
+		void cargarPacientes();
+		void cargarVacunas();
+		void cargarEps();
+		void cargarIps();
+		void cargarLugares();
+		void cargarVacunasPorIps();
+		void cargarVacunasPorEps();
+		
+	
+		
+		//-------------------Formacion de estructuras----------------------------//
 		
 		void organizarPacientesPorEps();
 		void organizarPacientesPorCiudadResidencia();
@@ -69,7 +88,7 @@ class ControladorData{
 		void agregarPaciente();
 		void agregarCiudad();
 		void agregarLaburo();
-		void agregarVacuna();
+		void agregarVacuna(Vacuna vacuna);
 		void agregarEps();
 		void agregarIps();
 		
@@ -90,6 +109,7 @@ ControladorData::ControladorData(){
 	this->cantidadPersonas = 0;
 	this->cantidadIPS = 0;
 	
+	this->cargarVacunas();
 	//this->cargarArchivosLocales();
 }
 
@@ -116,5 +136,61 @@ void ControladorData::cargarArchivosLocales(){
 	
 }
 
+void ControladorData::cargarPacientes(){
+}
+
+void ControladorData::cargarVacunas(){
+	
+	fstream archivoVacunas;
+	string linea, *atributosVacuna;
+	
+	
+	archivoVacunas.open("archivos/vacunas.txt");
+	
+	if(archivoVacunas.is_open()){
+		while(getline(archivoVacunas, linea)){
+			atributosVacuna = new string[CANT_ATRIBUTOS_VACUNA];
+			int pos = 0;
+			
+			for(int i = 0; i < linea.size(); i++){
+				if(linea[i] == ';' && linea[i+1] == ';'){
+					pos++;
+					i++;
+				}else{
+					atributosVacuna[pos] += linea[i];
+				}
+			}
+			
+			Vacuna vacuna = Vacuna(atributosVacuna[0], atoi(atributosVacuna[1].c_str())); 
+			agregarVacuna(vacuna);
+			
+			delete []atributosVacuna;
+		}
+		
+		archivoVacunas.close();
+	}else{
+		cout<<"Archivo de vacunas no disponible"<<endl;
+	}
+	
+}
+
+void ControladorData::cargarEps(){
+}
+
+void ControladorData::cargarIps(){
+}
+
+void ControladorData::cargarLugares(){
+}
+
+void ControladorData::cargarVacunasPorIps(){
+}
+		
+void ControladorData::cargarVacunasPorEps(){
+}
+
+void ControladorData::agregarVacuna(Vacuna vacuna){
+	
+}
 
 #endif

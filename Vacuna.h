@@ -9,10 +9,10 @@ using namespace std;
 class Vacuna{
 	public:
 		string nombre;
-		int cant;
+		int cantidadDosis;
 		Vacuna(){}
-		Vacuna(string nombre, int cant){
-			cant = cant;
+		Vacuna(string nombre, int cantidadDosis){
+			cantidadDosis = cantidadDosis;
 			nombre = nombre;
 		}
 };

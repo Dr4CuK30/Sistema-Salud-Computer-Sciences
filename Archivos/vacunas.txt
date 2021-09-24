@@ -1,0 +1,4 @@
+Pfizer;;2
+Moderna;;2
+Janssen;;1
+AstraZeneca;;2
