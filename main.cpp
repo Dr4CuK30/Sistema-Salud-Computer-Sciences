@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
 void empezarPrograma(){
 	//cargar archivos
 	
+	
 	int opcion;
 	
 	while(opcion != 8){

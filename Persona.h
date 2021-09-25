@@ -4,6 +4,7 @@
 #include "Vacuna.h"
 #include "Fecha.h"
 #include "Eps.h"
+#include "Ips.h"
 
 using namespace std;
 
@@ -32,6 +33,8 @@ class Persona{
 		Fecha *f_segunda_dosis;
 		Vacuna vacuna;
 		Eps eps;
+		Ips ips_default;
+		Ips ips_asignada;
 	public:
 		Persona(){};
 		Persona(long long int numeroId,
@@ -47,7 +50,13 @@ class Persona{
 				string barrio,
 				long long int telefono_cel,
 				long long int telefono_fijo,
-				Fecha f_nacimiento);
+				Fecha f_nacimiento,
+				Fecha *f_primera_dosis,
+				Fecha *f_segunda_dosis,
+				Vacuna vacuna,
+				Eps eps,
+				Ips ips_default,
+				Ips ips_asignada);
 		Identificacion getId(){
 			return id;
 		}
@@ -68,7 +77,13 @@ Persona::Persona(long long int numeroId,
 				string barrio,
 				long long int telefono_cel,
 				long long int telefono_fijo,
-				Fecha f_nacimiento){
+				Fecha f_nacimiento,
+				Fecha *f_primera_dosis,
+				Fecha *f_segunda_dosis,
+				Vacuna vacuna,
+				Eps eps,
+				Ips ips_default,
+				Ips ips_asignada){
 	Identificacion id;
 	id.numero = numeroId;
 	id.tipo = tipoId;
@@ -85,6 +100,12 @@ Persona::Persona(long long int numeroId,
 	this->telefono_cel = telefono_cel;
 	this->telefono_fijo = telefono_fijo;
 	this->f_nacimiento = f_nacimiento; 
+	this->f_primera_dosis = f_primera_dosis;
+	this->f_segunda_dosis = f_segunda_dosis;
+	this->vacuna = vacuna;
+	this->eps = eps;
+	this->ips_default = ips_default;
+	this->ips_asignada = ips_asignada;
 }
 
 //-------------- METODOS -------------------//
