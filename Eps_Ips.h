@@ -8,7 +8,8 @@ class Eps_Ips{
 		Ips *ips;
 		Eps *eps;
 	public:
-		Eps_Ips();
+		Eps_Ips(){
+		}
 		Eps_Ips(Eps *eps, Ips *ips){
 			this->ips = ips;
 			this->eps = eps;
