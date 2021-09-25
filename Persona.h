@@ -64,6 +64,7 @@ class Persona{
 		}
 		bool Vacunar(Vacuna *vacuna, Fecha *fecha);
 		int getEdad();
+		int faltaVacunar();
 };
 
 //--------- CONSTRUCTORES -----------//
@@ -113,11 +114,20 @@ Persona::Persona(long long int numeroId,
 
 //-------------- METODOS -------------------//
 bool Persona::Vacunar(Vacuna *vacuna, Fecha *fecha){
-	if(this->f_segunda_dosis != NULL) return false;
-	this->vacuna = vacuna;
-	if(this->f_primera_dosis == NULL) this->f_primera_dosis = fecha;
-	else this->f_segunda_dosis = fecha;
-	return true;
+	int etapa =  this->faltaVacunar();
+	if(etapa == 0){
+		this->vacuna = vacuna;
+		this->f_primera_dosis = fecha;
+		return true;	
+	}else if(etapa == 1){
+		if(this->vacuna != vacuna) return false;
+		else {
+			this->f_segunda_dosis = fecha;
+			return true;
+		}
+	} else{
+		return false;
+	}
 }
 
 int Persona::getEdad(){
@@ -126,5 +136,11 @@ int Persona::getEdad(){
 	float anho_nacimiento = this->f_nacimiento.anho + ((this->f_nacimiento.mes+1)/12) + (this->f_nacimiento.anho/365);
 	float anho_actual = timePtr->tm_year+1900 + (timePtr->tm_mon+1/12) + (timePtr->tm_mday/365);
 	return floor(anho_actual-anho_nacimiento);
+}
+
+int Persona::faltaVacunar(){
+	if(this->f_segunda_dosis != NULL) return 2;
+	if(this->f_primera_dosis != NULL) return 1;
+	return 0;
 }
 #endif
