@@ -22,12 +22,12 @@
 using namespace std;
 
 const int CANT_ATRIBUTOS_VACUNA = 2;
-const int CANT_ATRIBUTOS_PERSONA = 0;
+const int CANT_ATRIBUTOS_PERSONA = 14;
 const int CANT_ATRIBUTOS_EPS = 1;
-const int CANT_ATRIBUTOS_IPS = 0;
-const int CANT_ATRIBUTOS_EPS_VACUNA = 0;
-const int CANT_ATRIBUTOS_EPS_IPS = 0;
-const int CANT_ATRIBUTOS_IPS_VACUNA = 0;
+const int CANT_ATRIBUTOS_IPS = 3;
+const int CANT_ATRIBUTOS_EPS_VACUNA = 1;
+const int CANT_ATRIBUTOS_EPS_IPS = 1;
+const int CANT_ATRIBUTOS_IPS_VACUNA = 1;
 
 
 class ControladorData{
@@ -93,12 +93,13 @@ class ControladorData{
 		
 		//---------------Mutacion de estructuras--------------------------------//
 		//posiblemente a otra clase
-		void agregarPaciente();
-		void agregarCiudad();
-		void agregarLaburo();
-		void agregarVacuna(Vacuna vacuna);
-		void agregarEps();
-		void agregarIps();
+		void agregarPersona(Persona);
+		void agregarCiudad(string);
+		void agregarLaburo(string);
+		void agregarVacuna(Vacuna);
+		void agregarEps(Eps);
+		void agregarIps(Ips);
+		void agregarPais(string);
 		
 		//cambios de datos
 		
@@ -117,8 +118,8 @@ ControladorData::ControladorData(){
 	this->cantidadPersonas = 0;
 	this->cantidadIPS = 0;
 	
-	this->cargarVacunas();
-	//this->cargarArchivosLocales();
+	this->cargarArchivosLocales();
+	
 }
 
 void ControladorData::cargarArchivosLocales(){
@@ -131,7 +132,6 @@ void ControladorData::cargarArchivosLocales(){
 	//7 EPS IPS
 	//8 ciudad
 	//9 Pais
-	
 	
 	cargarArchivo("Archivos/personas.txt", CANT_ATRIBUTOS_PERSONA, 1);
 	cargarArchivo("Archivos/vacunas.txt", CANT_ATRIBUTOS_VACUNA, 2);
@@ -146,6 +146,8 @@ void ControladorData::cargarArchivosLocales(){
 }
 
 void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int modelo){
+	cout<<"entra al metodo "<<modelo<<endl<<endl;
+	
 	fstream archivo;
 	string linea, *atributos;
 	
@@ -166,27 +168,52 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 				
 			}
 			
+			for(int i = 0; i < cantAtributos; i++)cout<<atributos[i]<<"-";
+			cout<<endl;
+			
 			switch(modelo){
 				case 1:
 					break;
-				case 2:
-//					Vacuna vacuna = Vacuna(atributos[0], atoi(atributos[1].c_str())); 
+				case 2:{
+					Vacuna vacuna = Vacuna(atributos[0], atoi(atributos[1].c_str())); 
 //					agregarVacuna(vacuna);
 					break;
-				case 3:
-//					Eps eps = Eps(atributos[0]);
+				}
+				case 3:{
+					Eps eps = Eps(atributos[0]);
 //					agregarEps(eps);
 					break;
-				case 4:
-//					Ips ips;
+				}
+				case 4:{
+					Ips ips = Ips(atributos[0],atributos[1],atributos[2]);
+//					agregarIps(ips)
+				}
+				case 5:{
+					Eps eps;//buscar eps referente a atributos[0]
+					Vacuna vacuna;//buscar vacuna referente a atributos[1]
+					Eps_Vacuna epsVacuna = Eps_Vacuna(eps, vacuna, atoi(atributos[2].c_str()));
+//					agregarEpsVacuna();
 					break;
-				case 5:
+				}
+				case 6:{
+					Ips ips;//buscar ips referente a atributos[0]
+					Vacuna vacuna;//buscar vacuna referente a atributos[1]
+					
+					Ips_Vacuna ips_vacuna = Ips_Vacuna(ips, vacuna);
 					break;
-				case 7:
+				}
+				case 7:{
+					Eps eps;//buscar eps referente a atributos[0]
+					Ips ips;//buscar ips referente a atributos[1]
+					
+					Eps_Ips eps_ips =  Eps_Ips(eps, ips);
 					break;
+				}
 				case 8:
+//					agregarCiudad(atributos[0]);
 					break;
 				case 9:
+//					agregarPais(atributos[0]);
 					break;
 				default:
 					break; 
@@ -200,58 +227,5 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 	}
 }
 
-void ControladorData::cargarVacunas(){
-	
-	fstream archivoVacunas;
-	string linea, *atributosVacuna;
-	
-	
-	archivoVacunas.open("archivos/vacunas.txt");
-	
-	if(archivoVacunas.is_open()){
-		while(getline(archivoVacunas, linea)){
-			atributosVacuna = new string[CANT_ATRIBUTOS_VACUNA];
-			int pos = 0;
-			
-			for(int i = 0; i < linea.size(); i++){
-				if(linea[i] == ';' && linea[i+1] == ';'){
-					pos++;
-					i++;
-				}else{
-					atributosVacuna[pos] += linea[i];
-				}
-			}
-			
-			Vacuna vacuna = Vacuna(atributosVacuna[0], atoi(atributosVacuna[1].c_str())); 
-			agregarVacuna(vacuna);
-			
-			delete []atributosVacuna;
-		}
-		
-		archivoVacunas.close();
-	}else{
-		cout<<"Archivo de vacunas no disponible"<<endl;
-	}
-	
-}
-
-void ControladorData::cargarEps(){
-}
-
-void ControladorData::cargarIps(){
-}
-
-void ControladorData::cargarLugares(){
-}
-
-void ControladorData::cargarVacunasPorIps(){
-}
-		
-void ControladorData::cargarVacunasPorEps(){
-}
-
-void ControladorData::agregarVacuna(Vacuna vacuna){
-	
-}
 
 #endif
