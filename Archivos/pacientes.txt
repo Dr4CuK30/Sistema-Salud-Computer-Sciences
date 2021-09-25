@@ -1,3 +1,0 @@
-100000000;;Cedula;;David;;Saldarriaga;;masculino;;soyUnHelicoptero@gmail.com;;Bogota DC;;Colombia;;Bogota DC;;donde roban;;tambien roban;;3023203201;;--;;21-11-2001
-212000000;;Cedula;;Juan David;;Hurtado;;masculino;;corazon@gmail.com;;Cali;;Colombia;;Bogota DC;;alla roban resto;;Bosa;;3200001245;;--;;10-05-2001
-103546201;;Cedula;;Santiago;;Herrera;;masculino;;santiago@gmail.com;;Neiva;;Colombia;;Bogota DC;;por ahi;;Galerias;;3208914223;;--;;23-10-2001

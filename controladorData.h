@@ -22,6 +22,13 @@
 using namespace std;
 
 const int CANT_ATRIBUTOS_VACUNA = 2;
+const int CANT_ATRIBUTOS_PERSONA = 0;
+const int CANT_ATRIBUTOS_EPS = 1;
+const int CANT_ATRIBUTOS_IPS = 0;
+const int CANT_ATRIBUTOS_EPS_VACUNA = 0;
+const int CANT_ATRIBUTOS_EPS_IPS = 0;
+const int CANT_ATRIBUTOS_IPS_VACUNA = 0;
+
 
 class ControladorData{
 	
@@ -64,6 +71,7 @@ class ControladorData{
 		//-------------------Carga de datos--------------------------------------//
 		void cargarArchivosLocales();
 		void guardarDatos();
+		void cargarArchivo(string rutaArchivo, int cantAtributos, int modelo);
 		
 		void cargarPacientes();
 		void cargarVacunas();
@@ -114,29 +122,82 @@ ControladorData::ControladorData(){
 }
 
 void ControladorData::cargarArchivosLocales(){
+	//1 persona
+	//2 vacuna
+	//3 EPS
+	//4 IPS
+	//5 EPS Vacuna
+	//6 IPS Vacuna
+	//7 EPS IPS
+	//8 ciudad
+	//9 Pais
 	
-	fstream archivoPacientes;
-	string linea, *datos;
 	
-	datos = new string[5];
-	
-	archivoPacientes.open("Archivos/pacientes.txt", ios::in);
-	
-	if(archivoPacientes.is_open()){
-		int i = 0;
-		while(getline(archivoPacientes, linea)){
-			datos[i] = linea;
-			i++;
-		}
-		archivoPacientes.close();
-	}else{
-		cout<< "Archivo de pacientes no abre"<<endl;
-	}
-	cout<<datos[0];
+	cargarArchivo("Archivos/personas.txt", CANT_ATRIBUTOS_PERSONA, 1);
+	cargarArchivo("Archivos/vacunas.txt", CANT_ATRIBUTOS_VACUNA, 2);
+	cargarArchivo("Archivos/eps.txt", CANT_ATRIBUTOS_EPS, 3);
+	cargarArchivo("Archivos/ips.txt", CANT_ATRIBUTOS_IPS, 4);
+	cargarArchivo("Archivos/eps_vacuna.txt", CANT_ATRIBUTOS_EPS_VACUNA, 5);
+	cargarArchivo("Archivos/ips_vacuna.txt", CANT_ATRIBUTOS_IPS_VACUNA, 6);
+	cargarArchivo("Archivos/eps_ips.txt", CANT_ATRIBUTOS_EPS_IPS, 7);
+	cargarArchivo("Archivos/ciudades.txt", 1, 8);
+	cargarArchivo("Archivos/paises.txt", 1, 9);
 	
 }
 
-void ControladorData::cargarPacientes(){
+void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int modelo){
+	fstream archivo;
+	string linea, *atributos;
+	
+	archivo.open(rutaArchivo.c_str());
+	
+	if(archivo.is_open()){
+		while(getline(archivo, linea)){
+			atributos = new string[cantAtributos];
+			int pos = 0;
+			
+			for(int i = 0; i < linea.size(); i++){
+				if(linea[i] == ';' && linea[i + 1] == ';'){
+					pos++;
+					i++;
+				}else{
+					atributos[pos] += linea[i];
+				}
+				
+			}
+			
+			switch(modelo){
+				case 1:
+					break;
+				case 2:
+//					Vacuna vacuna = Vacuna(atributos[0], atoi(atributos[1].c_str())); 
+//					agregarVacuna(vacuna);
+					break;
+				case 3:
+//					Eps eps = Eps(atributos[0]);
+//					agregarEps(eps);
+					break;
+				case 4:
+//					Ips ips;
+					break;
+				case 5:
+					break;
+				case 7:
+					break;
+				case 8:
+					break;
+				case 9:
+					break;
+				default:
+					break; 
+			}
+				
+		}
+		delete []atributos;
+		
+	}else{
+		cout<<"Archivo de "<<modelo<<" no disponible"<<endl;
+	}
 }
 
 void ControladorData::cargarVacunas(){
