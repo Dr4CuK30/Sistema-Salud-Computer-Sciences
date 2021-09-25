@@ -6,6 +6,7 @@
 #include "controladorData.h"
 #include "Lista.h"
 #include "Vacuna.h"
+#include "Casilla.h"
 
 using namespace std;
 
@@ -13,15 +14,15 @@ void empezarPrograma();
 void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
-template <class T>
-struct Casilla{
-	int id;
-	T data;
-};
-
 int main(int argc, char *argv[]) {
-
+	//IMPLEMENTACION EJEMPLO DE LA ESTRUCTURA CON ID////////////////////
 	Lista< Casilla<Vacuna> > listaVacunas;
+	Casilla<Vacuna> x;
+	x.data = Vacuna();
+	x.id = 1;
+	listaVacunas.intertar_final(x);
+	/////////////////////////////////////////////////////////////////
+	
 	
 	//empezarPrograma();
 	

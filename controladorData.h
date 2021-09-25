@@ -196,10 +196,10 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					break;
 				}
 				case 6:{
-					Ips *ips;//buscar ips referente a atributos[0]
-					Vacuna *vacuna;//buscar vacuna referente a atributos[1]
+					Ips ips;//buscar ips referente a atributos[0]
+					Vacuna vacuna;//buscar vacuna referente a atributos[1]
 					
-					Ips_Vacuna ips_vacuna = Ips_Vacuna(ips, vacuna);
+					Ips_Vacuna ips_vacuna = Ips_Vacuna(&ips, &vacuna);
 					break;
 				}
 				case 7:{
