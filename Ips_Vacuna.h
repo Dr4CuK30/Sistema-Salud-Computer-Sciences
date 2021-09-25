@@ -5,13 +5,13 @@
 
 class Ips_Vacuna{
 	protected:
-		Ips ips;
-		Vacuna vacuna;
+		Ips *ips;
+		Vacuna *vacuna;
 	public:
 		Ips_Vacuna();
-		Ips_Vacuna(Ips ips, Vacuna vacuna){
+		Ips_Vacuna(Ips *ips, Vacuna *vacuna){
 			this->ips = ips;
-			this->vacuna = vacuna;
+			this.vacuna = vacuna;
 		}
 };
 

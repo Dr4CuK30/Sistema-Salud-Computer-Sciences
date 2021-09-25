@@ -5,11 +5,11 @@
 
 class Eps_Ips{
 	protected:
-		Ips ips;
-		Eps eps;
+		Ips *ips;
+		Eps *eps;
 	public:
 		Eps_Ips();
-		Eps_Ips(Eps eps, Ips ips){
+		Eps_Ips(Eps *eps, Ips *ips){
 			this->ips = ips;
 			this->eps = eps;
 		}

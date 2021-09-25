@@ -33,10 +33,10 @@ class Persona{
 		Fecha f_nacimiento;
 		Fecha *f_primera_dosis;
 		Fecha *f_segunda_dosis;
-		Vacuna vacuna;
-		Eps eps;
-		Ips ips_default;
-		Ips ips_asignada;
+		Vacuna *vacuna;
+		Eps *eps;
+		Ips *ips_default;
+		Ips *ips_asignada;
 	public:
 		Persona(){};
 		Persona(long long int numeroId,
@@ -55,14 +55,14 @@ class Persona{
 				Fecha f_nacimiento,
 				Fecha *f_primera_dosis,
 				Fecha *f_segunda_dosis,
-				Vacuna vacuna,
-				Eps eps,
-				Ips ips_default,
-				Ips ips_asignada);
+				Vacuna *vacuna,
+				Eps *eps,
+				Ips *ips_default,
+				Ips *ips_asignada);
 		Identificacion getId(){
 			return id;
 		}
-		bool Vacunar(Vacuna vacuna, Fecha *fecha);
+		bool Vacunar(Vacuna *vacuna, Fecha *fecha);
 		int getEdad();
 };
 
@@ -83,10 +83,10 @@ Persona::Persona(long long int numeroId,
 				Fecha f_nacimiento,
 				Fecha *f_primera_dosis,
 				Fecha *f_segunda_dosis,
-				Vacuna vacuna,
-				Eps eps,
-				Ips ips_default,
-				Ips ips_asignada){
+				Vacuna *vacuna,
+				Eps *eps,
+				Ips *ips_default,
+				Ips *ips_asignada){
 	Identificacion id;
 	id.numero = numeroId;
 	id.tipo = tipoId;
@@ -112,7 +112,7 @@ Persona::Persona(long long int numeroId,
 }
 
 //-------------- METODOS -------------------//
-bool Persona::Vacunar(Vacuna vacuna, Fecha *fecha){
+bool Persona::Vacunar(Vacuna *vacuna, Fecha *fecha){
 	if(this->f_segunda_dosis != NULL) return false;
 	this->vacuna = vacuna;
 	if(this->f_primera_dosis == NULL) this->f_primera_dosis = fecha;
