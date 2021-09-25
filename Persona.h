@@ -1,6 +1,8 @@
 #ifndef PERSONA_H
 #define PERSONA_H
 #include <string>
+#include <ctime>
+#include <math.h>
 #include "Vacuna.h"
 #include "Fecha.h"
 #include "Eps.h"
@@ -61,6 +63,7 @@ class Persona{
 			return id;
 		}
 		bool Vacunar(Vacuna vacuna, Fecha *fecha);
+		int getEdad();
 };
 
 //--------- CONSTRUCTORES -----------//
@@ -115,5 +118,13 @@ bool Persona::Vacunar(Vacuna vacuna, Fecha *fecha){
 	if(this->f_primera_dosis == NULL) this->f_primera_dosis = fecha;
 	else this->f_segunda_dosis = fecha;
 	return true;
+}
+
+int Persona::getEdad(){
+	time_t t = time(NULL);
+	tm* timePtr = localtime(&t);
+	float anho_nacimiento = this->f_nacimiento.anho + ((this->f_nacimiento.mes+1)/12) + (this->f_nacimiento.anho/365);
+	float anho_actual = timePtr->tm_year+1900 + (timePtr->tm_mon+1/12) + (timePtr->tm_mday/365);
+	return floor(anho_actual-anho_nacimiento);
 }
 #endif
