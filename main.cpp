@@ -7,7 +7,8 @@
 #include "Lista.h"
 #include "Vacuna.h"
 #include "Casilla.h"
-
+#include "Fecha.h"
+ 
 using namespace std;
 
 void empezarPrograma();
@@ -22,8 +23,9 @@ int main(int argc, char *argv[]) {
 	x.id = 1;
 	listaVacunas.intertar_final(x);
 	/////////////////////////////////////////////////////////////////
+	// EJEMPLO FECHA ///////////////////////////////////////////////
 	
-	
+	///////////////////////////////////////////////////////////////
 	//empezarPrograma();
 	
 	ControladorData data;

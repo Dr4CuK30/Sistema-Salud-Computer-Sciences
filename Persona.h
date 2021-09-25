@@ -30,7 +30,7 @@ class Persona{
 		string act_laboral;
 		long long int telefono_cel;
 		long long int telefono_fijo;
-		Fecha f_nacimiento;
+		Fecha *f_nacimiento;
 		Fecha *f_primera_dosis;
 		Fecha *f_segunda_dosis;
 		Vacuna *vacuna;
@@ -52,7 +52,7 @@ class Persona{
 				string barrio,
 				long long int telefono_cel,
 				long long int telefono_fijo,
-				Fecha f_nacimiento,
+				Fecha *f_nacimiento,
 				Fecha *f_primera_dosis,
 				Fecha *f_segunda_dosis,
 				Vacuna *vacuna,
@@ -81,7 +81,7 @@ Persona::Persona(long long int numeroId,
 				string barrio,
 				long long int telefono_cel,
 				long long int telefono_fijo,
-				Fecha f_nacimiento,
+				Fecha *f_nacimiento,
 				Fecha *f_primera_dosis,
 				Fecha *f_segunda_dosis,
 				Vacuna *vacuna,
@@ -133,7 +133,7 @@ bool Persona::Vacunar(Vacuna *vacuna, Fecha *fecha){
 int Persona::getEdad(){
 	time_t t = time(NULL);
 	tm* timePtr = localtime(&t);
-	float anho_nacimiento = this->f_nacimiento.anho + ((this->f_nacimiento.mes+1)/12) + (this->f_nacimiento.anho/365);
+	float anho_nacimiento = this->f_nacimiento->anho + ((this->f_nacimiento->mes+1)/12) + (this->f_nacimiento->anho/365);
 	float anho_actual = timePtr->tm_year+1900 + (timePtr->tm_mon+1/12) + (timePtr->tm_mday/365);
 	return floor(anho_actual-anho_nacimiento);
 }
