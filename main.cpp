@@ -8,14 +8,16 @@
 #include "Vacuna.h"
 #include "Casilla.h"
 #include "Fecha.h"
- 
+    
 using namespace std;
+
 
 void empezarPrograma();
 void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
 int main(int argc, char *argv[]) {
+   
 	//IMPLEMENTACION EJEMPLO DE LA ESTRUCTURA CON ID////////////////////
 	Lista< Casilla<Vacuna> > listaVacunas;
 	Casilla<Vacuna> x;
@@ -28,7 +30,7 @@ int main(int argc, char *argv[]) {
 	///////////////////////////////////////////////////////////////
 	//empezarPrograma();
 	
-	ControladorData data;
+	ControladorData data;   
 	
 	
 	

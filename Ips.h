@@ -2,7 +2,7 @@
 #define IPS_H
 #include <string>
 #include <iostream>
-#include "Ips.h"
+#include "Eps.h"
 
 using namespace std;
 
@@ -11,14 +11,15 @@ class Ips{
 		string nombre;
 		string direccion;
 		string ciudad;
-		Ips *ips;
+		Eps *eps;
 	public:
 		Ips(){
 		}
-		Ips(string nombre, string direccion, string ciudad, Ips *ips){
+		Ips(string nombre, string direccion, string ciudad, Eps *eps){
 			this->nombre = nombre;
 			this->direccion = direccion;
 			this->ciudad = ciudad;
+			this->eps = eps;
 		}
 		
 };

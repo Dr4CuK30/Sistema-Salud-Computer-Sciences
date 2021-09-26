@@ -12,8 +12,8 @@ class Vacuna{
 		int cantidadDosis;
 		Vacuna(){}
 		Vacuna(string nombre, int cantidadDosis){
-			cantidadDosis = cantidadDosis;
-			nombre = nombre;
+			this->cantidadDosis = cantidadDosis;
+			this->nombre = nombre;
 		}
 };
 
