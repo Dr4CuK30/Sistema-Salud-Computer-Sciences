@@ -4,19 +4,33 @@
 #include <iomanip>
 #include "cola_prioridad.h"
 #include "controladorData.h"
-
+#include "Lista.h"
+#include "Vacuna.h"
+#include "Casilla.h"
+#include "Fecha.h"
+    
 using namespace std;
+
 
 void empezarPrograma();
 void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
 int main(int argc, char *argv[]) {
-
+   
+	//IMPLEMENTACION EJEMPLO DE LA ESTRUCTURA CON ID////////////////////
+	Lista< Casilla<Vacuna> > listaVacunas;
+	Casilla<Vacuna> x;
+	x.data = Vacuna();
+	x.id = 1;
+	listaVacunas.intertar_final(x);
+	/////////////////////////////////////////////////////////////////
+	// EJEMPLO FECHA ///////////////////////////////////////////////
 	
+	///////////////////////////////////////////////////////////////
 	//empezarPrograma();
 	
-	ControladorData data;
+	ControladorData data;   
 	
 	
 	
@@ -26,6 +40,7 @@ int main(int argc, char *argv[]) {
 
 void empezarPrograma(){
 	//cargar archivos
+	
 	
 	int opcion;
 	

@@ -5,10 +5,10 @@
 #include "Persona.h"
 #include "Vacuna.h"
 #include "Eps.h"
-#include "Eps_Ips.h"
 #include "Eps_Vacuna.h"
 #include "Ips.h"
 #include "Ips_Vacuna.h"
+#include "Casilla.h"
 
 #include "ArbolBinarioOrdenado.h"
 
@@ -18,11 +18,10 @@
 #include <string>
 
 
-
 using namespace std;
 
 const int CANT_ATRIBUTOS_VACUNA = 2;
-const int CANT_ATRIBUTOS_PERSONA = 14;
+const int CANT_ATRIBUTOS_PERSONA = 20;
 const int CANT_ATRIBUTOS_EPS = 1;
 const int CANT_ATRIBUTOS_IPS = 3;
 const int CANT_ATRIBUTOS_EPS_VACUNA = 1;
@@ -43,15 +42,14 @@ class ControladorData{
 		int cantidadEPS_IPS;
 		
 		//---------------------listas generales-----------------------------------//
-		Lista <Vacuna> listaVacunas;
-		Lista <Persona> listaPersonas;
-		Lista <Eps> listaEPS;
-		Lista <Ips> listaIPS;
-		Lista <Eps_Vacuna> listaEpsVacuna;
-		Lista <Ips_Vacuna> listaIpsVacuna;
-		Lista <Eps_Ips> listaEpsIps;
-		Lista <string> listaCiudades;
-		Lista <string> listaPaises;
+		Lista < Casilla<Vacuna> > listaVacunas;
+		Lista < Casilla <Persona> > listaPersonas;
+		Lista < Casilla<Eps> >listaEPS;
+		Lista < Casilla<Ips> > listaIPS;
+		Lista < Casilla<Eps_Vacuna> > listaEpsVacuna;
+		Lista < Casilla<Ips_Vacuna> > listaIpsVacuna;
+		Lista < Casilla <string> > listaCiudades;
+		Lista < Casilla<string> > listaPaises;
 		
 		
 		//---------------------Arboles ordenados----------------------------------//
@@ -62,7 +60,7 @@ class ControladorData{
 		
 		//---------------------Estructuras multiples-----------------------------//
 		//preguntar por arreglos
-		Lista <ArbolBinarioOrdenado> listaPacientesPorEps;
+		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorEps;
 		Lista <ArbolBinarioOrdenado> listaPacientesPorCiudadResidencia;
 		Lista <ArbolBinarioOrdenado> listaPacientesPorSexo;
 		Lista <ArbolBinarioOrdenado> listaPacientesPorLaburo;
@@ -94,12 +92,12 @@ class ControladorData{
 		//---------------Mutacion de estructuras--------------------------------//
 		//posiblemente a otra clase
 		void agregarPersona(Persona);
-		void agregarCiudad(string);
+		void agregarCiudad(string, int);
 		void agregarLaburo(string);
-		void agregarVacuna(Vacuna);
-		void agregarEps(Eps);
+		void agregarVacuna(Vacuna, int);
+		void agregarEps(Eps, int);
 		void agregarIps(Ips);
-		void agregarPais(string);
+		void agregarPais(string, int);
 		
 		//cambios de datos
 		
@@ -129,25 +127,24 @@ void ControladorData::cargarArchivosLocales(){
 	//4 IPS
 	//5 EPS Vacuna
 	//6 IPS Vacuna
-	//7 EPS IPS
-	//8 ciudad
-	//9 Pais
+	//7 ciudad
+	//8 Pais
 	
-	cargarArchivo("Archivos/personas.txt", CANT_ATRIBUTOS_PERSONA, 1);
-	cargarArchivo("Archivos/vacunas.txt", CANT_ATRIBUTOS_VACUNA, 2);
-	cargarArchivo("Archivos/eps.txt", CANT_ATRIBUTOS_EPS, 3);
-	cargarArchivo("Archivos/ips.txt", CANT_ATRIBUTOS_IPS, 4);
-	cargarArchivo("Archivos/eps_vacuna.txt", CANT_ATRIBUTOS_EPS_VACUNA, 5);
-	cargarArchivo("Archivos/ips_vacuna.txt", CANT_ATRIBUTOS_IPS_VACUNA, 6);
-	cargarArchivo("Archivos/eps_ips.txt", CANT_ATRIBUTOS_EPS_IPS, 7);
-	cargarArchivo("Archivos/ciudades.txt", 1, 8);
-	cargarArchivo("Archivos/paises.txt", 1, 9);
+	
+	cargarArchivo("Archivos/ciudades.txt", 2, 7);
+	cargarArchivo("Archivos/paises.txt", 2, 8);
+	
+//	cargarArchivo("Archivos/personas.txt", CANT_ATRIBUTOS_PERSONA + 1, 1);
+	cargarArchivo("Archivos/vacunas.txt", CANT_ATRIBUTOS_VACUNA + 1, 2);
+	cargarArchivo("Archivos/eps.txt", CANT_ATRIBUTOS_EPS + 1, 3);
+	cargarArchivo("Archivos/ips.txt", CANT_ATRIBUTOS_IPS + 1, 4);
+	cargarArchivo("Archivos/eps_vacuna.txt", CANT_ATRIBUTOS_EPS_VACUNA + 1, 5);
+	cargarArchivo("Archivos/ips_vacuna.txt", CANT_ATRIBUTOS_IPS_VACUNA + 1, 6);
 	
 }
 
 void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int modelo){
-	cout<<"entra al metodo "<<modelo<<endl<<endl;
-	
+//	cout<<modelo<<endl;
 	fstream archivo;
 	string linea, *atributos;
 	
@@ -168,15 +165,47 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 				
 			}
 			
-			for(int i = 0; i < cantAtributos; i++)cout<<atributos[i]<<"-";
-			cout<<endl;
+//			for(int i = 0; i < cantAtributos; i++)cout<<atributos[i]<<"-";
+//			cout<<endl;
+			int id = atoi(atributos[0].c_str());
+			
+			if(atributos[pos] == "--") atributos[pos] = "";
 			
 			switch(modelo){
-				case 1:
+				case 1:{
+					//metodo de validacion para todos
+					int idVacuna;
+					int idCiudad;
+					int idPais;
+					int idEps;
+					int idIpsDefault;
+					int idIpsAsignada;
+					//cuidado aca con las direcciones en memoria
+					Vacuna vacuna = listaVacunas.obtenerDato(idVacuna).data;
+					string ciudad = listaCiudades.obtenerDato(idCiudad).data;
+					string pais = listaPaises.obtenerDato(idPais).data;
+					Eps eps = listaEPS.obtenerDato(idEps).data;
+					Ips ipsDefault = listaIPS.obtenerDato(idIpsDefault).data;
+					Ips ipsAsignada = listaIPS.obtenerDato(idIpsAsignada).data;
+					
+					//pilas con el long long
+//					Persona persona = Persona(strtoll(atributos[1].c_str(),NULL,0),atributos[2],atributos[3],atributos[4],
+//												atributos[5],atributos[6],atributos[7],atributos[8],atributos[9],atributos[10],
+//												atributos[11],strtoll(atributos[12].c_str(),NULL,0),strtoll(atributos[13].c_str(),NULL,0),
+//												atributos[14],atributos[15],atributos[16],
+//												&vacuna,&eps,&ipsDefault,&ipsAsignada) 
+					
+					//CREACION DE OBJETO NO TERMINADA EL ERROR ESTA ACA
 					break;
+				}
 				case 2:{
-					Vacuna vacuna = Vacuna(atributos[0], atoi(atributos[1].c_str())); 
-//					agregarVacuna(vacuna);
+					Vacuna vacuna = Vacuna(atributos[1], atoi(atributos[2].c_str())); 
+					
+					agregarVacuna(vacuna, id);
+					/* prueba de obtencion de datos
+					Vacuna prueba= listaVacunas.obtenerDato(1).data;
+					cout<<prueba.nombre<<endl;
+					*/
 					break;
 				}
 				case 3:{
@@ -185,12 +214,13 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					break;
 				}
 				case 4:{
-					Ips ips = Ips(atributos[0],atributos[1],atributos[2]);
-//					agregarIps(ips)
+					Eps eps;//buscar eps
+					Ips ips = Ips(atributos[1],atributos[2],atributos[3],&eps);
+//					agregarIps(ips) 
 				}
 				case 5:{
-					Eps eps;//buscar eps referente a atributos[0]
-					Vacuna vacuna;//buscar vacuna referente a atributos[1]
+					Eps *eps;//buscar eps referente a atributos[0]
+					Vacuna *vacuna;//buscar vacuna referente a atributos[1]
 					Eps_Vacuna epsVacuna = Eps_Vacuna(eps, vacuna, atoi(atributos[2].c_str()));
 //					agregarEpsVacuna();
 					break;
@@ -199,20 +229,13 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					Ips ips;//buscar ips referente a atributos[0]
 					Vacuna vacuna;//buscar vacuna referente a atributos[1]
 					
-					Ips_Vacuna ips_vacuna = Ips_Vacuna(ips, vacuna);
+					Ips_Vacuna ips_vacuna = Ips_Vacuna(&ips, &vacuna);
 					break;
 				}
-				case 7:{
-					Eps eps;//buscar eps referente a atributos[0]
-					Ips ips;//buscar ips referente a atributos[1]
-					
-					Eps_Ips eps_ips =  Eps_Ips(eps, ips);
-					break;
-				}
-				case 8:
+				case 7:
 //					agregarCiudad(atributos[0]);
 					break;
-				case 9:
+				case 8:
 //					agregarPais(atributos[0]);
 					break;
 				default:
@@ -228,4 +251,36 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 }
 
 
+void ControladorData::agregarVacuna(Vacuna vacuna, int id){
+//	int posicion = listaVacunas.Tam_lista(); podria ser util para verificacion de pos de ser necesario
+	Casilla<Vacuna> casilla;
+	casilla.data = vacuna;
+	casilla.id = id;
+	
+	listaVacunas.intertar_final(casilla);
+}
+
+void ControladorData::agregarEps(Eps eps, int id){
+	Casilla<Eps> casilla;
+	casilla.data = eps;
+	casilla.id = id;
+	
+	listaEPS.intertar_final(casilla);
+}
+
+void ControladorData::agregarCiudad(string ciudad, int id){
+	Casilla<string> casilla;
+	casilla.data = ciudad;
+	casilla.id = id;
+	
+	listaCiudades.intertar_final(casilla);
+}
+
+void ControladorData::agregarPais(string pais, int id){
+	Casilla<string> casilla;
+	casilla.data = pais;
+	casilla.id = id;
+	
+	listaPaises.intertar_final(casilla);
+}
 #endif
