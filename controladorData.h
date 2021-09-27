@@ -100,6 +100,9 @@ class ControladorData{
 		void agregarPais(string, int);
 		
 		//cambios de datos
+		//--------------------------Utils-------------------------------------//
+		int validarID(string idString);
+		
 		
 	public:
 		ControladorData();
@@ -312,6 +315,13 @@ void ControladorData::agregarPais(string pais, int id){
 	casilla.id = id;
 	
 	listaPaises.intertar_final(casilla);
+}
+
+int ControladorData::validarId(string idString){
+	if(stringId == "--"){
+		return NULL;
+	}
+	return atoi(idString.c_str());
 }
 
 //void ControladorData::agregarEpsVacuna(){}
