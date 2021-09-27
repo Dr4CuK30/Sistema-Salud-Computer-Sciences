@@ -11,7 +11,7 @@
     
 using namespace std;
 
-
+ 
 void empezarPrograma();
 void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
@@ -27,13 +27,13 @@ int main(int argc, char *argv[]) {
 	/////////////////////////////////////////////////////////////////
 	// EJEMPLO FECHA ///////////////////////////////////////////////
 	
-	///////////////////////////////////////////////////////////////
-	//empezarPrograma();
+  	///////////////////////////////////////////////////////////////   
+	//empezarPrograma(); 
 	
 	ControladorData data;   
 	
 	
-	
+	    
     system("PAUSE");
     return EXIT_SUCCESS;
 }
@@ -44,7 +44,7 @@ void empezarPrograma(){
 	
 	int opcion;
 	
-	while(opcion != 8){
+	while(opcion != 8){  
 		cout<<"----------------------------------------------"<<endl;
 		cout<<"--------BIENVENIDO A SALDAVACUNA APP----------"<<endl;
 		cout<<"----------------------------------------------"<<endl;
@@ -84,14 +84,14 @@ void empezarPrograma(){
 			default:	
 				cout<<"Opcion no valida"<<endl<<endl;
 				break;
-		}
+	}  
 		
 		
 	}	
 	
-	//guardar archivos
+	//guardar archivos    
 }
-
+    
 void consultarPacientesPor(){
 	int opcion;
 	
@@ -107,7 +107,7 @@ void consultarPacientesPor(){
 		cout<<"Opcion: ";
 		cin>>opcion;
 		cout<<"---------------------------------"<<endl;
-		
+		  
 		switch(opcion){
 			case 1:
 				break;

@@ -1,7 +1,7 @@
-Bogotá DC
-Cali
-Medellín
-Barranquilla
-Cartagena
-Soacha
-Neiva
+1;;Bogota DC
+2;;Cali
+3;;Medellín
+4;;Barranquilla
+5;;Cartagena
+6;;Soacha
+7;;Neiva
