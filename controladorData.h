@@ -27,8 +27,7 @@ const int CANT_ATRIBUTOS_IPS = 4;
 const int CANT_ATRIBUTOS_EPS_VACUNA = 1;
 const int CANT_ATRIBUTOS_EPS_IPS = 1;
 const int CANT_ATRIBUTOS_IPS_VACUNA = 1;
-
-
+ 
 class ControladorData{
 	
 	private:
@@ -101,7 +100,8 @@ class ControladorData{
 		
 		//cambios de datos
 		//--------------------------Utils-------------------------------------//
-		int validarID(string idString);
+		int validarID(string);
+		
 		
 		
 	public:
@@ -192,30 +192,63 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					int idIpsDefault =  atoi(atributos[19].c_str());
 					int idIpsAsignada =  atoi(atributos[20].c_str());
 					
-					Vacuna vacuna = listaVacunas.obtenerDato(idVacuna).data;
-					string ciudad = listaCiudades.obtenerDato(idCiudad).data;
-					string pais = listaPaises.obtenerDato(idPais).data;
-					Eps eps = listaEPS.obtenerDato(idEps).data;
-					Ips ipsDefault = listaIPS.obtenerDato(idIpsDefault).data;
-					Ips ipsAsignada = listaIPS.obtenerDato(idIpsAsignada).data;
+					Vacuna *pVacuna;
+					string *pCiudad;
+					string *pPais;
+					Eps *pEps;
+					Ips *pIpsDefault;
+					Ips *pIpsAsignada;
+					
+					
+					if(idVacuna == NULL) pVacuna = NULL;
+					else{
+						Vacuna vacuna = listaVacunas.obtenerDato(idVacuna).data;
+						pVacuna = &vacuna;
+					}
+					if(idCiudad == NULL) pCiudad = NULL;
+					else{
+						string ciudad = listaCiudades.obtenerDato(idCiudad).data;
+						pCiudad = &ciudad;
+					}
+					if(idPais == NULL) pPais = NULL;
+					else{
+						string pais = listaCiudades.obtenerDato(idCiudad).data;
+						pPais = &pais;
+					}
+					if(idEps== NULL) pEps = NULL;
+					else{
+						Eps eps = listaEPS.obtenerDato(idEps).data;
+						pEps = &eps;
+					}
+					if(idIpsDefault == NULL) pIpsDefault = NULL;
+					else{
+						Ips ipsDefault = listaIPS.obtenerDato(idIpsDefault).data;
+						pIpsDefault = &ipsDefault;
+					}
+					if(idIpsAsignada == NULL) pIpsAsignada = NULL;
+					else{
+						Ips ipsAsignada = listaIPS.obtenerDato(idIpsAsignada).data;
+						pIpsAsignada = &ipsAsignada;
+					}
+					
+					
 					
 					Persona persona = Persona(strtoll(atributos[1].c_str(),NULL,0),atributos[2],atributos[3],atributos[4],
 												atributos[5],atributos[6],atributos[7],atributos[8],atributos[9],atributos[10],
 												atributos[11],strtoll(atributos[12].c_str(),NULL,0),strtoll(atributos[13].c_str(),NULL,0),
 												crearFecha(atributos[14]) ,crearFecha(atributos[15]) ,crearFecha(atributos[16]) ,
-												&vacuna,&eps,&ipsDefault,&ipsAsignada); 
+												pVacuna,pEps,pIpsDefault,pIpsAsignada); 
 					
 					agregarPersona(persona, id);
+					
+//					cout<<persona.nombres<<" "<<idIpsAsignada<<" "<<persona.ips_asignada->nombre<<endl;
+//					cout<<listaIPS.obtenerDato(0).data.nombre<<" "<<listaIPS.obtenerDato(1).data.nombre;
 					break;
 				}
 				case 2:{
 					Vacuna vacuna = Vacuna(atributos[1], atoi(atributos[2].c_str())); 
 					
 					agregarVacuna(vacuna, id);
-					/* prueba de obtencion de datos
-					Vacuna prueba= listaVacunas.obtenerDato(1).data;
-					cout<<prueba.nombre<<endl;
-					*/
 					break;
 				}
 				case 3:{
@@ -317,8 +350,8 @@ void ControladorData::agregarPais(string pais, int id){
 	listaPaises.intertar_final(casilla);
 }
 
-int ControladorData::validarId(string idString){
-	if(stringId == "--"){
+int ControladorData::validarID(string idString){
+	if(idString == "--"){
 		return NULL;
 	}
 	return atoi(idString.c_str());

@@ -132,6 +132,8 @@ bool Lista<T>::eliminar(int pos){
 
 template <class T>
 T Lista<T>::obtenerDato(int pos){
+	
+	
 	Nodo<T> *nodo = HEAD;
 	for(int i = 1; i<pos; i++){
 		if(nodo->sig == NULL){

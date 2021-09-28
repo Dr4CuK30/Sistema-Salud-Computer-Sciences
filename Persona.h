@@ -17,7 +17,7 @@ struct Identificacion{
 
 class Persona{
 	Identificacion id;
-	protected:
+	public:
 		string nombres;
 		string apellidos;
 		string genero;
@@ -37,7 +37,7 @@ class Persona{
 		Eps *eps;
 		Ips *ips_default;
 		Ips *ips_asignada;
-	public:
+	
 		Persona(){};
 		Persona(long long int numeroId,
 				string tipoId,

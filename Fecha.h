@@ -18,6 +18,8 @@ struct Fecha{
 Lista<Fecha> listaFechas;
 
 Fecha *crearFecha(string fechaString){
+	if(fechaString == "--") return NULL;
+	
 	string *divisiones = new string[3];
 	int posicion = 0;
 	

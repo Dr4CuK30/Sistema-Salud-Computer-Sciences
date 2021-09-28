@@ -181,9 +181,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit14]
-FileName=Eps_Ips.h
+FileName=controladorData.h
 CompileCpp=1
-Folder=Modelo
+Folder=Controlador
 Compile=1
 Link=1
 Priority=1000
@@ -191,9 +191,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit15]
-FileName=controladorData.h
+FileName=Casilla.h
 CompileCpp=1
-Folder=Controlador
+Folder=Utils
 Compile=1
 Link=1
 Priority=1000

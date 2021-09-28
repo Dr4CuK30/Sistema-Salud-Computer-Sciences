@@ -7,12 +7,12 @@
 using namespace std;
 
 class Ips{
-	protected:
+	public:
 		string nombre;
 		string direccion;
 		string ciudad;
 		Eps *eps;
-	public:
+	
 		Ips(){
 		}
 		Ips(string nombre, string direccion, string ciudad, Eps *eps){

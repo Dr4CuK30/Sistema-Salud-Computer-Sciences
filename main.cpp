@@ -72,7 +72,7 @@ void empezarPrograma(){
 				break;
 			case 4:
 				break;
-			case 5:
+			case 5:   
 				break;
 			case 6:
 				break;
@@ -89,7 +89,7 @@ void empezarPrograma(){
 		
 	}	
 	
-	//guardar archivos    
+	//guardar archivos          
 }
     
 void consultarPacientesPor(){
