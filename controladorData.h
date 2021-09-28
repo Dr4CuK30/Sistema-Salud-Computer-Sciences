@@ -98,6 +98,8 @@ class ControladorData{
 		void agregarIps(Ips, int);
 		void agregarPais(string, int);
 		
+		void agregarEpsVacuna(Eps_Vacuna, int);
+		void agregarIpsVacuna(Ips_Vacuna, int);
 		//cambios de datos
 		//--------------------------Utils-------------------------------------//
 		int validarID(string);
@@ -148,8 +150,8 @@ void ControladorData::cargarArchivosLocales(){
 	
 	
 	
-//	cargarArchivo("Archivos/eps_vacuna.txt", CANT_ATRIBUTOS_EPS_VACUNA + 1, 5);
-//	cargarArchivo("Archivos/ips_vacuna.txt", CANT_ATRIBUTOS_IPS_VACUNA + 1, 6);
+	cargarArchivo("Archivos/eps_vacuna.txt", CANT_ATRIBUTOS_EPS_VACUNA + 1, 5);
+	cargarArchivo("Archivos/ips_vacuna.txt", CANT_ATRIBUTOS_IPS_VACUNA + 1, 6);
 	
 }
 
@@ -200,32 +202,33 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					Ips *pIpsAsignada;
 					
 					
-					if(idVacuna == NULL) pVacuna = NULL;
+					
+					if(idVacuna == 0) pVacuna = NULL;
 					else{
 						Vacuna vacuna = listaVacunas.obtenerDato(idVacuna).data;
 						pVacuna = &vacuna;
 					}
-					if(idCiudad == NULL) pCiudad = NULL;
+					if(idCiudad == 0) pCiudad = NULL;
 					else{
 						string ciudad = listaCiudades.obtenerDato(idCiudad).data;
 						pCiudad = &ciudad;
 					}
-					if(idPais == NULL) pPais = NULL;
+					if(idPais == 0) pPais = NULL;
 					else{
 						string pais = listaCiudades.obtenerDato(idCiudad).data;
 						pPais = &pais;
 					}
-					if(idEps== NULL) pEps = NULL;
+					if(idEps== 0) pEps = NULL;
 					else{
 						Eps eps = listaEPS.obtenerDato(idEps).data;
 						pEps = &eps;
 					}
-					if(idIpsDefault == NULL) pIpsDefault = NULL;
+					if(idIpsDefault == 0) pIpsDefault = NULL;
 					else{
 						Ips ipsDefault = listaIPS.obtenerDato(idIpsDefault).data;
 						pIpsDefault = &ipsDefault;
 					}
-					if(idIpsAsignada == NULL) pIpsAsignada = NULL;
+					if(idIpsAsignada == 0) pIpsAsignada = NULL;
 					else{
 						Ips ipsAsignada = listaIPS.obtenerDato(idIpsAsignada).data;
 						pIpsAsignada = &ipsAsignada;
@@ -271,15 +274,20 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					Vacuna vacuna = listaVacunas.obtenerDato(idVacuna).data;
 					
 					Eps_Vacuna epsVacuna = Eps_Vacuna(&eps, &vacuna, atoi(atributos[2].c_str()));
-//					agregarEpsVacuna();
+					agregarEpsVacuna(epsVacuna, id);
 					break;
 				}
 				case 6:{
+					int idIps = atoi(atributos[1].c_str());
+					int idVacuna = atoi(atributos[2].c_str());
 					
-					Ips ips;//buscar ips referente a atributos[0]
-					Vacuna vacuna;//buscar vacuna referente a atributos[1]
+					Ips ips = listaIPS.obtenerDato( idIps).data;
+					Vacuna vacuna = listaVacunas.obtenerDato(idVacuna).data;
 					
 					Ips_Vacuna ips_vacuna = Ips_Vacuna(&ips, &vacuna);
+					
+					agregarIpsVacuna(ips_vacuna, id);
+					
 					break;
 				}
 				case 7:
@@ -350,12 +358,26 @@ void ControladorData::agregarPais(string pais, int id){
 	listaPaises.intertar_final(casilla);
 }
 
+void ControladorData::agregarEpsVacuna(Eps_Vacuna epsVacuna, int id){
+	Casilla<Eps_Vacuna> casilla;
+	casilla.data = epsVacuna;
+	casilla.id = id;
+	
+	listaEpsVacuna.intertar_final(casilla);
+}
+
+void ControladorData::agregarIpsVacuna(Ips_Vacuna ipsVacuna,int id){
+	Casilla<Ips_Vacuna> casilla;
+	casilla.data = ipsVacuna;
+	casilla.id = id;
+	
+	listaIpsVacuna.intertar_final(casilla);
+}
+
 int ControladorData::validarID(string idString){
 	if(idString == "--"){
-		return NULL;
+		return 0;
 	}
 	return atoi(idString.c_str());
 }
-
-//void ControladorData::agregarEpsVacuna(){}
 #endif
