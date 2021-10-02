@@ -32,6 +32,10 @@ public:
     NodoArbol *buscarPadre(int dato);
     void deforestacion(NodoArbol *nodoPrincipal);
     void limpiarArbol();
+    
+    void inorden(NodoArbol*);
+	void preorden(NodoArbol*);
+	void posorden(NodoArbol*);
 };
 
 bool ArbolBinarioOrdenado::arbolVacio() {
@@ -53,7 +57,7 @@ void ArbolBinarioOrdenado::insertarNodo(int dato, int valor_) {
         NodoArbol *iterador;
         iterador = raiz;
         while (true) {
-            if (dato <= iterador -> clave) {
+            if (valor_ <= iterador -> valor) {
                 if (iterador -> izquierda == NULL) {
                     iterador -> izquierda = aux;
                     break;
@@ -208,6 +212,29 @@ void ArbolBinarioOrdenado::limpiarArbol() {
     raiz = NULL;
 }
 
+void ArbolBinarioOrdenado::inorden(NodoArbol* p){
+	if(p != NULL){
+		inorden(p->izquierda);
+		cout<< p->clave << endl;
+		inorden(p->derecha);
+	}
+}
 
+void ArbolBinarioOrdenado::preorden(NodoArbol* p){
+	if(p != NULL){
+		cout<< p->clave << endl;
+		preorden(p->izquierda);
+		preorden(p->derecha);
+	}
+}
+
+void ArbolBinarioOrdenado::posorden(NodoArbol* p){
+	if(p != NULL){
+		
+		posorden(p->izquierda);
+		posorden(p->derecha);
+		cout<< p->clave << endl;
+	}
+}
 #endif
 

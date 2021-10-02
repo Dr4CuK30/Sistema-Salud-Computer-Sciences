@@ -50,7 +50,7 @@ class ControladorData{
 		Lista < Casilla<string> > listaPaises;
 		Lista <Fecha> listaFechas;
 		
-		
+		 
 		//---------------------Arboles ordenados----------------------------------//
 		
 		ArbolBinarioOrdenado pacientesPorEdad;
@@ -59,11 +59,11 @@ class ControladorData{
 		
 		//---------------------Estructuras multiples-----------------------------//
 		//preguntar por arreglos
-		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorEps;
-		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorCiudadResidencia;
-		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorSexo;
-		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorLaburo;
-		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorVacuna;
+		Lista < ArbolBinarioOrdenado > listaPacientesPorEps;
+		Lista < ArbolBinarioOrdenado > listaPacientesPorCiudadResidencia;
+		Lista < ArbolBinarioOrdenado > listaPacientesPorSexo;
+		Lista < ArbolBinarioOrdenado > listaPacientesPorLaburo;
+		Lista < ArbolBinarioOrdenado > listaPacientesPorVacuna;
 		
 		//-------------------Carga de datos--------------------------------------//
 		void cargarArchivosLocales();
@@ -124,6 +124,13 @@ ControladorData::ControladorData(){
 	this->cantidadIPS = 0;
 	
 	this->cargarArchivosLocales();
+	
+	cout<<"impresion arboles"<<endl;
+	pacientesPorEdad.inorden(pacientesPorEdad.obtenerRaiz());
+	cout<<"----"<<endl;
+	pacientesPorEdad.preorden(pacientesPorEdad.obtenerRaiz());
+	cout<<"----"<<endl;
+	pacientesPorEdad.posorden(pacientesPorEdad.obtenerRaiz());
 	
 }
 
@@ -193,7 +200,6 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					int idIpsAsignada =  atoi(atributos[20].c_str());
 					
 					int idFNacimiento = ingresarFecha(atributos[14]);
-					cout<<"id "<<idFNacimiento<<endl;
 					int idFPri = ingresarFecha(atributos[15]);
 					int idFSeg = ingresarFecha(atributos[16]);
 					
@@ -259,18 +265,17 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 						pFechaSec = &fecha;
 					}
 					
-					long long id = strtoll(atributos[1].c_str(),NULL,0);
+					long long numId = strtoll(atributos[1].c_str(),NULL,0);
 					long long tel_cel =strtoll(atributos[12].c_str(),NULL,0);
 					long long tel_fijo = strtoll(atributos[12].c_str(),NULL,0);
 					
 					
 					
-					Persona persona = Persona(id,atributos[2],atributos[3],atributos[4],
+					Persona persona = Persona(numId,atributos[2],atributos[3],atributos[4],
 												atributos[5],atributos[6],pCiudadNac,pPais,pCiudadRes,atributos[10],
 												atributos[11],tel_cel,tel_fijo,
 												pFechaNac ,pFechaPri ,pFechaSec ,
 												pVacuna,pEps,pIpsDefault,pIpsAsignada); 
-					
 					
 					
 					agregarPersona(persona, id);
@@ -353,9 +358,11 @@ void ControladorData::agregarPersona(Persona persona, int id){
 	casilla.data = persona;
 	casilla.id = id;
 	
-	cout<<persona.nombres<<" - "<<persona.f_nacimiento->anho<<endl;
+	cout<<persona.nombres<<" - "<<persona.getEdad()<<endl;
 	
+	pacientesPorEdad.insertarNodo(id, persona.getEdad());
 	listaPersonas.intertar_final(casilla);
+	
 }
 
 void ControladorData::agregarEps(Eps eps, int id){
@@ -406,14 +413,13 @@ void ControladorData::agregarIpsVacuna(Ips_Vacuna ipsVacuna,int id){
 	listaIpsVacuna.intertar_final(casilla);
 }
 
+
 int ControladorData::validarID(string idString){
 	if(idString == "--"){
 		return 0;
 	}
 	return atoi(idString.c_str());
 }
-
-
 
 int ControladorData::ingresarFecha(string plano){
 	if(plano == "--") return 0;
@@ -423,4 +429,29 @@ int ControladorData::ingresarFecha(string plano){
 	
 	return listaFechas.Tam_lista(); 
 }
+
+void ControladorData::organizarPacientesPorSexo(){
+	
+	ArbolBinarioOrdenado arbolMujeres;
+	ArbolBinarioOrdenado arbolHombres;
+	
+	
+	for(int i = 0; i < listaPersonas.Tam_lista(); i++){
+		Casilla<Persona> casilla = listaPersonas.obtenerDato(i);
+		Persona persona = casilla.data;
+		int id = casilla.id;
+		
+		if(persona.genero == "masculino"){
+			arbolHombres.insertarNodo(id, persona.getEdad());
+		}else if(persona.genero == "femenino"){
+			arbolMujeres.insertarNodo(id, persona.getEdad());
+		}
+	}
+	 
+	listaPacientesPorSexo.intertar_final(arbolMujeres);
+	listaPacientesPorSexo.intertar_final(arbolHombres);
+}
+
+
+
 #endif

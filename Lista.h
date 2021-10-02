@@ -1,6 +1,7 @@
 #ifndef LISTAS_H
 #define LISTAS_H
 #include <iostream>
+#include "ArbolBinarioOrdenado.h"
 
 using namespace std;
 

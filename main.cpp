@@ -26,12 +26,12 @@ int main(int argc, char *argv[]) {
 	
 	
 	    
-    system("PAUSE");
+    system("PAUSE");       
     return EXIT_SUCCESS;
 }                   
 
 void empezarPrograma(){
-	//cargar archivos
+	//cargar archivos   
 	
 	
 	int opcion;
@@ -49,9 +49,9 @@ void empezarPrograma(){
 		cout<<"6. Ver todas las EPSs"<<endl;
 		cout<<"7. Ver todas las IPSs"<<endl;
 		cout<<"8. SALIR"<<endl<<endl;
-		
+		     
 		cout<<"Opcion: ";
-		cin>>opcion;    
+		cin>>opcion;      
 		cout<<" "<<endl<<endl<<endl<<endl;
 		
 		switch(opcion){

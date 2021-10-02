@@ -89,7 +89,6 @@ Persona::Persona(long long int numeroId,
 				Ips *ips_default,
 				Ips *ips_asignada){
 					
-					cout<<"entro al constructor"<<endl;
 	Identificacion id;
 	id.numero = numeroId;
 	id.tipo = tipoId;
@@ -112,7 +111,6 @@ Persona::Persona(long long int numeroId,
 	this->eps = eps;
 	this->ips_default = ips_default;
 	this->ips_asignada = ips_asignada;
-	cout<<"salio piola"<<endl;
 }
 
 //-------------- METODOS -------------------//
