@@ -353,7 +353,7 @@ void ControladorData::agregarPersona(Persona persona, int id){
 	casilla.data = persona;
 	casilla.id = id;
 	
-	cout<<persona.nombres<<" - "<<persona.f_nacimiento->anho<<endl;
+	cout<<persona.getNombres()<<" - "<<persona.getF_nacimiento()->anho<<endl;
 	
 	listaPersonas.intertar_final(casilla);
 }

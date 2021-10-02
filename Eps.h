@@ -7,13 +7,20 @@
 using namespace std;
 
 class Eps{
-	protected:
+	private:
 		string nombre;
+		
 	public:
 		Eps(){}
 		Eps(string nombre){
 			this->nombre = nombre;
 		}
+
+		string getNombre()
+		{
+			return this->nombre;
+		}
+
 };
 
 #endif

@@ -7,14 +7,26 @@
 using namespace std;
 
 class Vacuna{
-	public:
+	private:
 		string nombre;
 		int cantidadDosis;
+		
+	public:		
 		Vacuna(){}
 		Vacuna(string nombre, int cantidadDosis){
 			this->cantidadDosis = cantidadDosis;
 			this->nombre = nombre;
 		}
+
+		string getNombre(){
+			return this->nombre;
+		}
+
+		int getCantidadDosis()
+		{
+			return this->cantidadDosis;
+		}
+
 };
 
 #endif

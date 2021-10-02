@@ -24,8 +24,23 @@ int main(int argc, char *argv[]) {
 	
 	ControladorData data;   
 	
+	//Pruebas Getters:
+	Eps mieps("Eps1");
+	Eps * Epspointer = &mieps;
 	
-	    
+	Vacuna mivacuna("Vac2", 2);
+	Vacuna * mivacunaPointer = &mivacuna;
+	
+	
+	Eps_Vacuna vacEps(Epspointer, mivacunaPointer, 2);
+	cout<<vacEps.getEpsName()<<endl;
+	cout<<vacEps.getVacunaName()<<endl;
+	
+	Ips miips("ips1", "Calle Gei", "Ciudad Gei", Epspointer);
+	Ips * ipsPointer = &miips;	
+	Ips_Vacuna ipsVac(ipsPointer, mivacunaPointer);
+	cout<<ipsVac.getIpsName()<<" , "<<ipsVac.getVacunaName()<<endl;
+	
     system("PAUSE");
     return EXIT_SUCCESS;
 }                   

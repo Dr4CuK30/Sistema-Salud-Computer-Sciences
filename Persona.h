@@ -16,8 +16,9 @@ struct Identificacion{
 };
 
 class Persona{
-	Identificacion id;
-	public:
+
+	private:
+		Identificacion id;
 		string nombres;
 		string apellidos;
 		string genero;
@@ -37,7 +38,8 @@ class Persona{
 		Eps *eps;
 		Ips *ips_default;
 		Ips *ips_asignada;
-	
+
+	public:
 		Persona(){};
 		Persona(long long int numeroId,
 				string tipoId,
@@ -65,6 +67,126 @@ class Persona{
 		bool Vacunar(Vacuna *vacuna, Fecha *fecha);
 		int getEdad();
 		int estadoVacuna();
+
+		string getNombres()
+		{
+			return this->nombres;
+		}
+
+		string getApellidos()
+		{
+			return this->apellidos;
+		}
+
+		string getGenero()
+		{
+			return this->genero;
+		}
+
+		string getEmail()
+		{
+			return this->email;
+		}
+
+		string * getCiudad_nac()
+		{
+			return this->ciudad_nac;
+		}
+
+		string * getPais_nac()
+		{
+			return this->pais_nac;
+		}
+
+
+		string * getCiudad_resid()
+		{
+			return this->ciudad_resid;
+		}
+
+		string getDireccion()
+		{
+			return this->direccion;
+		}
+
+		string getBarrio()
+		{
+			return this->barrio;
+		}
+
+		string getAct_laboral()
+		{
+			return this->act_laboral;
+		}
+
+		long getTelefono_cel()
+		{
+			return this->telefono_cel;
+		}
+
+		long getTelefono_fijo()
+		{
+			return this->telefono_fijo;
+		}
+
+		Fecha * getF_nacimiento()
+		{
+			return this->f_nacimiento;
+		}
+
+		Fecha * getF_primera_dosis()
+		{
+			return this->f_primera_dosis;
+		}
+
+		Fecha * getF_segunda_dosis()
+		{
+			return this->f_segunda_dosis;
+		}
+
+		Vacuna * getVacuna()
+		{
+			return this->vacuna;
+		}
+
+		string getVacunaName(){
+			Vacuna * vac = this->getVacuna();
+			Vacuna vacObtained = *vac;
+			return vacObtained.getNombre();
+		}
+
+		Eps * getEps()
+		{
+			return this->eps;
+		}
+
+		string getEpsName(){
+			Eps * eps = this->getEps();
+			Eps epsObtained = *eps;
+			return epsObtained.getNombre();
+		}
+
+		Ips * getIps_default()
+		{
+			return this->ips_default;
+		}
+
+		string getIpsDefaultName(){
+			Ips * ips = this->getIps_default();
+			Ips ipsObtained = *ips;
+			return ipsObtained.getNombre();
+		}
+
+		Ips * getIps_asignada()
+		{
+			return this->ips_asignada;
+		}
+
+		string getIpsAsignadaName(){
+			Ips * ips = this->getIps_asignada();
+			Ips ipsObtained = *ips;
+			return ipsObtained.getNombre();
+		}
 };
 
 //--------- CONSTRUCTORES -----------//

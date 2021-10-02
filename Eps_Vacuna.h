@@ -4,16 +4,42 @@
 #include "Vacuna.h"
 
 class Eps_Vacuna{
-	protected:
+	private:
 		Eps *eps;
 		Vacuna *vacuna;
-		int stock;
+		int stock;	
+
 	public:
 		Eps_Vacuna(){}
 		Eps_Vacuna(Eps *eps, Vacuna *vacuna, int stock){
 			this->eps = eps;
 			this->vacuna = vacuna;
 			this->stock = stock;
+		}
+
+		Eps * getEps(){
+			return this->eps;
+		}
+
+		Vacuna * getVacuna(){
+			return this->vacuna;
+		}
+
+		int getStock(){
+			return this->stock;
+		}
+
+		// Obtener Nombres:
+		string getVacunaName(){
+			Vacuna * vacuna = this->getVacuna();
+			Vacuna obtained = *vacuna;
+			return obtained.getNombre();
+		}
+
+		string getEpsName(){
+			Eps * eps = this->getEps();
+			Eps obtained = *eps;
+			return obtained.getNombre();
 		}
 };
 
