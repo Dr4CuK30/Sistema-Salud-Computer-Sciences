@@ -2,6 +2,7 @@
 #define ARBOL_H
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -16,12 +17,13 @@ struct NodoArbol {
 class ArbolBinarioOrdenado {
     NodoArbol *raiz;
 public:
-
+	string etiqueta;
     ArbolBinarioOrdenado() {
         raiz = NULL;
+//        this->etiqueta = etiqueta;
     }
     bool arbolVacio();
-    void insertarNodo(int dato, int valor_);
+    void insertarNodo(int dato, int valor);
     bool eliminarNodo(int dato);
     int getInfo(int id);
     NodoArbol *organizarNodo(NodoArbol *nodoActual, NodoArbol *aux);

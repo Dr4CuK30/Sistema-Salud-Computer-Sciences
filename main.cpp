@@ -8,6 +8,7 @@
 #include "Vacuna.h"
 #include "Casilla.h"
 #include "Fecha.h"
+#include "Persona.h"
     
 using namespace std;
 
@@ -16,18 +17,9 @@ void empezarPrograma();
 void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
-int main(int argc, char *argv[]) {
-   
-	//IMPLEMENTACION EJEMPLO DE LA ESTRUCTURA CON ID////////////////////
-	Lista< Casilla<Vacuna> > listaVacunas;
-	Casilla<Vacuna> x;
-	x.data = Vacuna();
-	x.id = 1;
-	listaVacunas.intertar_final(x);
-	/////////////////////////////////////////////////////////////////
-	// EJEMPLO FECHA ///////////////////////////////////////////////
+int main(int argc, char *argv[]) {          
+    
 	
-  	///////////////////////////////////////////////////////////////   
 	//empezarPrograma(); 
 	
 	ControladorData data;   
@@ -72,7 +64,7 @@ void empezarPrograma(){
 				break;
 			case 4:
 				break;
-			case 5:          
+			case 5:            
 				break;
 			case 6:
 				break;
@@ -89,13 +81,13 @@ void empezarPrograma(){
 		
 	}	
 	
-	//guardar archivos          
+	//guardar archivos               
 }
     
 void consultarPacientesPor(){
 	int opcion;
 	
-	while(opcion != 5){
+	while(opcion != 5){    
 		cout<<"---------------------------------"<<endl;
 		cout<<"Puede consultar los pacientes por: "<<endl;
 		cout<<"1. EPS"<<endl;

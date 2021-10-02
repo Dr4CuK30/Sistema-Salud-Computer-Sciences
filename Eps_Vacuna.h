@@ -9,7 +9,7 @@ class Eps_Vacuna{
 		Vacuna *vacuna;
 		int stock;
 	public:
-		Eps_Vacuna();
+		Eps_Vacuna(){}
 		Eps_Vacuna(Eps *eps, Vacuna *vacuna, int stock){
 			this->eps = eps;
 			this->vacuna = vacuna;

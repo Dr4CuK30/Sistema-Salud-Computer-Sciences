@@ -14,7 +14,7 @@ struct Fecha{
 	int anho;
 };
 
-
+Lista <Fecha> listaFechas;
 
 Fecha *crearFecha(string fechaString){
 	if(fechaString == "--") return NULL;
@@ -35,13 +35,16 @@ Fecha *crearFecha(string fechaString){
 	int mes = atoi(divisiones[1].c_str());
 	int anho = atoi(divisiones[2].c_str());
 	
-	Fecha *fecha;
-	fecha->anho = anho;
-	fecha->mes = mes;
-	fecha->dia = dia;
-	
-	
-	return fecha;
+	Fecha fecha;
+	fecha.anho = anho;
+	fecha.mes = mes;
+	fecha.dia = dia;
+
+	listaFechas.intertar_final(fecha);
+
+	fecha = listaFechas.obtenerDato(listaFechas.Tam_lista());
+
+	return &fecha;
 	
 }
 

@@ -22,9 +22,9 @@ class Persona{
 		string apellidos;
 		string genero;
 		string email;
-		string ciudad_nac;
-		string pais_nac;
-		string ciudad_resid;
+		string *ciudad_nac;
+		string *pais_nac;
+		string *ciudad_resid;
 		string direccion;
 		string barrio;
 		string act_laboral;
@@ -45,9 +45,9 @@ class Persona{
 				string apellidos,
 				string genero,
 				string email,
-				string ciudad_nac,
-				string pais_nac,
-				string ciudad_resid,
+				string *ciudad_nac,
+				string *pais_nac,
+				string *ciudad_resid,
 				string direccion,
 				string barrio,
 				long long int telefono_cel,
@@ -74,9 +74,9 @@ Persona::Persona(long long int numeroId,
 				string apellidos,
 				string genero,
 				string email,
-				string ciudad_nac,
-				string pais_nac,
-				string ciudad_resid,
+				string *ciudad_nac,
+				string *pais_nac,
+				string *ciudad_resid,
 				string direccion,
 				string barrio,
 				long long int telefono_cel,
@@ -88,6 +88,8 @@ Persona::Persona(long long int numeroId,
 				Eps *eps,
 				Ips *ips_default,
 				Ips *ips_asignada){
+					
+					cout<<"entro al constructor"<<endl;
 	Identificacion id;
 	id.numero = numeroId;
 	id.tipo = tipoId;
@@ -110,6 +112,7 @@ Persona::Persona(long long int numeroId,
 	this->eps = eps;
 	this->ips_default = ips_default;
 	this->ips_asignada = ips_asignada;
+	cout<<"salio piola"<<endl;
 }
 
 //-------------- METODOS -------------------//

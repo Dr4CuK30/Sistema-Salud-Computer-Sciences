@@ -24,9 +24,8 @@ const int CANT_ATRIBUTOS_VACUNA = 2;
 const int CANT_ATRIBUTOS_PERSONA = 20;
 const int CANT_ATRIBUTOS_EPS = 1;
 const int CANT_ATRIBUTOS_IPS = 4;
-const int CANT_ATRIBUTOS_EPS_VACUNA = 1;
-const int CANT_ATRIBUTOS_EPS_IPS = 1;
-const int CANT_ATRIBUTOS_IPS_VACUNA = 1;
+const int CANT_ATRIBUTOS_EPS_VACUNA = 3;
+const int CANT_ATRIBUTOS_IPS_VACUNA = 2;
  
 class ControladorData{
 	
@@ -139,16 +138,11 @@ void ControladorData::cargarArchivosLocales(){
 	cargarArchivo("Archivos/ciudades.txt", 2, 7);
 	cargarArchivo("Archivos/paises.txt", 2, 8);
 	
-	
-//	for(int i = 1 ;listaCiudades.Tam_lista(); i++)cout<<listaCiudades.obtenerDato(i).data;
-	
 	cargarArchivo("Archivos/vacunas.txt", CANT_ATRIBUTOS_VACUNA + 1, 2);
 	cargarArchivo("Archivos/eps.txt", CANT_ATRIBUTOS_EPS + 1, 3);
 	cargarArchivo("Archivos/ips.txt", CANT_ATRIBUTOS_IPS + 1, 4);
 	
 	cargarArchivo("Archivos/personas.txt", CANT_ATRIBUTOS_PERSONA + 1, 1);
-	
-	
 	
 	cargarArchivo("Archivos/eps_vacuna.txt", CANT_ATRIBUTOS_EPS_VACUNA + 1, 5);
 	cargarArchivo("Archivos/ips_vacuna.txt", CANT_ATRIBUTOS_IPS_VACUNA + 1, 6);
@@ -188,19 +182,20 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					
 					//metodo de validacion para todos
 					int idVacuna =  atoi(atributos[17].c_str());
-					int idCiudad =  atoi(atributos[7].c_str());
+					int idCiudadNac =  atoi(atributos[7].c_str());
+					int idCiudadRes =  atoi(atributos[9].c_str());
 					int idPais = atoi(atributos[8].c_str()) ;
 					int idEps = atoi(atributos[18].c_str());
 					int idIpsDefault =  atoi(atributos[19].c_str());
 					int idIpsAsignada =  atoi(atributos[20].c_str());
 					
 					Vacuna *pVacuna;
-					string *pCiudad;
+					string *pCiudadNac;
 					string *pPais;
+					string *pCiudadRes;
 					Eps *pEps;
 					Ips *pIpsDefault;
 					Ips *pIpsAsignada;
-					
 					
 					
 					if(idVacuna == 0) pVacuna = NULL;
@@ -208,15 +203,20 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 						Vacuna vacuna = listaVacunas.obtenerDato(idVacuna).data;
 						pVacuna = &vacuna;
 					}
-					if(idCiudad == 0) pCiudad = NULL;
+					if(idCiudadNac == 0) pCiudadNac = NULL;
 					else{
-						string ciudad = listaCiudades.obtenerDato(idCiudad).data;
-						pCiudad = &ciudad;
+						string ciudad = listaCiudades.obtenerDato(idCiudadNac).data;
+						pCiudadNac = &ciudad;
 					}
 					if(idPais == 0) pPais = NULL;
 					else{
-						string pais = listaCiudades.obtenerDato(idCiudad).data;
+						string pais = listaCiudades.obtenerDato(idPais).data;
 						pPais = &pais;
+					}
+					if(idCiudadRes == 0) pCiudadRes = NULL;
+					else{
+						string ciudad = listaCiudades.obtenerDato(idCiudadRes).data;
+						pCiudadRes = &ciudad;
 					}
 					if(idEps== 0) pEps = NULL;
 					else{
@@ -234,18 +234,23 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 						pIpsAsignada = &ipsAsignada;
 					}
 					
+					long long id = strtoll(atributos[1].c_str(),NULL,0);
+					long long tel_cel =strtoll(atributos[12].c_str(),NULL,0);
+					long long tel_fijo = strtoll(atributos[12].c_str(),NULL,0);
 					
 					
-					Persona persona = Persona(strtoll(atributos[1].c_str(),NULL,0),atributos[2],atributos[3],atributos[4],
-												atributos[5],atributos[6],atributos[7],atributos[8],atributos[9],atributos[10],
-												atributos[11],strtoll(atributos[12].c_str(),NULL,0),strtoll(atributos[13].c_str(),NULL,0),
+					Persona persona = Persona(id,atributos[2],atributos[3],atributos[4],
+												atributos[5],atributos[6],pCiudadNac,pPais,pCiudadRes,atributos[10],
+												atributos[11],tel_cel,tel_fijo,
 												crearFecha(atributos[14]) ,crearFecha(atributos[15]) ,crearFecha(atributos[16]) ,
 												pVacuna,pEps,pIpsDefault,pIpsAsignada); 
 					
-					agregarPersona(persona, id);
 					
-//					cout<<persona.nombres<<" "<<idIpsAsignada<<" "<<persona.ips_asignada->nombre<<endl;
-//					cout<<listaIPS.obtenerDato(0).data.nombre<<" "<<listaIPS.obtenerDato(1).data.nombre;
+					
+					agregarPersona(persona, id);
+//					if(persona.ips_asignada == NULL)cout<<"es nula mk"<<endl;
+//					cout<<persona.nombres<<" "<<idIpsAsignada<<" "<<persona.ips_asignada<<endl;
+//					cout<<listaIPS.obtenerDato(1).data.nombre<<" "<<listaIPS.obtenerDato(2).data.nombre;
 					break;
 				}
 				case 2:{
@@ -299,7 +304,6 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 				default:
 					break; 
 			}
-				
 		}
 		delete []atributos;
 		
