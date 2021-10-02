@@ -5,7 +5,7 @@
 #include "cola_prioridad.h"
 #include "controladorData.h"
 #include "Lista.h"
-#include "Vacuna.h"
+#include "Vacuna.h"               
 #include "Casilla.h"
 #include "Fecha.h"
 #include "Persona.h"
@@ -18,9 +18,9 @@ void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
 int main(int argc, char *argv[]) {          
-    
+     
 	
-	//empezarPrograma(); 
+	//empezarPrograma();    
 	
 	ControladorData data;   
 	
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 	    
     system("PAUSE");
     return EXIT_SUCCESS;
-}
+}                   
 
 void empezarPrograma(){
 	//cargar archivos
@@ -51,7 +51,7 @@ void empezarPrograma(){
 		cout<<"8. SALIR"<<endl<<endl;
 		
 		cout<<"Opcion: ";
-		cin>>opcion;
+		cin>>opcion;    
 		cout<<" "<<endl<<endl<<endl<<endl;
 		
 		switch(opcion){

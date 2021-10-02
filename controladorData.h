@@ -48,6 +48,7 @@ class ControladorData{
 		Lista < Casilla<Ips_Vacuna> > listaIpsVacuna;
 		Lista < Casilla <string> > listaCiudades;
 		Lista < Casilla<string> > listaPaises;
+		Lista <Fecha> listaFechas;
 		
 		
 		//---------------------Arboles ordenados----------------------------------//
@@ -59,10 +60,10 @@ class ControladorData{
 		//---------------------Estructuras multiples-----------------------------//
 		//preguntar por arreglos
 		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorEps;
-		Lista <ArbolBinarioOrdenado> listaPacientesPorCiudadResidencia;
-		Lista <ArbolBinarioOrdenado> listaPacientesPorSexo;
-		Lista <ArbolBinarioOrdenado> listaPacientesPorLaburo;
-		Lista <ArbolBinarioOrdenado> listaPacientesPorVacuna;
+		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorCiudadResidencia;
+		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorSexo;
+		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorLaburo;
+		Lista < Casilla<ArbolBinarioOrdenado> > listaPacientesPorVacuna;
 		
 		//-------------------Carga de datos--------------------------------------//
 		void cargarArchivosLocales();
@@ -81,6 +82,7 @@ class ControladorData{
 		
 		//-------------------Formacion de estructuras----------------------------//
 		
+		//multilistas con arboles ordenados por edad
 		void organizarPacientesPorEps();
 		void organizarPacientesPorCiudadResidencia();
 		void organizarPacientesPorSexo();
@@ -91,7 +93,7 @@ class ControladorData{
 		//posiblemente a otra clase
 		void agregarPersona(Persona, int);
 		void agregarCiudad(string, int);
-		void agregarLaburo(string);
+		void agregarLaburo(string, int);
 		void agregarVacuna(Vacuna, int);
 		void agregarEps(Eps, int);
 		void agregarIps(Ips, int);
@@ -99,10 +101,11 @@ class ControladorData{
 		
 		void agregarEpsVacuna(Eps_Vacuna, int);
 		void agregarIpsVacuna(Ips_Vacuna, int);
+		
+		int ingresarFecha(string);
 		//cambios de datos
 		//--------------------------Utils-------------------------------------//
 		int validarID(string);
-		
 		
 		
 	public:
@@ -189,6 +192,11 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					int idIpsDefault =  atoi(atributos[19].c_str());
 					int idIpsAsignada =  atoi(atributos[20].c_str());
 					
+					int idFNacimiento = ingresarFecha(atributos[14]);
+					cout<<"id "<<idFNacimiento<<endl;
+					int idFPri = ingresarFecha(atributos[15]);
+					int idFSeg = ingresarFecha(atributos[16]);
+					
 					Vacuna *pVacuna;
 					string *pCiudadNac;
 					string *pPais;
@@ -196,7 +204,9 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					Eps *pEps;
 					Ips *pIpsDefault;
 					Ips *pIpsAsignada;
-					
+					Fecha *pFechaNac;
+					Fecha *pFechaPri;
+					Fecha *pFechaSec;
 					
 					if(idVacuna == 0) pVacuna = NULL;
 					else{
@@ -233,16 +243,32 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 						Ips ipsAsignada = listaIPS.obtenerDato(idIpsAsignada).data;
 						pIpsAsignada = &ipsAsignada;
 					}
+					if(idFNacimiento == 0) pFechaNac = NULL;
+					else{
+						Fecha fecha = listaFechas.obtenerDato(idFNacimiento);
+						pFechaNac = &fecha;
+					}
+					if(idFPri == 0) pFechaPri = NULL;
+					else{
+						Fecha fecha = listaFechas.obtenerDato(idFPri);
+						pFechaPri = &fecha;
+					}
+					if(idFSeg == 0) pFechaSec = NULL;
+					else{
+						Fecha fecha = listaFechas.obtenerDato(idFSeg);
+						pFechaSec = &fecha;
+					}
 					
 					long long id = strtoll(atributos[1].c_str(),NULL,0);
 					long long tel_cel =strtoll(atributos[12].c_str(),NULL,0);
 					long long tel_fijo = strtoll(atributos[12].c_str(),NULL,0);
 					
 					
+					
 					Persona persona = Persona(id,atributos[2],atributos[3],atributos[4],
 												atributos[5],atributos[6],pCiudadNac,pPais,pCiudadRes,atributos[10],
 												atributos[11],tel_cel,tel_fijo,
-												crearFecha(atributos[14]) ,crearFecha(atributos[15]) ,crearFecha(atributos[16]) ,
+												pFechaNac ,pFechaPri ,pFechaSec ,
 												pVacuna,pEps,pIpsDefault,pIpsAsignada); 
 					
 					
@@ -327,6 +353,8 @@ void ControladorData::agregarPersona(Persona persona, int id){
 	casilla.data = persona;
 	casilla.id = id;
 	
+	cout<<persona.nombres<<" - "<<persona.f_nacimiento->anho<<endl;
+	
 	listaPersonas.intertar_final(casilla);
 }
 
@@ -383,5 +411,16 @@ int ControladorData::validarID(string idString){
 		return 0;
 	}
 	return atoi(idString.c_str());
+}
+
+
+
+int ControladorData::ingresarFecha(string plano){
+	if(plano == "--") return 0;
+	
+	Fecha fecha = crearFecha(plano);
+	listaFechas.intertar_final(fecha);
+	
+	return listaFechas.Tam_lista(); 
 }
 #endif
