@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
 	//empezarPrograma();    
 	
 	ControladorData data;   
-	
+	   
 	//Pruebas Getters:
 	Eps mieps("Eps1");
 	Eps * Epspointer = &mieps;
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 	Ips_Vacuna ipsVac(ipsPointer, mivacunaPointer);
 	cout<<ipsVac.getIpsName()<<" , "<<ipsVac.getVacunaName()<<endl;
 	
-	    
+	      
     system("PAUSE");       
     return EXIT_SUCCESS;
 }                   
@@ -51,7 +51,7 @@ void empezarPrograma(){
 	
 	
 	int opcion;
-	
+	  
 	while(opcion != 8){  
 		cout<<"----------------------------------------------"<<endl;
 		cout<<"--------BIENVENIDO A SALDAVACUNA APP----------"<<endl;
@@ -64,12 +64,12 @@ void empezarPrograma(){
 		cout<<"5. Ver todos las vacunas registradas"<<endl;
 		cout<<"6. Ver todas las EPSs"<<endl;
 		cout<<"7. Ver todas las IPSs"<<endl;
-		cout<<"8. SALIR"<<endl<<endl;
-		     
+		cout<<"8. SALIR"<<endl<<endl;  
+		      
 		cout<<"Opcion: ";
 		cin>>opcion;      
 		cout<<" "<<endl<<endl<<endl<<endl;
-		
+		   
 		switch(opcion){
 			case 1:
 				break;
@@ -84,7 +84,7 @@ void empezarPrograma(){
 				break;    
 			case 6:
 				break;
-			case 7:
+			case 7:  
 				break;
 			case 8:
 				cout<<"Hasta pronto..."<<endl; 
@@ -101,19 +101,18 @@ void empezarPrograma(){
 }           
     
 void consultarPacientesPor(){ 
-	int opcion;         
+	int opcion;            
 	     
 	while(opcion != 5){    
 		cout<<"---------------------------------"<<endl;
 		cout<<"Puede consultar los pacientes por: "<<endl;
-		cout<<"1. EPS"<<endl;
-		cout<<"2. Edad"<<endl;
+    	cout<<"2. Edad"<<endl;
 		cout<<"3. Vacunados con un tipo de vacuna"<<endl;
 		cout<<"4. Fecha de vacunacion"<<endl;
 		cout<<"5. Volver al menu principal"<<endl<<endl;
-		
+		        
 		cout<<"Opcion: ";
-		cin>>opcion;
+		cin>>opcion;     
 		cout<<"---------------------------------"<<endl;
 		  
 		switch(opcion){
@@ -126,7 +125,7 @@ void consultarPacientesPor(){
 			case 4:
 				break;
 			case 5:
-				break;
+				break;         
 			default:	
 				cout<<"Opcion no valida"<<endl<<endl;
 				break;          

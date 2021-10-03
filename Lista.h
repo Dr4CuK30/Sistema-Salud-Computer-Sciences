@@ -28,8 +28,20 @@ class Lista{
 		void insertar_pos(T infoNueva, int pos);
 		void intertar_final(T infoNueva);
 		bool eliminar(int pos);
-		T obtenerDato(int pos);
 		bool modificar(T infoNueva, int pos);
+		
+		T *obtenerDato(int pos){
+			
+			
+			Nodo<T> *nodo = HEAD;
+			for(int i = 1; i<pos; i++){
+				if(nodo->sig == NULL){
+					return &(nodo->value);
+				}
+				nodo = nodo->sig;
+			}
+			return &(nodo->value);
+		}
 };
 
 template <class T>
@@ -132,19 +144,7 @@ bool Lista<T>::eliminar(int pos){
 	return true;
 }
 
-template <class T>
-T Lista<T>::obtenerDato(int pos){
-	
-	
-	Nodo<T> *nodo = HEAD;
-	for(int i = 1; i<pos; i++){
-		if(nodo->sig == NULL){
-			return nodo->value;
-		}
-		nodo = nodo->sig;
-	}
-	return nodo->value;
-}
+
 
 	
 #endif

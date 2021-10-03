@@ -127,15 +127,17 @@ ControladorData::ControladorData(){
 	
 	
 	
-	Casilla<Persona> casilla = listaPersonas.obtenerDato(1);
-		Persona persona = casilla.data;
+	Casilla<Persona> *casilla = listaPersonas.obtenerDato(1);
+		Persona persona = casilla->data;
 		
-		cout<<"Persona "<<1<<" con el nombre ";
+		cout<<"Persona "<<1<<" con el nombre "<<endl;
 		cout<<persona.getNombres()<<endl;
 		cout<<persona.getEps()->getNombre()<<endl;
+//		Casilla<Eps> *casillae = listaEPS.obtenerDato(1);
+//		Eps *eps = &(casillae->data);
 	
 	
-	organizarPacientesPorEps();
+	this->organizarPacientesPorEps();
 	
 	cout<<"impresion arboles"<<endl;
 	pacientesPorEdad.inorden(pacientesPorEdad.obtenerRaiz());
@@ -229,60 +231,57 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					
 					if(idVacuna == 0) pVacuna = NULL;
 					else{
-						Vacuna vacuna = listaVacunas.obtenerDato(idVacuna).data;
-						pVacuna = &vacuna;
+//						Vacuna vacuna = (listaVacunas.obtenerDato(idVacuna)->data);
+						pVacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
 					}
 					if(idCiudadNac == 0) pCiudadNac = NULL;
 					else{
-						string ciudad = listaCiudades.obtenerDato(idCiudadNac).data;
-						pCiudadNac = &ciudad;
+//						string ciudad = (listaCiudades.obtenerDato(idCiudadNac)->data);
+						pCiudadNac = &(listaCiudades.obtenerDato(idCiudadNac)->data);
 					}
 					if(idPais == 0) pPais = NULL;
 					else{
-						string pais = listaCiudades.obtenerDato(idPais).data;
-						pPais = &pais;
+						Casilla<string> *casilla = listaCiudades.obtenerDato(idPais);
+						pPais = &(casilla->data);
 					}
 					if(idCiudadRes == 0) pCiudadRes = NULL;
 					else{
-						string ciudad = listaCiudades.obtenerDato(idCiudadRes).data;
-						pCiudadRes = &ciudad;
+						Casilla<string> *casilla = listaCiudades.obtenerDato(idCiudadRes);
+						pCiudadRes = &(casilla->data);
 					}
 					if(idEps== 0) pEps = NULL;
 					else{
-						Eps eps = listaEPS.obtenerDato(idEps).data;
-						pEps = &eps;
+//						Casilla<Eps> casilla = listaEPS.obtenerDato(idEps);
+						pEps = &(listaEPS.obtenerDato(idEps)->data);
 					}
 					if(idIpsDefault == 0) pIpsDefault = NULL;
 					else{
-						Ips ipsDefault = listaIPS.obtenerDato(idIpsDefault).data;
-						pIpsDefault = &ipsDefault;
+//						Ips ipsDefault = listaIPS.obtenerDato(idIpsDefault).data;
+						pIpsDefault = &(listaIPS.obtenerDato(idIpsDefault)->data);
 					}
 					if(idIpsAsignada == 0) pIpsAsignada = NULL;
 					else{
-						Ips ipsAsignada = listaIPS.obtenerDato(idIpsAsignada).data;
-						pIpsAsignada = &ipsAsignada;
+//						Ips ipsAsignada = listaIPS.obtenerDato(idIpsAsignada).data;
+						pIpsAsignada = &(listaIPS.obtenerDato(idIpsAsignada)->data);
 					}
 					if(idFNacimiento == 0) pFechaNac = NULL;
 					else{
-						Fecha fecha = listaFechas.obtenerDato(idFNacimiento);
-						pFechaNac = &fecha;
+						pFechaNac =  listaFechas.obtenerDato(idFNacimiento);
 					}
 					if(idFPri == 0) pFechaPri = NULL;
 					else{
-						Fecha fecha = listaFechas.obtenerDato(idFPri);
-						pFechaPri = &fecha;
+						pFechaPri =  listaFechas.obtenerDato(idFPri);
 					}
 					if(idFSeg == 0) pFechaSec = NULL;
 					else{
-						Fecha fecha = listaFechas.obtenerDato(idFSeg);
-						pFechaSec = &fecha;
+						pFechaSec = listaFechas.obtenerDato(idFSeg);
 					}
 					
 					long long numId = strtoll(atributos[1].c_str(),NULL,0);
 					long long tel_cel =strtoll(atributos[12].c_str(),NULL,0);
 					long long tel_fijo = strtoll(atributos[12].c_str(),NULL,0);
 					
-					cout<<"prueba de la insercion de la eps"<<endl;
+					cout<<"guardado inicialmente en la persona"<<pEps<<endl;
 					cout<<pEps->getNombre()<<endl;
 					
 					Persona persona = Persona(numId,atributos[2],atributos[3],atributos[4],
@@ -311,19 +310,19 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 				}
 				case 4:{
 					int idEps = atoi(atributos[4].c_str());
-					Eps eps = listaEPS.obtenerDato(idEps).data;
+					Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
 					
-					Ips ips = Ips(atributos[1],atributos[2],atributos[3],&eps);
+					Ips ips = Ips(atributos[1],atributos[2],atributos[3],eps);
 					agregarIps(ips, id);
 				}
 				case 5:{
 					int idEps = atoi(atributos[1].c_str());
 					int idVacuna =  atoi(atributos[2].c_str()); 
 					
-					Eps eps = listaEPS.obtenerDato(idEps).data;
-					Vacuna vacuna = listaVacunas.obtenerDato(idVacuna).data;
+					Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
+					Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
 					
-					Eps_Vacuna epsVacuna = Eps_Vacuna(&eps, &vacuna, atoi(atributos[2].c_str()));
+					Eps_Vacuna epsVacuna = Eps_Vacuna(eps, vacuna, atoi(atributos[2].c_str()));
 					agregarEpsVacuna(epsVacuna, id);
 					break;
 				}
@@ -331,10 +330,10 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					int idIps = atoi(atributos[1].c_str());
 					int idVacuna = atoi(atributos[2].c_str());
 					
-					Ips ips = listaIPS.obtenerDato( idIps).data;
-					Vacuna vacuna = listaVacunas.obtenerDato(idVacuna).data;
+					Ips *ips = &(listaIPS.obtenerDato(idIps)->data);
+					Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
 					
-					Ips_Vacuna ips_vacuna = Ips_Vacuna(&ips, &vacuna);
+					Ips_Vacuna ips_vacuna = Ips_Vacuna(ips, vacuna);
 					
 					agregarIpsVacuna(ips_vacuna, id);
 					
@@ -449,9 +448,9 @@ void ControladorData::organizarPacientesPorSexo(){
 	
 	
 	for(int i = 0; i < listaPersonas.Tam_lista(); i++){
-		Casilla<Persona> casilla = listaPersonas.obtenerDato(i);
-		Persona persona = casilla.data;
-		int id = casilla.id;
+		Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
+		Persona persona = casilla->data;
+		int id = casilla->id;
 		
 		if(persona.getGenero() == "masculino"){
 			arbolHombres.insertarNodo(id, persona.getEdad());
@@ -465,19 +464,19 @@ void ControladorData::organizarPacientesPorSexo(){
 }
 
 void ControladorData::organizarPacientesPorEps(){
-	Casilla<Persona> casilla = listaPersonas.obtenerDato(1);
-		Persona persona = casilla.data;
-		
-		cout<<"Persona "<<1<<" con el nombre ";
-		cout<<persona.getNombres()<<endl;
-		cout<<persona.getEps()->getNombre()<<endl;
+	Casilla<Persona> *casilla = listaPersonas.obtenerDato(1);
+	Persona persona = casilla->data;
+	cout<<"-------------"<<endl;
+	
+	cout<<persona.getNombres()<<endl;
+	cout<<persona.getEpsName()<<endl;
 		
 	int size = listaEPS.Tam_lista();
 	string epsDisponibles[size];
 	
 	for(int i = 1;i <= size; i++){
 		ArbolBinarioOrdenado arbol;
-		Eps eps = listaEPS.obtenerDato(i).data;
+		Eps eps = listaEPS.obtenerDato(i)->data;
 		listaPacientesPorEps.intertar_final(arbol);
 		
 		epsDisponibles[i-1] = eps.getNombre();
@@ -485,23 +484,18 @@ void ControladorData::organizarPacientesPorEps(){
 	
 	cout<<"se crean las eps"<<endl;
 	
+	int num_personas = listaPersonas.Tam_lista();
 	
-	for(int i = 1;i <=  listaPersonas.Tam_lista(); i++){
-		Casilla<Persona> casilla = listaPersonas.obtenerDato(i);
-		Persona persona = casilla.data;
+	for(int i = 1;i <= num_personas ; i++){
 		
-		cout<<"Persona "<<i<<" con el nombre ";
-		cout<<persona.getNombres()<<endl;
-		cout<<persona.getEps()->getNombre()<<endl;
+		Persona persona = listaPersonas.obtenerDato(i)->data;
 		
 		for(int j = 0; j < size; j++){
 			
-			
-			
 			if(persona.getEpsName() == epsDisponibles[j]){
-				ArbolBinarioOrdenado arbol = listaPacientesPorEps.obtenerDato(j+1);
-				arbol.insertarNodo(casilla.id, persona.getEdad());
-				
+				ArbolBinarioOrdenado *arbol = listaPacientesPorEps.obtenerDato(j+1);
+				arbol->insertarNodo(casilla->id, persona.getEdad());
+				cout<<"entra a la eps "<<epsDisponibles[j]<<endl;
 				break;
 			}
 		}
