@@ -123,7 +123,19 @@ ControladorData::ControladorData(){
 	this->cantidadPersonas = 0;
 	this->cantidadIPS = 0;
 	
-	this->cargarArchivosLocales();
+	cargarArchivosLocales();
+	
+	
+	
+	Casilla<Persona> casilla = listaPersonas.obtenerDato(1);
+		Persona persona = casilla.data;
+		
+		cout<<"Persona "<<1<<" con el nombre ";
+		cout<<persona.getNombres()<<endl;
+		cout<<persona.getEps()->getNombre()<<endl;
+	
+	
+	organizarPacientesPorEps();
 	
 	cout<<"impresion arboles"<<endl;
 	pacientesPorEdad.inorden(pacientesPorEdad.obtenerRaiz());
@@ -143,6 +155,7 @@ void ControladorData::cargarArchivosLocales(){
 	//6 IPS Vacuna
 	//7 ciudad
 	//8 Pais
+	//9 Laburo
 	
 	//Este orden es importante
 	cargarArchivo("Archivos/ciudades.txt", 2, 7);
@@ -269,7 +282,8 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					long long tel_cel =strtoll(atributos[12].c_str(),NULL,0);
 					long long tel_fijo = strtoll(atributos[12].c_str(),NULL,0);
 					
-					
+					cout<<"prueba de la insercion de la eps"<<endl;
+					cout<<pEps->getNombre()<<endl;
 					
 					Persona persona = Persona(numId,atributos[2],atributos[3],atributos[4],
 												atributos[5],atributos[6],pCiudadNac,pPais,pCiudadRes,atributos[10],
@@ -291,7 +305,7 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					break;
 				}
 				case 3:{
-					Eps eps = Eps(atributos[0]);
+					Eps eps = Eps(atributos[1]);
 					agregarEps(eps, id);
 					break;
 				}
@@ -357,8 +371,6 @@ void ControladorData::agregarPersona(Persona persona, int id){
 	Casilla<Persona> casilla;
 	casilla.data = persona;
 	casilla.id = id;
-	
-	cout<<persona.getNombres()<<" - "<<persona.getF_nacimiento()->anho<<endl;
 	
 	pacientesPorEdad.insertarNodo(id, persona.getEdad());
 	listaPersonas.intertar_final(casilla);
@@ -450,6 +462,51 @@ void ControladorData::organizarPacientesPorSexo(){
 	 
 	listaPacientesPorSexo.intertar_final(arbolMujeres);
 	listaPacientesPorSexo.intertar_final(arbolHombres);
+}
+
+void ControladorData::organizarPacientesPorEps(){
+	Casilla<Persona> casilla = listaPersonas.obtenerDato(1);
+		Persona persona = casilla.data;
+		
+		cout<<"Persona "<<1<<" con el nombre ";
+		cout<<persona.getNombres()<<endl;
+		cout<<persona.getEps()->getNombre()<<endl;
+		
+	int size = listaEPS.Tam_lista();
+	string epsDisponibles[size];
+	
+	for(int i = 1;i <= size; i++){
+		ArbolBinarioOrdenado arbol;
+		Eps eps = listaEPS.obtenerDato(i).data;
+		listaPacientesPorEps.intertar_final(arbol);
+		
+		epsDisponibles[i-1] = eps.getNombre();
+	}
+	
+	cout<<"se crean las eps"<<endl;
+	
+	
+	for(int i = 1;i <=  listaPersonas.Tam_lista(); i++){
+		Casilla<Persona> casilla = listaPersonas.obtenerDato(i);
+		Persona persona = casilla.data;
+		
+		cout<<"Persona "<<i<<" con el nombre ";
+		cout<<persona.getNombres()<<endl;
+		cout<<persona.getEps()->getNombre()<<endl;
+		
+		for(int j = 0; j < size; j++){
+			
+			
+			
+			if(persona.getEpsName() == epsDisponibles[j]){
+				ArbolBinarioOrdenado arbol = listaPacientesPorEps.obtenerDato(j+1);
+				arbol.insertarNodo(casilla.id, persona.getEdad());
+				
+				break;
+			}
+		}
+	}
+	cout<<"fin"<<endl;
 }
 
 

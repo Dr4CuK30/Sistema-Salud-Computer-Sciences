@@ -8,6 +8,7 @@ using namespace std;
 template <class T>
 struct Nodo {
 	T value;
+	string etiqueta;
 	Nodo<T> *sig;
 };
 	
@@ -138,7 +139,6 @@ T Lista<T>::obtenerDato(int pos){
 	Nodo<T> *nodo = HEAD;
 	for(int i = 1; i<pos; i++){
 		if(nodo->sig == NULL){
-			cout<<"hola"<<endl;
 			return nodo->value;
 		}
 		nodo = nodo->sig;
