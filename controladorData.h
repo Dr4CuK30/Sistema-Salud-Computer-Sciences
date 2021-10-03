@@ -132,7 +132,7 @@ ControladorData::ControladorData(){
 		
 		cout<<"Persona "<<1<<" con el nombre ";
 		cout<<persona.getNombres()<<endl;
-		cout<<persona.getEps()->nombre<<endl;
+		cout<<persona.getEps()->getNombre()<<endl;
 	
 	
 	organizarPacientesPorEps();
@@ -470,7 +470,7 @@ void ControladorData::organizarPacientesPorEps(){
 		
 		cout<<"Persona "<<1<<" con el nombre ";
 		cout<<persona.getNombres()<<endl;
-		cout<<persona.getEps()->nombre<<endl;
+		cout<<persona.getEps()->getNombre()<<endl;
 		
 	int size = listaEPS.Tam_lista();
 	string epsDisponibles[size];

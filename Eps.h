@@ -7,11 +7,10 @@
 using namespace std;
 
 class Eps{
-	public:
-//	private:
+	private:
 		string nombre;
 		
-//	public:
+	public:
 		Eps(){}
 		Eps(string nombre){
 			this->nombre = nombre;
