@@ -16,11 +16,16 @@ struct NodoArbol {
 
 class ArbolBinarioOrdenado {
     NodoArbol *raiz;
+private:
+    string etiqueta;
+    int tamArbol;
+
 public:
-	string etiqueta;
+	
     ArbolBinarioOrdenado() {
         raiz = NULL;
-//        this->etiqueta = etiqueta;
+        this->etiqueta = etiqueta;
+        this->tamArbol = 0;
     }
     bool arbolVacio();
     void insertarNodo(int dato, int valor);
@@ -36,6 +41,30 @@ public:
     void inorden(NodoArbol*);
 	void preorden(NodoArbol*);
 	void posorden(NodoArbol*);
+
+    void inordenArray(NodoArbol*, int currentIndex, int orderdArray[]);
+
+    string getEtiqueta()
+    {
+        return this->etiqueta;
+    }
+
+    void setEtiqueta(string etiqueta)
+    {
+        this->etiqueta = etiqueta;
+    }
+
+    
+    int getTamArbol()
+    {
+        return this->tamArbol;
+    }
+
+
+    void setTamArbol(int tamArbol)
+    {
+        this->tamArbol = tamArbol;
+    }
 };
 
 bool ArbolBinarioOrdenado::arbolVacio() {
@@ -53,6 +82,7 @@ void ArbolBinarioOrdenado::insertarNodo(int dato, int valor_) {
     aux -> valor = valor_;
     if (raiz == NULL) {
         raiz = aux;
+        this->tamArbol++;
     } else {
         NodoArbol *iterador;
         iterador = raiz;
@@ -60,6 +90,7 @@ void ArbolBinarioOrdenado::insertarNodo(int dato, int valor_) {
             if (valor_ <= iterador -> valor) {
                 if (iterador -> izquierda == NULL) {
                     iterador -> izquierda = aux;
+                    this->tamArbol++;
                     break;
                 } else {
                     iterador = iterador -> izquierda;
@@ -67,6 +98,7 @@ void ArbolBinarioOrdenado::insertarNodo(int dato, int valor_) {
             } else {
                 if (iterador -> derecha == NULL) {
                     iterador -> derecha = aux;
+                    this->tamArbol++;
                     break;
                 } else {
                     iterador = iterador -> derecha;
@@ -111,6 +143,7 @@ bool ArbolBinarioOrdenado::eliminarNodo(int dato) {
                     }
                 }
             }
+            this->tamArbol--;
             delete nodoActual;
         } else {
             return false;
@@ -219,6 +252,38 @@ void ArbolBinarioOrdenado::inorden(NodoArbol* p){
 		inorden(p->derecha);
 	}
 }
+
+
+void inorderComplement(NodoArbol* p, int currentIndex, int orderdArray[], int lenght){
+    if(p != NULL){
+        orderdArray[currentIndex]=0;
+		inorderComplement(p->izquierda, currentIndex, orderdArray, lenght);
+        while (orderdArray[currentIndex]!=0)
+        {
+            currentIndex++;
+            if (currentIndex==lenght)
+            {
+                break;
+            }
+            
+        }
+		orderdArray[currentIndex] = p->clave;
+        currentIndex++;
+		inorderComplement(p->derecha, currentIndex, orderdArray, lenght);
+	}
+}
+
+void ArbolBinarioOrdenado::inordenArray(NodoArbol* p, int currentIndex, int orderdArray[]){
+
+    int lenght = this->tamArbol;
+    for(int i=0;i<lenght;i++){
+        orderdArray[i] = 0;
+    }
+
+    inorderComplement(p, currentIndex, orderdArray, lenght);
+}
+
+
 
 void ArbolBinarioOrdenado::preorden(NodoArbol* p){
 	if(p != NULL){

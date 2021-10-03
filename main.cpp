@@ -20,6 +20,7 @@ void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 int main(int argc, char *argv[]) {          
      
 	
+	
 	//empezarPrograma();    
 	
 	ControladorData data;   
@@ -31,7 +32,6 @@ int main(int argc, char *argv[]) {
 	Vacuna mivacuna("Vac2", 2);
 	Vacuna * mivacunaPointer = &mivacuna;
 	
-	
 	Eps_Vacuna vacEps(Epspointer, mivacunaPointer, 2);
 	cout<<vacEps.getEpsName()<<endl;
 	cout<<vacEps.getVacunaName()<<endl;
@@ -40,6 +40,33 @@ int main(int argc, char *argv[]) {
 	Ips * ipsPointer = &miips;	
 	Ips_Vacuna ipsVac(ipsPointer, mivacunaPointer);
 	cout<<ipsVac.getIpsName()<<" , "<<ipsVac.getVacunaName()<<endl;
+	
+	// Pruebas Inorder Array
+	
+	ArbolBinarioOrdenado arb;
+	arb.insertarNodo(10, 2);
+	arb.insertarNodo(5, 1);
+	arb.insertarNodo(2, 3);
+	arb.insertarNodo(27, 4);
+	arb.insertarNodo(25, 5);
+	arb.insertarNodo(31, 8);
+	arb.insertarNodo(3, 7);
+	arb.insertarNodo(21, 6);
+	const int tam = arb.getTamArbol();
+	cout<<"Tam: "<<tam<<endl;
+	int myarray[tam]; 
+	
+	
+	
+	arb.inordenArray(arb.obtenerRaiz(), 0, myarray);
+	
+	
+	cout<<"Arbol Inorder Mine"<<endl;
+	for(int i=0; i<tam; i++){
+		cout<<myarray[i]<<endl;
+	}
+	cout<<"Arbol Inorder"<<endl;
+	arb.inorden(arb.obtenerRaiz());
 	
 	    
     system("PAUSE");       
