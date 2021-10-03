@@ -25,6 +25,8 @@ int main(int argc, char *argv[]) {
 	
 	ControladorData data;   
 	
+	
+	
 	//Pruebas Getters:
 	Eps mieps("Eps1");
 	Eps * Epspointer = &mieps;
@@ -56,14 +58,14 @@ int main(int argc, char *argv[]) {
 	cout<<"Tam: "<<tam<<endl;
 	int myarray[tam]; 
 	
-	
-	
+
 	arb.inordenArray(arb.obtenerRaiz(), 0, myarray);
 	
 	
 	cout<<"Arbol Inorder Mine"<<endl;
 	for(int i=0; i<tam; i++){
 		cout<<myarray[i]<<endl;
+		
 	}
 	cout<<"Arbol Inorder"<<endl;
 	arb.inorden(arb.obtenerRaiz());

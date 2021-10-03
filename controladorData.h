@@ -127,15 +127,15 @@ ControladorData::ControladorData(){
 	
 	
 	
-	Casilla<Persona> casilla = listaPersonas.obtenerDato(1);
-		Persona persona = casilla.data;
+	// Casilla<Persona> casilla = listaPersonas.obtenerDato(1);
+	// 	Persona persona = casilla.data;
 		
-		cout<<"Persona "<<1<<" con el nombre ";
-		cout<<persona.getNombres()<<endl;
-		cout<<persona.getEps()->getNombre()<<endl;
+	// 	cout<<"Persona "<<1<<" con el nombre ";
+	// 	cout<<persona.getNombres()<<endl;
+	// 	cout<<persona.getEps()->getNombre()<<endl;
 	
 	
-	organizarPacientesPorEps();
+	// organizarPacientesPorEps();
 	
 	cout<<"impresion arboles"<<endl;
 	pacientesPorEdad.inorden(pacientesPorEdad.obtenerRaiz());
