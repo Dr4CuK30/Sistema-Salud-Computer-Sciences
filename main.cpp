@@ -8,8 +8,8 @@
 #include "Vacuna.h"               
 #include "Casilla.h"
 #include "Fecha.h"
-#include "Persona.h"
-    
+#include "Persona.h"   
+     
 using namespace std;
 
  
@@ -17,7 +17,7 @@ void empezarPrograma();
 void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
-int main(int argc, char *argv[]) {          
+int main(int argc, char *argv[]) {                      
      
 	
 	
@@ -26,11 +26,11 @@ int main(int argc, char *argv[]) {
 	ControladorData data;   
 	   
 	//Pruebas Getters:
-	Eps mieps("Eps1");
+	Eps mieps("Eps1");   
 	Eps * Epspointer = &mieps;
 	
 	Vacuna mivacuna("Vac2", 2);
-	Vacuna * mivacunaPointer = &mivacuna;
+	Vacuna * mivacunaPointer = &mivacuna; 
 	
 	Eps_Vacuna vacEps(Epspointer, mivacunaPointer, 2);
 	cout<<vacEps.getEpsName()<<endl;
