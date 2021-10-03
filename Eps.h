@@ -18,6 +18,7 @@ class Eps{
 
 		string getNombre()
 		{
+//			cout<<"entra al get nombre eps"<<endl;
 			return this->nombre;
 		}
 
