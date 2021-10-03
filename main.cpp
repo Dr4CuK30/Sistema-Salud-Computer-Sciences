@@ -10,17 +10,13 @@
 #include "Fecha.h"
 #include "Persona.h"   
      
+     
 using namespace std;
-
- 
 void empezarPrograma();
 void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
 int main(int argc, char *argv[]) {                      
-     
-	
-	
 	//empezarPrograma();    
 	
 	ControladorData data;   
@@ -55,6 +51,7 @@ int main(int argc, char *argv[]) {
 	const int tam = arb.getTamArbol();
 	// cout<<"Tam: "<<tam<<endl;
 	// int myarray[tam]; 
+	
 	
 
 	// arb.inordenArray(arb.obtenerRaiz(), 0);

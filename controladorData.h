@@ -11,6 +11,7 @@
 #include "Casilla.h"
 
 #include "ArbolBinarioOrdenado.h"
+#include "ArbolRojiNegro.h"
 
 #include <iostream>
 #include <fstream>
