@@ -161,6 +161,8 @@ class Persona{
 		}
 
 		string getEpsName(){
+			cout<<this->eps->getNombre()<<endl;
+			
 			Eps * eps = this->getEps();
 			Eps epsObtained = *eps;
 			return epsObtained.getNombre();

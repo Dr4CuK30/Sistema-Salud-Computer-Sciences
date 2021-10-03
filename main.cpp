@@ -81,28 +81,28 @@ void empezarPrograma(){
 			case 4:
 				break;
 			case 5:            
-				break;
+				break;    
 			case 6:
 				break;
 			case 7:
 				break;
 			case 8:
-				cout<<"Hasta pronto..."<<endl;
+				cout<<"Hasta pronto..."<<endl; 
 				break;
 			default:	
 				cout<<"Opcion no valida"<<endl<<endl;
 				break;
-	}  
+	}            
 		
 		
 	}	
 	
-	//guardar archivos               
-}
+	//guardar archivos                  
+}           
     
-void consultarPacientesPor(){
-	int opcion;
-	
+void consultarPacientesPor(){ 
+	int opcion;         
+	     
 	while(opcion != 5){    
 		cout<<"---------------------------------"<<endl;
 		cout<<"Puede consultar los pacientes por: "<<endl;
@@ -129,7 +129,7 @@ void consultarPacientesPor(){
 				break;
 			default:	
 				cout<<"Opcion no valida"<<endl<<endl;
-				break;
+				break;          
 		}
 	}
 	

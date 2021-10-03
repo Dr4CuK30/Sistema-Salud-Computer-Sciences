@@ -57,7 +57,7 @@ void ArbolBinarioOrdenado::insertarNodo(int dato, int valor_) {
         NodoArbol *iterador;
         iterador = raiz;
         while (true) {
-            if (valor_ <= iterador -> valor) {
+            if (valor_ <= iterador -> valor) {//aca hubo cambio
                 if (iterador -> izquierda == NULL) {
                     iterador -> izquierda = aux;
                     break;
