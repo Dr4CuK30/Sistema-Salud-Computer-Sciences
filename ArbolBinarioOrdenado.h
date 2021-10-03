@@ -42,7 +42,7 @@ public:
 	void preorden(NodoArbol*);
 	void posorden(NodoArbol*);
 
-    void inordenArray(NodoArbol*, int currentIndex, int orderdArray[]);
+    int * inordenArray(NodoArbol*, int currentIndex);
 
     string getEtiqueta()
     {
@@ -256,7 +256,6 @@ void ArbolBinarioOrdenado::inorden(NodoArbol* p){
 
 void inorderComplement(NodoArbol* p, int currentIndex, int orderdArray[], int lenght){
     if(p != NULL){
-        orderdArray[currentIndex]=0;
 		inorderComplement(p->izquierda, currentIndex, orderdArray, lenght);
         while (orderdArray[currentIndex]!=0)
         {
@@ -273,14 +272,17 @@ void inorderComplement(NodoArbol* p, int currentIndex, int orderdArray[], int le
 	}
 }
 
-void ArbolBinarioOrdenado::inordenArray(NodoArbol* p, int currentIndex, int orderdArray[]){
+int * ArbolBinarioOrdenado::inordenArray(NodoArbol* p, int currentIndex){
 
+    
     int lenght = this->tamArbol;
+    int orderdArray[lenght];
     for(int i=0;i<lenght;i++){
         orderdArray[i] = 0;
     }
 
     inorderComplement(p, currentIndex, orderdArray, lenght);
+    return orderdArray;
 }
 
 

@@ -251,7 +251,7 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					else pFechaPri =  listaFechas.obtenerDato(idFPri);
 					
 					if(idFSeg == 0) pFechaSec = NULL;
-					elsepFechaSec = listaFechas.obtenerDato(idFSeg);
+					else pFechaSec = listaFechas.obtenerDato(idFSeg);
 					
 					long long numId = strtoll(atributos[1].c_str(),NULL,0);
 					long long tel_cel =strtoll(atributos[12].c_str(),NULL,0);
