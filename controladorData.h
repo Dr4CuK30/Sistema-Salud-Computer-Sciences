@@ -124,7 +124,12 @@ class ControladorData{
 		
 		
 	public:
+		
 		ControladorData();
+		
+		//-----------------------------Getters-----------------------------------//
+		
+		int []getPacientes();
 };
 
 
