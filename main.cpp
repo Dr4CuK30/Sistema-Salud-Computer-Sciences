@@ -14,7 +14,7 @@
 #include "Fecha.h"
 #include "Persona.h"   
      
-     
+      
 using namespace std;
 void empezarPrograma(ControladorData);
 void consultarPacientesPor();
@@ -23,20 +23,7 @@ void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 int main(int argc, char *argv[]) {       
 	  
 	      
-//	Cola<string> cola;   
-//	
-//	cola.push("hola");   
-//	cout<<"se crea bien"<<endl;
-//	cola.push("2");
-//	cola.push(" 3 ");  
-//	 
-//	cout<<"ingresa piola"<<endl;
-//	for(int i = 0; i < 3; i++) {
-//		cout<<"antes de nada"<<endl;
-////		cout<<i<<" "<<cola.pop(); 
-//	}     
-//	
-//	cout<<"--"<<endl;
+
 	ControladorData data;   
 	
 	 
@@ -75,14 +62,14 @@ void empezarPrograma(ControladorData data){
 		switch(opcion){
 			case 1:
 				break;
-			case 2:
+			case 2: 
 				break;
 			case 3:
 				consultarPacientesPor();
 				break;
 			case 4:{
 				//Todos los pacientes
-				Pila<Persona*> personas = data.getPersonas();
+				Cola<Persona*> personas = data.getPersonas();
 				int cantidad = data.getCantidadPersonas();
 				
 				cout<<"---------------------------Pacientes registrados------------------------------"<<endl;
@@ -102,8 +89,8 @@ void empezarPrograma(ControladorData data){
 				break;
 			}	
 			case 5: {
-				//Todas las vacunas
-				Pila<Vacuna*> vacunas = data.getVacunas();
+				//Todas las vacunas             
+				Cola<Vacuna*> vacunas = data.getVacunas();
 				int cantidad = data.getCantidadVacunas();
 				
 				cout<<"---------------------------Vacunas disponibles------------------------------"<<endl;
@@ -112,6 +99,7 @@ void empezarPrograma(ControladorData data){
 				cout<<"---|----------------------|--------------------|"<<endl;
 				for(int i = 1; i <= cantidad; i++){
 					Vacuna *vacuna = vacunas.pop();
+					cout<<vacuna->getNombre()<<endl;   
 					cout<<i<<"  | ";
 					cout<<setw(20)  <<vacuna->getNombre()<<" | ";
 					cout<<setw(18)<<vacuna->getCantidadDosis()<<" | ";
@@ -123,7 +111,7 @@ void empezarPrograma(ControladorData data){
 			}   
 			case 6:{
 				//Todas las eps
-				Pila<Eps*> epss = data.getEpss();
+				Cola<Eps*> epss = data.getEpss();
 				int cantidad = data.getCantidadEps();
 				
 				cout<<"---------------------------Pacientes registrados------------------------------"<<endl;
@@ -142,7 +130,7 @@ void empezarPrograma(ControladorData data){
 			}
 			case 7:  {
 				//Todas las IPS
-				Pila<Ips*> ipss = data.getIpss();
+				Cola <Ips*> ipss = data.getIpss();  
 				int cantidad = data.getCantidadIps();
 				
 				cout<<"---------------------------Pacientes registrados------------------------------"<<endl;
@@ -177,7 +165,7 @@ void empezarPrograma(ControladorData data){
 }           
     
 void consultarPacientesPor(){ 
-	int opcion;            
+	int opcion;             
 	     
 	while(opcion != 5){    
 		cout<<"---------------------------------"<<endl;

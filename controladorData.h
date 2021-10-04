@@ -13,6 +13,7 @@
 #include "ArbolBinarioOrdenado.h"
 #include "ArbolRojiNegro.h"
 #include "Pila.h"
+#include "Cola.h"
 
 #include <iostream>
 #include <fstream>
@@ -130,10 +131,10 @@ class ControladorData{
 		
 		//-----------------------------Getters-----------------------------------//
 		
-		Pila<Persona*> getPersonas();
-		Pila<Vacuna*> getVacunas();
-		Pila<Eps*> getEpss();
-		Pila<Ips*> getIpss();
+		Cola<Persona*> getPersonas();
+		Cola<Vacuna*> getVacunas();
+		Cola<Eps*> getEpss();
+		Cola<Ips*> getIpss();
 		void getPersonasPorCiudad(string ciudad);
 		void getPersonasPorEps(string eps);
 		void getVacunadosPorFecha(string fecha);
@@ -179,6 +180,11 @@ ControladorData::ControladorData(){
 	this->organizarPacientesPorCiudadResidencia();
 	this->organizarVacunasPorEps();
 	this->organizarVacunasPorIps();
+	
+	int *array = pacientesPorEdad.inordenArray(pacientesPorEdad.obtenerRaiz(),0);
+	
+	cout<<array[0]<<endl;
+	cout<<array[1]<<endl;
 	
 //	cout<<"----"<<endl;
 //	cout<<"impresion arboles por EPS"<<endl;
@@ -697,49 +703,51 @@ void ControladorData::organizarIpsPorCiudad(){
 
 //-------------------------metodos publicos----------------------------//
 //aca son importantes los rojinegros
-Pila<Persona*> ControladorData::getPersonas(){
+Cola<Persona*> ControladorData::getPersonas(){
 	
-	Pila<Persona*> pila;
+	Cola<Persona*> cola;
 	
 	for(int i = 1; i <= cantidadPersonas; i++){
 		Persona *persona = &(listaPersonas.obtenerDato(i)->data);
-		pila.push(persona);
+		cola.push(persona);
 	}
 	
-	return pila;
+	return cola;
 }
 
-Pila<Vacuna*> ControladorData::getVacunas(){
-	Pila<Vacuna*> pila;
+Cola<Vacuna*> ControladorData::getVacunas(){
+	Cola<Vacuna*> cola;
 	
 	for(int i = 1; i <= cantidadVacunas; i++){
 		Vacuna *vacuna = &(listaVacunas.obtenerDato(i)->data);
-		pila.push(vacuna);
+		cola.push(vacuna);
+		cout<<vacuna<<endl;
+		cout<<vacuna->getNombre()<<endl;
 	}
 	
-	return pila;
+	return cola;
 }
 
-Pila<Eps*> ControladorData::getEpss(){
-	Pila<Eps*> pila;
+Cola<Eps*> ControladorData::getEpss(){
+	Cola<Eps*> cola;
 	
 	for(int i = 1; i <= cantidadEPS; i++){
 		Eps *eps = &(listaEPS.obtenerDato(i)->data);
-		pila.push(eps);
+		cola.push(eps);
 	}
 	
-	return pila;
+	return cola;
 }
 
-Pila<Ips*> ControladorData::getIpss(){
-	Pila<Ips*> pila;
+Cola<Ips*> ControladorData::getIpss(){
+	Cola<Ips*> cola;
 	
 	for(int i = 1; i <= cantidadIPS; i++){
 		Ips *ips = &(listaIPS.obtenerDato(i)->data);
-		pila.push(ips);
+		cola.push(ips);
 	}
 	
-	return pila;
+	return cola;
 }
 
 
