@@ -269,7 +269,14 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					Fecha *pFechaSec;
 					
 					if(idVacuna == 0) pVacuna = NULL;
-					else pVacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
+					else {
+						// pVacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
+						// cout<<pVacuna->getNombre()<<" HURTADO 1"<<endl;
+
+						NodoArbolRJ< Casilla<Vacuna> > * raiz = arbolRJVacunas.raiz_arbol();
+						pVacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raiz, NULL)->data->data);
+						cout<<pVacuna->getNombre()<<" HURTADO 2"<<endl;
+					}
 					
 					if(idCiudadNac == 0) pCiudadNac = NULL;
 					else pCiudadNac = &(listaCiudades.obtenerDato(idCiudadNac)->data);
@@ -285,7 +292,13 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 						pCiudadRes = &(casilla->data);
 					}
 					if(idEps== 0) pEps = NULL;
-					else pEps = &(listaEPS.obtenerDato(idEps)->data);
+					else {
+						// pEps = &(listaEPS.obtenerDato(idEps)->data);
+
+						NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
+						pEps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
+						cout<<pEps->getNombre()<<" HURTADO 2"<<endl;
+					}
 					
 					if(idIpsDefault == 0) pIpsDefault = NULL;
 					else pIpsDefault = &(listaIPS.obtenerDato(idIpsDefault)->data);
