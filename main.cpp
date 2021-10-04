@@ -16,17 +16,14 @@
      
      
 using namespace std;
-<<<<<<< HEAD
-
-void empezarPrograma();
-=======
 void empezarPrograma(ControladorData);
->>>>>>> 5fef6550d066666c4b2e8e78c308f295a4d19676
 void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
 int main(int argc, char *argv[]) {       
 	  
+	      
+	      
 	      
 //	Cola<string> cola;   
 //	
@@ -44,15 +41,11 @@ int main(int argc, char *argv[]) {
 //	cout<<"--"<<endl;
 	ControladorData data;   
 	
-<<<<<<< HEAD
 	
-=======
-	 
 	empezarPrograma(data);    
 	
 	
 	    
->>>>>>> 5fef6550d066666c4b2e8e78c308f295a4d19676
     system("PAUSE");       
     return EXIT_SUCCESS;
 }                   
