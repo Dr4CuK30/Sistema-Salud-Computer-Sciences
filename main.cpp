@@ -203,9 +203,13 @@ void consultarPacientesPor(){
 				cin>>opcion;   
 				
 				Cola<Persona*> personas = data.getPersonasPorEps(epss[opcion-1]->getNombre());
+				int size = personas.getSize();
+				 
+				for(int i = 1; i <= size; i++){  
+					Persona *persona = personas.pop();
+					cout<<i<<". "<<persona->getNombres()<<" "<<persona->getApellidos()<<endl;
+				}
 				
-				
-			
 				break;
 			}
 			case 6:

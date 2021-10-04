@@ -75,7 +75,7 @@ class ControladorData{
 		Lista < ArbolBinarioOrdenado > listaPacientesPorSexo;
 		Lista < ArbolBinarioOrdenado > listaPacientesPorLaburo;
 		Lista < ArbolBinarioOrdenado > listaPacientesPorVacuna;
-		Lista < ArbolBinarioOrdenado > listaPacientesPorRangosDeEdad;
+		Lista < Lista<Persona*> > listaPacientesPorRangosDeEdad;
 		
 		Lista < Lista< Eps_Vacuna* > > listaVacunasPorEps;
 		Lista < Lista< Ips_Vacuna* > > listaVacunasPorIps;
@@ -674,7 +674,52 @@ void ControladorData::organizarPacientesPorCiudadResidencia(){
 
 void ControladorData::organizarPacientesPorRangosDeEdad(){
 	
-//	pacientesPorEdad
+	string rangosDeEdad[] = {"-20","20-29","30-39","40-49","50-59","60-69","70-79","+80"};
+	int cantRangos = 8;
+	
+	for(int i = 1; i <= cantRangos;i++){
+		Lista<Persona*> lista;
+		lista.setEtiqueta(rangosDeEdad[i-1]);
+		
+		listaPacientesPorRangosDeEdad.intertar_final(lista);
+	}
+	
+	int idPersonasOrdenadas[cantidadPersonas];
+	pacientesPorEdad.inordenArray(arbolPersonas->obtenerRaiz(),0, idPersonasOrdenadas);
+	
+	for(int i = 0; i < cantidadPersonas; i++){
+		int idBusqueda = idPersonasOrdenadas[i];
+		
+		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
+		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
+		Persona *persona = &(casilla->data);
+		
+		if(persona->getEdad() < 20){
+			Lista<Persona*> *lista = listaPacientesPorRangosDeEdad.obtenerDato(1);
+			Lista()->intertar_final(persona);
+		}else if(persona->getEdad() >= 20 && persona->getEdad() <= 29){
+			Lista<Persona*> *lista = listaPacientesPorRangosDeEdad.obtenerDato(2);
+			Lista()->intertar_final(persona);
+		}else if(persona->getEdad() >= 30 && persona->getEdad() <= 39){
+			Lista<Persona*> *lista = listaPacientesPorRangosDeEdad.obtenerDato(3);
+			Lista()->intertar_final(persona);
+		}else if(persona->getEdad() >= 40 && persona->getEdad() <= 49){
+			Lista<Persona*> *lista = listaPacientesPorRangosDeEdad.obtenerDato(4);
+			Lista()->intertar_final(persona);
+		}else if(persona->getEdad() >= 50 && persona->getEdad() <= 59){
+			Lista<Persona*> *lista = listaPacientesPorRangosDeEdad.obtenerDato(5);
+			Lista()->intertar_final(persona);
+		}else if(persona->getEdad() >= 60 && persona->getEdad() <= 69){
+			Lista<Persona*> *lista = listaPacientesPorRangosDeEdad.obtenerDato(6);
+			Lista()->intertar_final(persona);
+		}else if(persona->getEdad() >= 70 && persona->getEdad() <= 79){
+			Lista<Persona*> *lista = listaPacientesPorRangosDeEdad.obtenerDato(7);
+			Lista()->intertar_final(persona);
+		}else if(persona->getEdad() >= 80){
+			Lista<Persona*> *lista = listaPacientesPorRangosDeEdad.obtenerDato(8);
+			Lista()->intertar_final(persona);
+		}
+	}
 }
 
 void ControladorData::organizarVacunasPorEps(){
@@ -809,7 +854,7 @@ Cola<Ips*> ControladorData::getIpss(){
 }
 
 Cola<Persona*> ControladorData::getPersonasPorEps(string eps){
-	Cola<Persona*> personas;
+	Cola<Persona*> colaPersonas;
 	ArbolBinarioOrdenado *arbolPersonas;
 	for(int i = 1 ; i <= cantidadEPS; i++){
 		ArbolBinarioOrdenado *pacientesEnEps = listaPacientesPorEps.obtenerDato(i);
@@ -820,15 +865,19 @@ Cola<Persona*> ControladorData::getPersonasPorEps(string eps){
 	int cantidadPersonas = arbolPersonas->getTamArbol();
 	
 	int idPersonasOrdenadas[cantidadPersonas];
-	pacientesPorEdad.inordenArray(cantidadPersonas,0, idPersonasOrdenadas);
+	pacientesPorEdad.inordenArray(arbolPersonas->obtenerRaiz(),0, idPersonasOrdenadas);
 	
 	for(int i = 0; i < cantidadPersonas; i++){
 		int idBusqueda = idPersonasOrdenadas[i];
-		Casilla *casilla = arbolRJPersonas.buscarNodo();
-		Persona *persona = arbolRJPersonas.buscarNodo();
+		
+		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
+		
+		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
+		Persona *persona = &(casilla->data);
+		colaPersonas.push(persona);
 	}
 	
-	return personas;
+	return colaPersonas;
 	
 }
 
