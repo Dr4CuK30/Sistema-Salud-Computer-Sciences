@@ -51,7 +51,13 @@ class ControladorData{
 		Lista < Casilla <string> > listaCiudades;
 		Lista < Casilla<string> > listaPaises;
 		Lista <Fecha> listaFechas;
-		
+
+		//---------------------Arboles Rojinegros----------------------------------//
+		ArbolRojiNegro< Casilla<Vacuna> > arbolRJVacunas;
+		ArbolRojiNegro< Casilla<Persona> > arbolRJPersonas;
+		ArbolRojiNegro< Casilla<Eps> >arbolRJEPS;
+		ArbolRojiNegro< Casilla<Ips> > arbolRJIPS;
+		ArbolRojiNegro< Casilla<Eps_Vacuna> > arbolRJEpsVacuna;
 		 
 		//---------------------Arboles ordenados----------------------------------//
 		
@@ -375,6 +381,10 @@ void ControladorData::agregarVacuna(Vacuna vacuna, int id){
 	casilla.id = id;
 	
 	listaVacunas.intertar_final(casilla);
+
+	Casilla<Vacuna> * vacunaDir = listaVacunas.obtenerDato(id);
+	arbolRJVacunas.insertar(vacunaDir);
+
 	cantidadVacunas++;
 }
 
@@ -385,6 +395,10 @@ void ControladorData::agregarPersona(Persona persona, int id){
 	
 	pacientesPorEdad.insertarNodo(id, persona.getEdad());
 	listaPersonas.intertar_final(casilla);
+
+    Casilla<Persona> * personaDir = listaPersonas.obtenerDato(id);
+	arbolRJPersonas.insertar(personaDir);
+
 	cantidadPersonas++;
 	
 }
