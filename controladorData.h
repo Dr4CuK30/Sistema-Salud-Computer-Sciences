@@ -12,7 +12,7 @@
 
 #include "ArbolBinarioOrdenado.h"
 #include "ArbolRojiNegro.h"
-//#include "Pila.h"
+#include "Pila.h"
 
 #include <iostream>
 #include <fstream>
@@ -136,10 +136,10 @@ class ControladorData{
 		
 		//-----------------------------Getters-----------------------------------//
 		
-		Lista<Persona> getPersonas();
-		Lista<Vacuna> getVacunas();
-		Lista<Eps> getEpss();
-		Lista<Ips> getIpss();
+		Pila<Persona*> getPersonas();
+		Pila<Vacuna*> getVacunas();
+		Pila<Eps*> getEpss();
+		Pila<Ips*> getIpss();
 		void getPersonasPorCiudad(string ciudad);
 		void getPersonasPorEps(string eps);
 		void getVacunadosPorFecha(string fecha);
@@ -157,6 +157,10 @@ class ControladorData{
 		int getCantidadPorEps(string eps);
 		int getCantidadPorSexo(string sexo);
 		int getCantidadEstadoVacuna(string estado);
+		int getCantidadPersonas() {return cantidadPersonas;}
+		int getCantidadVacunas() {return cantidadVacunas;}
+		int getCantidadEps() {return cantidadEPS;}
+		int getCantidadIps() {return cantidadIPS;}
 	
 		
 };
@@ -188,35 +192,35 @@ ControladorData::ControladorData(){
 	cout<<"EPS->IPS"<<endl;
 	this->organizarVacunasPorIps();
 	
-	cout<<"----"<<endl;
-	cout<<"impresion arboles por EPS"<<endl;
-	for(int i = 1;i <= cantidadEPS; i++){
-		ArbolBinarioOrdenado *arbol = listaPacientesPorEps.obtenerDato(i);
-		cout<<arbol->getEtiqueta()<<endl;
-		arbol->inorden(arbol->obtenerRaiz());
-	}
-	
-	cout<<"impresion arboles por vacuna"<<endl;
-	for(int i = 1;i <= cantidadVacunas; i++){
-		ArbolBinarioOrdenado *arbol = listaPacientesPorVacuna.obtenerDato(i);
-		cout<<arbol->getEtiqueta()<<endl;
-		arbol->inorden(arbol->obtenerRaiz());
-	}
-	
-	cout<<"impresion arboles por SEXO GRATIS"<<endl;
-	for(int i = 1;i <= 2; i++){
-		ArbolBinarioOrdenado *arbol = listaPacientesPorSexo.obtenerDato(i);
-		cout<<arbol->getEtiqueta()<<endl;
-		arbol->inorden(arbol->obtenerRaiz());
-	}
-	
-	cout<<"impresion arboles por ciudad de nacimiento"<<endl;
-	for(int i = 1;i <= cantidadCiudades; i++){
-		ArbolBinarioOrdenado *arbol = listaPacientesPorCiudadResidencia.obtenerDato(i);
-		cout<<arbol->getEtiqueta()<<endl;
-		arbol->inorden(arbol->obtenerRaiz());
-	}
-	cout<<"----"<<endl;
+//	cout<<"----"<<endl;
+//	cout<<"impresion arboles por EPS"<<endl;
+//	for(int i = 1;i <= cantidadEPS; i++){
+//		ArbolBinarioOrdenado *arbol = listaPacientesPorEps.obtenerDato(i);
+//		cout<<arbol->getEtiqueta()<<endl;
+//		arbol->inorden(arbol->obtenerRaiz());
+//	}
+//	
+//	cout<<"impresion arboles por vacuna"<<endl;
+//	for(int i = 1;i <= cantidadVacunas; i++){
+//		ArbolBinarioOrdenado *arbol = listaPacientesPorVacuna.obtenerDato(i);
+//		cout<<arbol->getEtiqueta()<<endl;
+//		arbol->inorden(arbol->obtenerRaiz());
+//	}
+//	
+//	cout<<"impresion arboles por SEXO GRATIS"<<endl;
+//	for(int i = 1;i <= 2; i++){
+//		ArbolBinarioOrdenado *arbol = listaPacientesPorSexo.obtenerDato(i);
+//		cout<<arbol->getEtiqueta()<<endl;
+//		arbol->inorden(arbol->obtenerRaiz());
+//	}
+//	
+//	cout<<"impresion arboles por ciudad de nacimiento"<<endl;
+//	for(int i = 1;i <= cantidadCiudades; i++){
+//		ArbolBinarioOrdenado *arbol = listaPacientesPorCiudadResidencia.obtenerDato(i);
+//		cout<<arbol->getEtiqueta()<<endl;
+//		arbol->inorden(arbol->obtenerRaiz());
+//	}
+//	cout<<"----"<<endl;
 	
 }
 
@@ -247,7 +251,7 @@ void ControladorData::cargarArchivosLocales(){
 }
 
 void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int modelo){
-	cout<<"modelo "<<modelo<<" con "<<cantAtributos<<" atributos"<<endl;
+//	cout<<"modelo "<<modelo<<" con "<<cantAtributos<<" atributos"<<endl;
 	fstream archivo;
 	string linea, *atributos;
 	
@@ -628,11 +632,8 @@ void ControladorData::organizarPacientesPorCiudadResidencia(){
 	for(int i = 1;i <= cantidadPersonas; i++){
 		Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
 		Persona persona = casilla->data;
-		cout<<persona.getNombres()<<" nacion en "<<*(persona.getCiudad_nac())<<endl;
-		cout<<ciudadesDisponibles[0]<<endl;
 		for(int j = 0; j < cantidadCiudades; j++){
 			if(*(persona.getCiudad_resid()) == ciudadesDisponibles[j]){
-				cout<<"entra al if obviamente con bgta"<<endl;
 				ArbolBinarioOrdenado *arbol = listaPacientesPorCiudadResidencia.obtenerDato(j+1);
 				arbol->insertarNodo(casilla->id, persona.getEdad());
 				break;
@@ -730,4 +731,57 @@ void ControladorData::organizarIpsPorCiudad(){
 		} 
 	}
 }
+
+
+//-------------------------metodos publicos----------------------------//
+//aca son importantes los rojinegros
+Pila<Persona*> ControladorData::getPersonas(){
+	
+	Pila<Persona*> pila;
+	
+	for(int i = 1; i <= cantidadPersonas; i++){
+		Persona *persona = &(listaPersonas.obtenerDato(i)->data);
+		pila.push(persona);
+	}
+	
+	return pila;
+}
+
+Pila<Vacuna*> ControladorData::getVacunas(){
+	Pila<Vacuna*> pila;
+	
+	for(int i = 1; i <= cantidadVacunas; i++){
+		Vacuna *vacuna = &(listaVacunas.obtenerDato(i)->data);
+		pila.push(vacuna);
+	}
+	
+	return pila;
+}
+
+Pila<Eps*> ControladorData::getEpss(){
+	Pila<Eps*> pila;
+	
+	for(int i = 1; i <= cantidadEPS; i++){
+		Eps *eps = &(listaEPS.obtenerDato(i)->data);
+		pila.push(eps);
+	}
+	
+	return pila;
+}
+
+Pila<Ips*> ControladorData::getIpss(){
+	Pila<Ips*> pila;
+	
+	for(int i = 1; i <= cantidadIPS; i++){
+		Ips *ips = &(listaIPS.obtenerDato(i)->data);
+		pila.push(ips);
+	}
+	
+	return pila;
+}
+
+
+
+
+
 #endif

@@ -1,62 +1,73 @@
 #include <cstdlib>
 #include <iostream>
-#include "estructura.h"
 
 #ifndef COLA_H     
 #define COLA_H 
 
 using namespace std;
 
-class cola{nodo *cab,*fin;
-      public: cola(){cab=fin=NULL;}
-      void InsCola(char i);
-      char AtenderCola();
-      void ImprimirCola();
+template<class T>
+struct nodoCola{
+  T dato;
+  nodoCola<T> *sig;
+};
+
+
+template<class T>
+class Cola{
+	nodoCola<T> *cab,*fin = NULL;
+	int tamano = 0;
+    
+	public: 
+		
+		cola(){
+			cab=fin=NULL;
+			tamano = 0;
+		}
+		
+      void push(T);
+      T pop();
       bool ColaVacia();
-      ~cola();
+      int getSize();
  };
 
-void cola::InsCola(char i){
-     nodo *nuevo;
-     nuevo= new nodo;
+template<class T>
+void Cola<T>::push(T i){
+     nodoCola<T> *nuevo = new nodoCola<T>;
+     
      nuevo->dato=i;
      nuevo->sig= NULL;
-     if (cab==NULL)
-         {cab=nuevo;}
+     
+     if (cab==NULL) {cab=nuevo;}
      else {fin->sig = nuevo;}
      fin=nuevo;
+     
+     cout<<"al ingresar"<<fin->dato<<endl;
+     
+     tamano++;
 }
 
-
-
-char cola::AtenderCola()
-{   char x;
-    nodo *aux = cab; 
+template<class T>
+T Cola<T>::pop(){
+	cout<<"al extraer "<<cab->dato<<endl;
+	T x;
+    nodoCola<T> *aux = cab; 
     cab=aux->sig;
     x=aux->dato;
     delete aux;
+    tamano--;
     return x;
-    }
-
-void cola::ImprimirCola(){
-     nodo *aux;
-     aux=cab;
-     while(aux!=NULL){
-       cout<<aux->dato<<" ";
-       aux=aux->sig;}    
 }
 
-bool cola::ColaVacia(){
-     return (cab==NULL);
-     }
+template<class T>
+bool Cola<T>::ColaVacia(){
+     
+	return (cab==NULL);
+}
 
-cola::~cola(){
-     nodo *aux;
-     while(cab!=NULL)
-       {aux= cab;
-        cab=aux->sig;
-        delete aux;}
-     delete cab;
-     }
+template<class T>
+int Cola<T>::getSize(){
+	return tamano;
+}
 
 #endif
