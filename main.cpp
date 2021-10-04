@@ -16,17 +16,16 @@
      
       
 using namespace std;
-void empezarPrograma(ControladorData);
+void empezarPrograma();
 void consultarPacientesPor();
 void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
-int main(int argc, char *argv[]) {       
-	  
-	      
-	ControladorData data;   
+ControladorData data;
+
+int main(int argc, char *argv[]) {          
 	
 	
-	empezarPrograma(data);    
+	empezarPrograma();    
 	
 	
 	    
@@ -34,9 +33,8 @@ int main(int argc, char *argv[]) {
     return EXIT_SUCCESS;
 }                   
 
-void empezarPrograma(ControladorData data){
-	//cargar archivos   
-	  
+void empezarPrograma(){
+	//cargar archivos    
 	
 	int opcion;
 	  
@@ -172,11 +170,12 @@ void consultarPacientesPor(){
     	cout<<"2. Edad"<<endl;
 		cout<<"3. Vacunados con un tipo de vacuna"<<endl;
 		cout<<"4. Fecha de vacunacion"<<endl;
-		cout<<"5. Volver al menu principal"<<endl<<endl;
+		cout<<"5. EPS"<<endl;
+		cout<<"6. Volver al menu principal"<<endl<<endl;
 		        
 		cout<<"Opcion: ";
 		cin>>opcion;     
-		cout<<"---------------------------------"<<endl;
+		cout<<"---------------------------------"<<endl<<endl;
 		  
 		switch(opcion){
 			case 1:
@@ -187,12 +186,37 @@ void consultarPacientesPor(){
 				break;
 			case 4:
 				break;
-			case 5:
+			case 5:{
+				Cola<Eps*> colaEps = data.getEpss();
+				Eps *epss[data.getCantidadEps()];
+				
+				int opcion;
+				cout<<"Seleccione la EPS: "<<endl;
+				
+				for(int i = 0; i < data.getCantidadEps(); i++){
+					epss[i] = colaEps.pop();
+					
+					cout<<i+1<<". "<<epss[i]->getNombre()<<endl;
+				}
+				
+				cout<<"Opcion: ";
+				cin>>opcion;   
+				
+				Cola<Persona*> personas = data.getPersonasPorEps(epss[opcion-1]->getNombre());
+				
+				
+			
+				break;
+			}
+			case 6:
+				break;
+			case 7:
 				break;         
 			default:	
 				cout<<"Opcion no valida"<<endl<<endl;
-				break;          
+				break;           
 		}
+		cout<<endl<<endl;
 	}
 	
 

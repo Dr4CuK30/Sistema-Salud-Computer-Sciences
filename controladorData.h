@@ -143,7 +143,7 @@ class ControladorData{
 		Cola<Eps*> getEpss();
 		Cola<Ips*> getIpss();
 		void getPersonasPorCiudad(string ciudad);
-		void getPersonasPorEps(string eps);
+		Cola<Persona*> getPersonasPorEps(string eps);
 		void getVacunadosPorFecha(string fecha);
 		void getVacunados();
 		void getSemiVacunados();
@@ -180,24 +180,20 @@ ControladorData::ControladorData(){
 	this->cantidadPaises = 0;
 	
 	cargarArchivosLocales();
-	cout<<"Antes de organizar"<<endl;
 	
 	this->organizarPacientesPorEps();
-	cout<<"EPS->Sexo"<<endl;
 	this->organizarPacientesPorSexo();
-	cout<<"Sexo->Vacuna"<<endl;
 	this->organizarPacientesPorVacuna();
-	cout<<"Paciente->PacientesRes"<<endl;
 	this->organizarPacientesPorCiudadResidencia();
-	cout<<"PacientesRes->EPS"<<endl;
 	this->organizarVacunasPorEps();
-	cout<<"EPS->IPS"<<endl;
 	this->organizarVacunasPorIps();
 	
-	int *array = pacientesPorEdad.inordenArray(pacientesPorEdad.obtenerRaiz(),0);
+	//EJEMPLO RE UTIL PANA
 	
-	cout<<array[0]<<endl;
-	cout<<array[1]<<endl;
+//	int array[pacientesPorEdad.getTamArbol()];
+//	pacientesPorEdad.inordenArray(pacientesPorEdad.obtenerRaiz(),0, array);
+//	
+//	for(int i = 0; i < pacientesPorEdad.getTamArbol(); i++) cout<<array[i]<<endl;
 	
 //	cout<<"----"<<endl;
 //	cout<<"impresion arboles por EPS"<<endl;
@@ -785,8 +781,6 @@ Cola<Vacuna*> ControladorData::getVacunas(){
 	for(int i = 1; i <= cantidadVacunas; i++){
 		Vacuna *vacuna = &(listaVacunas.obtenerDato(i)->data);
 		cola.push(vacuna);
-		cout<<vacuna<<endl;
-		cout<<vacuna->getNombre()<<endl;
 	}
 	
 	return cola;
@@ -814,7 +808,29 @@ Cola<Ips*> ControladorData::getIpss(){
 	return cola;
 }
 
-
+Cola<Persona*> ControladorData::getPersonasPorEps(string eps){
+	Cola<Persona*> personas;
+	ArbolBinarioOrdenado *arbolPersonas;
+	for(int i = 1 ; i <= cantidadEPS; i++){
+		ArbolBinarioOrdenado *pacientesEnEps = listaPacientesPorEps.obtenerDato(i);
+		if(eps == pacientesEnEps->getEtiqueta()){
+			arbolPersonas = pacientesEnEps;
+		}
+	}
+	int cantidadPersonas = arbolPersonas->getTamArbol();
+	
+	int idPersonasOrdenadas[cantidadPersonas];
+	pacientesPorEdad.inordenArray(cantidadPersonas,0, idPersonasOrdenadas);
+	
+	for(int i = 0; i < cantidadPersonas; i++){
+		int idBusqueda = idPersonasOrdenadas[i];
+		Casilla *casilla = arbolRJPersonas.buscarNodo();
+		Persona *persona = arbolRJPersonas.buscarNodo();
+	}
+	
+	return personas;
+	
+}
 
 
 
