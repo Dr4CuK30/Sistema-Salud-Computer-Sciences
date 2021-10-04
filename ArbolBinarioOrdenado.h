@@ -275,8 +275,8 @@ void inorderComplement(NodoArbol* p, int currentIndex, int orderdArray[], int le
 int * ArbolBinarioOrdenado::inordenArray(NodoArbol* p, int currentIndex){
 
     
-    int lenght = this->tamArbol;
-    int orderdArray[lenght];
+    const int lenght = this->tamArbol;
+    int orderdArray[lenght]={};
     for(int i=0;i<lenght;i++){
         orderdArray[i] = 0;
     }
