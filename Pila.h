@@ -1,7 +1,15 @@
 #ifndef PILA_H     
 #define PILA_H    
-#include "estructura.h"
 
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct nodo{char dato;
+        nodo *sig;
+       };
+       
 class pila{
 	nodo *cab;
     public: 

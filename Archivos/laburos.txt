@@ -1,0 +1,9 @@
+1;;Secretario
+2;;Constructor
+3;;Desarrollador de software
+4;;Celador
+5;;Pintor
+6;;Empleado domestico
+7;;Piloto
+8;;Policia
+9;;Comerciante
