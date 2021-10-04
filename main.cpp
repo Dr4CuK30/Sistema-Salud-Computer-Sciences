@@ -49,22 +49,22 @@ int main(int argc, char *argv[]) {
 	arb.insertarNodo(3, 7);
 	arb.insertarNodo(21, 6);
 	const int tam = arb.getTamArbol();
-	// cout<<"Tam: "<<tam<<endl;
-	// int myarray[tam]; 
+	cout<<"Tam: "<<tam<<endl;
+	int myarray[tam]; 
 	
 	
 
-	// arb.inordenArray(arb.obtenerRaiz(), 0);
+	arb.inordenArray(arb.obtenerRaiz(), 0);
 	
 	
-	// cout<<"Arbol Inorder Mine"<<endl;
-	// for(int i=0; i<tam; i++){
-	// 	cout<<myarray[i]<<endl;
+	cout<<"Arbol Inorder Mine"<<endl;
+	for(int i=0; i<tam; i++){
+		cout<<myarray[i]<<endl;
 		
-	// }
-	// cout<<"Arbol Inorder"<<endl;
-	// arb.inorden(arb.obtenerRaiz());
-	
+	}
+	cout<<"Arbol Inorder"<<endl;
+	arb.inorden(arb.obtenerRaiz());
+	 
 	    
     system("PAUSE");       
     return EXIT_SUCCESS;
