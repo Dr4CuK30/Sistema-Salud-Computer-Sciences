@@ -23,10 +23,9 @@ void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 int main(int argc, char *argv[]) {       
 	  
 	      
-
 	ControladorData data;   
 	
-	 
+	
 	empezarPrograma(data);    
 	
 	
