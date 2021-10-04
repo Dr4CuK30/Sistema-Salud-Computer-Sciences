@@ -19,7 +19,10 @@ void usarTablaBasica(int filas, int columnas /*Cola etiquetas, datos*/);
 
 int main(int argc, char *argv[]) {                      
 	//empezarPrograma();    
-	    
+	
+	ControladorData data;   
+	
+	
     system("PAUSE");       
     return EXIT_SUCCESS;
 }                   

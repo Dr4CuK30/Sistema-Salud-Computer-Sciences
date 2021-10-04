@@ -59,7 +59,13 @@ class ControladorData{
 		ArbolBinarioOrdenado pacientesPorEdad;
 		ArbolBinarioOrdenado pacientesPorFechaPrimeraDosis;
 		ArbolBinarioOrdenado pacientesPorFechaSegundaDosis;
-		
+
+		//---------------------Arboles Rojinegros--------------------------------//
+		ArbolRojiNegro < Casilla<Vacuna> > arbolRJVacunas;
+		ArbolRojiNegro < Casilla <Persona> > arbolRJPersonas;
+		ArbolRojiNegro < Casilla<Eps> > arbolRJEPS;
+		ArbolRojiNegro < Casilla<Eps_Vacuna> > arbolRJEpsVacuna;
+		ArbolRojiNegro < Casilla <Ips> > arbolRJIps;
 		//---------------------Estructuras multiples-----------------------------//
 		//preguntar por arreglos
 		Lista < ArbolBinarioOrdenado > listaPacientesPorEps;
@@ -168,12 +174,18 @@ ControladorData::ControladorData(){
 	this->cantidadPaises = 0;
 	
 	cargarArchivosLocales();
+	cout<<"Antes de organizar"<<endl;
 	
 	this->organizarPacientesPorEps();
+	cout<<"EPS->Sexo"<<endl;
 	this->organizarPacientesPorSexo();
+	cout<<"Sexo->Vacuna"<<endl;
 	this->organizarPacientesPorVacuna();
+	cout<<"Paciente->PacientesRes"<<endl;
 	this->organizarPacientesPorCiudadResidencia();
+	cout<<"PacientesRes->EPS"<<endl;
 	this->organizarVacunasPorEps();
+	cout<<"EPS->IPS"<<endl;
 	this->organizarVacunasPorIps();
 	
 	cout<<"----"<<endl;
@@ -294,9 +306,9 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 						// pVacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
 						// cout<<pVacuna->getNombre()<<" HURTADO 1"<<endl;
 
-						NodoArbolRJ< Casilla<Vacuna> > * raiz = arbolRJVacunas.raiz_arbol();
-						pVacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raiz, NULL)->data->data);
-						cout<<pVacuna->getNombre()<<" HURTADO 2"<<endl;
+						// NodoArbolRJ< Casilla<Vacuna> > * raiz = arbolRJVacunas.raiz_arbol();
+						// pVacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raiz, NULL)->data->data);
+						// cout<<pVacuna->getNombre()<<" HURTADO 2"<<endl;
 					}
 					
 					if(idCiudadNac == 0) pCiudadNac = NULL;
@@ -316,16 +328,29 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					else {
 						// pEps = &(listaEPS.obtenerDato(idEps)->data);
 
-						NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
-						pEps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
-						cout<<pEps->getNombre()<<" HURTADO 2"<<endl;
+						// NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
+						// pEps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
+						// cout<<pEps->getNombre()<<" HURTADO 2"<<endl;
 					}
 					
 					if(idIpsDefault == 0) pIpsDefault = NULL;
-					else pIpsDefault = &(listaIPS.obtenerDato(idIpsDefault)->data);
+					else{
+						// pIpsDefault = &(listaIPS.obtenerDato(idIpsDefault)->data);
+
+						// NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
+						// pIpsDefault = &(arbolRJIps.buscarNodo(idIpsDefault, &raiz, NULL)->data->data);
+						// cout<<pIpsDefault->getNombre()<<" HURTADO 2"<<endl;
+						
+					}
 					
 					if(idIpsAsignada == 0) pIpsAsignada = NULL;
-					else pIpsAsignada = &(listaIPS.obtenerDato(idIpsAsignada)->data);
+					else{
+						// pIpsAsignada = &(listaIPS.obtenerDato(idIpsAsignada)->data);
+
+						// NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
+						// pIpsAsignada = &(arbolRJIps.buscarNodo(idIpsAsignada, &raiz, NULL)->data->data);
+						// cout<<pIpsAsignada->getNombre()<<" HURTADO 2"<<endl;
+					}
 					
 					if(idFNacimiento == 0) pFechaNac = NULL;
 					else pFechaNac =  listaFechas.obtenerDato(idFNacimiento);
