@@ -413,6 +413,10 @@ void ControladorData::agregarEps(Eps eps, int id){
 	casilla.id = id;
 	
 	listaEPS.intertar_final(casilla);
+
+	Casilla<Eps> * epsDir = listaEPS.obtenerDato(id);
+	arbolRJEPS.insertar(epsDir);
+
 	cantidadEPS++;
 }
 
@@ -422,6 +426,10 @@ void ControladorData::agregarIps(Ips ips, int id){
 	casilla.id = id;
 	
 	listaIPS.intertar_final(casilla);
+
+	Casilla<Ips> * ipsDir = listaIPS.obtenerDato(id);
+	arbolRJIPS.insertar(ipsDir);
+
 	cantidadIPS++;
 }
 
@@ -554,7 +562,7 @@ void ControladorData::organizarPacientesPorVacuna(){
 				if(persona.getVacunaName() == vacunasDisponibles[j]){
 					ArbolBinarioOrdenado *arbol = listaPacientesPorVacuna.obtenerDato(j+1);
 					arbol->insertarNodo(casilla->id, persona.getEdad());
-					break
+					break;
 				}
 			}
 		} 
@@ -586,7 +594,7 @@ void ControladorData::organizarPacientesPorCiudadResidencia(){
 				break;
 			}
 			
-		} 
+		}
 	}
 	
 }
@@ -652,30 +660,30 @@ void ControladorData::organizarVacunasPorIps(){
 	}
 }
 
-void ControladorData::organizarIpsPorCiudad(){
+// void ControladorData::organizarIpsPorCiudad(){
 	
-	string ciudadesDisponibles[cantidadCiudades];
+// 	string ciudadesDisponibles[cantidadCiudades];
 	
-	for(int i = 1; i <= cantidadCiudades; i++){
-		Lista<string*> lista;
-		string ciudad = listaCiudades.obtenerDato(i)->data;
-		lista.setEtiqueta(ciudad); 
-		listaIpsPorCiudad.intertar_final(lista);
-		ciudadesDisponibles[i-1] = ciudad;
-	}
+// 	for(int i = 1; i <= cantidadCiudades; i++){
+// 		Lista<string*> lista;
+// 		string ciudad = listaCiudades.obtenerDato(i)->data;
+// 		lista.setEtiqueta(ciudad); 
+// 		listaIpsPorCiudad.intertar_final(lista);
+// 		ciudadesDisponibles[i-1] = ciudad;
+// 	}
 	
-	for(int i = 1;i <= cantidadIPS ; i++){
-		Casilla<Ips> *casilla = listaIPS.obtenerDato(i);
-		Ips ips = casilla->data;
+// 	for(int i = 1;i <= cantidadIPS ; i++){
+// 		Casilla<Ips> *casilla = listaIPS.obtenerDato(i);
+// 		Ips * ips = &(casilla->data);
 		
-		for(int j = 0; j < cantidadCiudades; j++){
-			if(ips.getCiudad() == ciudadesDisponibles[j]){
-				Lista<string*> *lista = listaIpsPorCiudad.obtenerDato(j+1);
-				lista->intertar_final(ips);
-				break;
-			}
+// 		for(int j = 0; j < cantidadCiudades; j++){
+// 			if(ips->getCiudad() == ciudadesDisponibles[j]){
+// 				Lista<string*> *lista = listaIpsPorCiudad.obtenerDato(j+1);
+// 				lista->intertar_final(ips);
+// 				break;
+// 			}
 			
-		} 
-	}
-}
+// 		} 
+// 	}
+// }
 #endif
