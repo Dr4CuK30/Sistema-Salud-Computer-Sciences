@@ -1,6 +1,7 @@
 #ifndef LISTAS_H
 #define LISTAS_H
 #include <iostream>
+#include <string>
 #include "ArbolBinarioOrdenado.h"
 
 using namespace std;
@@ -17,6 +18,7 @@ class Lista{
 	private: 
 		Nodo<T> *HEAD;
 		int lenght;
+		string etiqueta;
 	public: 
 		Lista(){
 			HEAD = NULL;
@@ -42,6 +44,17 @@ class Lista{
 			}
 			return &(nodo->value);
 		}
+		
+		string getEtiqueta()
+	    {
+	        return this->etiqueta;
+	    }
+	
+	    void setEtiqueta(string etiqueta)
+	    {
+	        this->etiqueta = etiqueta;
+	    }
+
 };
 
 template <class T>
