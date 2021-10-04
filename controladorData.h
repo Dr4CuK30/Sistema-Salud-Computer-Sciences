@@ -58,6 +58,7 @@ class ControladorData{
 		ArbolRojiNegro< Casilla<Eps> >arbolRJEPS;
 		ArbolRojiNegro< Casilla<Ips> > arbolRJIPS;
 		ArbolRojiNegro< Casilla<Eps_Vacuna> > arbolRJEpsVacuna;
+		ArbolRojiNegro< Casilla<Ips_Vacuna> > arbolRJIpsVacuna;
 		 
 		//---------------------Arboles ordenados----------------------------------//
 		
@@ -439,6 +440,7 @@ void ControladorData::agregarCiudad(string ciudad, int id){
 	casilla.id = id;
 	
 	listaCiudades.intertar_final(casilla);
+
 	cantidadCiudades++;
 }
 
@@ -457,6 +459,10 @@ void ControladorData::agregarEpsVacuna(Eps_Vacuna epsVacuna, int id){
 	casilla.id = id;
 	
 	listaEpsVacuna.intertar_final(casilla);
+
+	Casilla<Eps_Vacuna> * epsVacDir = listaEpsVacuna.obtenerDato(id);
+	arbolRJEpsVacuna.insertar(epsVacDir);
+
 	cantidadEPSVacunas++;
 }
 
@@ -466,6 +472,10 @@ void ControladorData::agregarIpsVacuna(Ips_Vacuna ipsVacuna,int id){
 	casilla.id = id;
 	
 	listaIpsVacuna.intertar_final(casilla);
+
+	Casilla<Ips_Vacuna> * ipsVacDir = listaIpsVacuna.obtenerDato(id);
+	arbolRJIpsVacuna.insertar(ipsVacDir);
+
 	cantidadIPSVacunas++;
 }
 

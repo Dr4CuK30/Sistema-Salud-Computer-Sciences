@@ -12,6 +12,7 @@
      
      
      
+     
 using namespace std;
 void empezarPrograma();
 void consultarPacientesPor();
