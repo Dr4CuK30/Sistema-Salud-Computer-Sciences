@@ -12,6 +12,7 @@
 
 #include "ArbolBinarioOrdenado.h"
 #include "ArbolRojiNegro.h"
+//#include "Pila.h"
 
 #include <iostream>
 #include <fstream>
@@ -51,14 +52,7 @@ class ControladorData{
 		Lista < Casilla <string> > listaCiudades;
 		Lista < Casilla<string> > listaPaises;
 		Lista <Fecha> listaFechas;
-
-		//---------------------Arboles Rojinegros----------------------------------//
-		ArbolRojiNegro< Casilla<Vacuna> > arbolRJVacunas;
-		ArbolRojiNegro< Casilla<Persona> > arbolRJPersonas;
-		ArbolRojiNegro< Casilla<Eps> >arbolRJEPS;
-		ArbolRojiNegro< Casilla<Ips> > arbolRJIPS;
-		ArbolRojiNegro< Casilla<Eps_Vacuna> > arbolRJEpsVacuna;
-		ArbolRojiNegro< Casilla<Ips_Vacuna> > arbolRJIpsVacuna;
+		
 		 
 		//---------------------Arboles ordenados----------------------------------//
 		
@@ -136,7 +130,29 @@ class ControladorData{
 		
 		//-----------------------------Getters-----------------------------------//
 		
-		int []getPacientes();
+		Lista<Persona> getPersonas();
+		Lista<Vacuna> getVacunas();
+		Lista<Eps> getEpss();
+		Lista<Ips> getIpss();
+		void getPersonasPorCiudad(string ciudad);
+		void getPersonasPorEps(string eps);
+		void getVacunadosPorFecha(string fecha);
+		void getVacunados();
+		void getSemiVacunados();
+		void getNoVacunados();
+		void getVacunasDisponibles(string ips);
+		
+		Persona *getPersona(int id);
+		Eps *getEps(int id);
+		Ips *getIps(int id);
+		
+		//------------------------Cantidades----------------------------//
+		
+		int getCantidadPorEps(string eps);
+		int getCantidadPorSexo(string sexo);
+		int getCantidadEstadoVacuna(string estado);
+	
+		
 };
 
 
@@ -391,10 +407,6 @@ void ControladorData::agregarVacuna(Vacuna vacuna, int id){
 	casilla.id = id;
 	
 	listaVacunas.intertar_final(casilla);
-
-	Casilla<Vacuna> * vacunaDir = listaVacunas.obtenerDato(id);
-	arbolRJVacunas.insertar(vacunaDir);
-
 	cantidadVacunas++;
 }
 
@@ -405,10 +417,6 @@ void ControladorData::agregarPersona(Persona persona, int id){
 	
 	pacientesPorEdad.insertarNodo(id, persona.getEdad());
 	listaPersonas.intertar_final(casilla);
-
-    Casilla<Persona> * personaDir = listaPersonas.obtenerDato(id);
-	arbolRJPersonas.insertar(personaDir);
-
 	cantidadPersonas++;
 	
 }
@@ -419,10 +427,6 @@ void ControladorData::agregarEps(Eps eps, int id){
 	casilla.id = id;
 	
 	listaEPS.intertar_final(casilla);
-
-	Casilla<Eps> * epsDir = listaEPS.obtenerDato(id);
-	arbolRJEPS.insertar(epsDir);
-
 	cantidadEPS++;
 }
 
@@ -432,10 +436,6 @@ void ControladorData::agregarIps(Ips ips, int id){
 	casilla.id = id;
 	
 	listaIPS.intertar_final(casilla);
-
-	Casilla<Ips> * ipsDir = listaIPS.obtenerDato(id);
-	arbolRJIPS.insertar(ipsDir);
-
 	cantidadIPS++;
 }
 
@@ -445,7 +445,6 @@ void ControladorData::agregarCiudad(string ciudad, int id){
 	casilla.id = id;
 	
 	listaCiudades.intertar_final(casilla);
-
 	cantidadCiudades++;
 }
 
@@ -464,10 +463,6 @@ void ControladorData::agregarEpsVacuna(Eps_Vacuna epsVacuna, int id){
 	casilla.id = id;
 	
 	listaEpsVacuna.intertar_final(casilla);
-
-	Casilla<Eps_Vacuna> * epsVacDir = listaEpsVacuna.obtenerDato(id);
-	arbolRJEpsVacuna.insertar(epsVacDir);
-
 	cantidadEPSVacunas++;
 }
 
@@ -477,10 +472,6 @@ void ControladorData::agregarIpsVacuna(Ips_Vacuna ipsVacuna,int id){
 	casilla.id = id;
 	
 	listaIpsVacuna.intertar_final(casilla);
-
-	Casilla<Ips_Vacuna> * ipsVacDir = listaIpsVacuna.obtenerDato(id);
-	arbolRJIpsVacuna.insertar(ipsVacDir);
-
 	cantidadIPSVacunas++;
 }
 
@@ -609,7 +600,7 @@ void ControladorData::organizarPacientesPorCiudadResidencia(){
 				break;
 			}
 			
-		}
+		} 
 	}
 	
 }
@@ -675,30 +666,30 @@ void ControladorData::organizarVacunasPorIps(){
 	}
 }
 
-// void ControladorData::organizarIpsPorCiudad(){
+void ControladorData::organizarIpsPorCiudad(){
 	
-// 	string ciudadesDisponibles[cantidadCiudades];
+	string ciudadesDisponibles[cantidadCiudades];
 	
-// 	for(int i = 1; i <= cantidadCiudades; i++){
-// 		Lista<string*> lista;
-// 		string ciudad = listaCiudades.obtenerDato(i)->data;
-// 		lista.setEtiqueta(ciudad); 
-// 		listaIpsPorCiudad.intertar_final(lista);
-// 		ciudadesDisponibles[i-1] = ciudad;
-// 	}
+	for(int i = 1; i <= cantidadCiudades; i++){
+		Lista<Ips*> lista;
+		string ciudad = listaCiudades.obtenerDato(i)->data;
+		lista.setEtiqueta(ciudad); 
+		listaIpsPorCiudad.intertar_final(lista);
+		ciudadesDisponibles[i-1] = ciudad;
+	}
 	
-// 	for(int i = 1;i <= cantidadIPS ; i++){
-// 		Casilla<Ips> *casilla = listaIPS.obtenerDato(i);
-// 		Ips * ips = &(casilla->data);
+	for(int i = 1;i <= cantidadIPS ; i++){
+		Casilla<Ips> *casilla = listaIPS.obtenerDato(i);
+		Ips *ips = &(casilla->data);
 		
-// 		for(int j = 0; j < cantidadCiudades; j++){
-// 			if(ips->getCiudad() == ciudadesDisponibles[j]){
-// 				Lista<string*> *lista = listaIpsPorCiudad.obtenerDato(j+1);
-// 				lista->intertar_final(ips);
-// 				break;
-// 			}
+		for(int j = 0; j < cantidadCiudades; j++){
+			if(ips->getCiudad() == ciudadesDisponibles[j]){
+				Lista<Ips*> *lista = listaIpsPorCiudad.obtenerDato(j+1);
+				lista->intertar_final(ips);
+				break;
+			}
 			
-// 		} 
-// 	}
-// }
+		} 
+	}
+}
 #endif
