@@ -70,7 +70,7 @@ class ControladorData{
 		
 		Lista < Lista< Eps_Vacuna* > > listaVacunasPorEps;
 		Lista < Lista< Ips_Vacuna* > > listaVacunasPorIps;
-		Lista < Lista< string* > > listaIpsPorCiudad; 
+		Lista < Lista< Ips* > > listaIpsPorCiudad; 
 		
 		Lista < ArbolBinarioOrdenado > listaPacientesPorEstadoDeVacunacion;
 		
@@ -540,7 +540,7 @@ void ControladorData::organizarPacientesPorVacuna(){
 				if(persona.getVacunaName() == vacunasDisponibles[j]){
 					ArbolBinarioOrdenado *arbol = listaPacientesPorVacuna.obtenerDato(j+1);
 					arbol->insertarNodo(casilla->id, persona.getEdad());
-					break
+					break;
 				}
 			}
 		} 
@@ -643,7 +643,7 @@ void ControladorData::organizarIpsPorCiudad(){
 	string ciudadesDisponibles[cantidadCiudades];
 	
 	for(int i = 1; i <= cantidadCiudades; i++){
-		Lista<string*> lista;
+		Lista<Ips*> lista;
 		string ciudad = listaCiudades.obtenerDato(i)->data;
 		lista.setEtiqueta(ciudad); 
 		listaIpsPorCiudad.intertar_final(lista);
@@ -652,11 +652,11 @@ void ControladorData::organizarIpsPorCiudad(){
 	
 	for(int i = 1;i <= cantidadIPS ; i++){
 		Casilla<Ips> *casilla = listaIPS.obtenerDato(i);
-		Ips ips = casilla->data;
+		Ips *ips = &(casilla->data);
 		
 		for(int j = 0; j < cantidadCiudades; j++){
-			if(ips.getCiudad() == ciudadesDisponibles[j]){
-				Lista<string*> *lista = listaIpsPorCiudad.obtenerDato(j+1);
+			if(ips->getCiudad() == ciudadesDisponibles[j]){
+				Lista<Ips*> *lista = listaIpsPorCiudad.obtenerDato(j+1);
 				lista->intertar_final(ips);
 				break;
 			}
