@@ -89,6 +89,8 @@ class ControladorData{
 		Lista < Lista< Ips_Vacuna* > > listaVacunasPorIps;
 		Lista < Lista< Ips* > > listaIpsPorCiudad; 
 		
+		Lista < Lista< Ips* > > listaIpsPorEps;
+		
 		Lista < ArbolBinarioOrdenado > listaPacientesPorEstadoDeVacunacion;
 		
 		//-------------------Carga de datos--------------------------------------//

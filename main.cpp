@@ -455,6 +455,7 @@ void consultarPacientesPor(){
 	
   
 }
+
 void consultasDobles(){
 	int opcion = 0;
 	while(opcion != 11){
@@ -1045,8 +1046,8 @@ void registrarPersonaMenu(){
 
 	//Ciudad de nacimiento:
 	string ciudadNacimiento="";
-	while (true){
+	while (ciudadNacimiento==""){
 		ciudadNacimiento = escogerCiudad();
-		cout<<ciudadNacimiento<<endl;
 	}
+	
 }
