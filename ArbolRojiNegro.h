@@ -6,10 +6,10 @@ using namespace std;
 
 template <class T>
 struct NodoArbolRJ {
-	//Clave para ordenar el árbole
+	//Clave para ordenar el ï¿½rbole
 	int clave;
 
-	// Apuntador a tipo de dato (facilitar búsquedas usando árboles on deck)
+	// Apuntador a tipo de dato (facilitar bï¿½squedas usando ï¿½rboles on deck)
 	T * data;
 
 	bool color = true;
@@ -46,7 +46,7 @@ public:
 
 	void ajustar_supresion(NodoArbolRJ<T>*);
 	
-	//Destructor del árbol
+	//Destructor del ï¿½rbol
 	~ArbolRojiNegro(){
 		destruir(raiz);
 	}
@@ -292,14 +292,14 @@ template <class T>
 NodoArbolRJ<T>* ArbolRojiNegro<T>::buscarNodo(int claveBus, NodoArbolRJ<T>** p, NodoArbolRJ<T>*q) {
 	if ((*p) == NULL) return NULL;
 
-	//Búsqueda hacia la izquierda
+	//Bï¿½squeda hacia la izquierda
 	if (claveBus < (*p)->clave) {
 		q = *p;
 		*p = (*p)->izq;
 		q = buscarNodo(claveBus, p, q);
 		return q;
 	}
-	//Búsqueda hacia la derecha
+	//Bï¿½squeda hacia la derecha
 	else if (claveBus > (*p)->clave) {
 		q = *p;
 		*p = (*p)->der;

@@ -13,6 +13,7 @@
 #include "Casilla.h"
 #include "Fecha.h"
 #include "Persona.h"   
+#include "ArbolBiOrdFechas.h"
      
       
 using namespace std;
@@ -26,9 +27,31 @@ string rangosDeEdad[] = {"-20","20-29","30-39","40-49","50-59","60-69","70-79","
 
 int main(int argc, char *argv[]) {          
 	
+	// Fechas de Prueba
+	ArbolBiOrdFechas arbF;
+	Fecha fecha1;
+	Fecha fecha2;
+	Fecha fecha3;
+
+	fecha1.anho = 2001;
+	fecha1.mes = 8;
+	fecha1.dia = 5;
+
+	fecha2.anho = 2001;
+	fecha2.mes = 10;
+	fecha2.dia = 10;
+
+	fecha3.anho = 2000;
+	fecha3.mes = 8;
+	fecha3.dia = 31;
+
+	arbF.insertarNodo(1, fecha1);
+	arbF.insertarNodo(2, fecha2);
+	arbF.insertarNodo(3, fecha3);
+
+	arbF.inorden(arbF.obtenerRaiz());
 	
-	empezarPrograma();    
-	
+	empezarPrograma();
 	
 	    
     system("PAUSE");       

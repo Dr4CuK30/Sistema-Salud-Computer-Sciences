@@ -1,5 +1,5 @@
-#ifndef ARBOL_H
-#define ARBOL_H
+#ifndef ARBOLF_H
+#define ARBOLF_H
 
 #include <iostream>
 #include <string>
@@ -8,44 +8,44 @@
 using namespace std;
 
 
-struct NodoArbol {
-    NodoArbol *izquierda;
-    NodoArbol *derecha;
+struct NodoArbolFechas {
+    NodoArbolFechas *izquierda;
+    NodoArbolFechas *derecha;
     int clave;
-    int valor;
+    Fecha valor;
 };
 
-class ArbolBinarioOrdenado {
-    NodoArbol *raiz;
+class ArbolBiOrdFechas {
+    NodoArbolFechas *raiz;
 private:
     string etiqueta;
     int tamArbol;
 
 public:
 	
-    ArbolBinarioOrdenado() {
+    ArbolBiOrdFechas() {
         raiz = NULL;
         this->etiqueta = etiqueta;
         this->tamArbol = 0;
     }
     bool arbolVacio();
 
-    void insertarNodo(int dato, int valor);
+    void insertarNodo(int dato, Fecha valor);
 
     bool eliminarNodo(int dato);
-    int getInfo(int id);
-    NodoArbol *organizarNodo(NodoArbol *nodoActual, NodoArbol *aux);
-    NodoArbol *obtenerRaiz();
-    NodoArbol *buscarNodo(int dato);
-    NodoArbol *buscarPadre(int dato);
-    void deforestacion(NodoArbol *nodoPrincipal);
+    Fecha getInfo(int id);
+    NodoArbolFechas *organizarNodo(NodoArbolFechas *nodoActual, NodoArbolFechas *aux);
+    NodoArbolFechas *obtenerRaiz();
+    NodoArbolFechas *buscarNodo(int dato);
+    NodoArbolFechas *buscarPadre(int dato);
+    void deforestacion(NodoArbolFechas *nodoPrincipal);
     void limpiarArbol();
     
-    void inorden(NodoArbol*);
-	void preorden(NodoArbol*);
-	void posorden(NodoArbol*);
+    void inorden(NodoArbolFechas*);
+	void preorden(NodoArbolFechas*);
+	void posorden(NodoArbolFechas*);
 
-    void inordenArray(NodoArbol*, int currentIndex, int []);
+    int * inordenArray(NodoArbolFechas*, int currentIndex);
 
     string getEtiqueta()
     {
@@ -70,16 +70,15 @@ public:
     }
 };
 
-bool ArbolBinarioOrdenado::arbolVacio() {
+bool ArbolBiOrdFechas::arbolVacio() {
     if (raiz == NULL) {
         return true;
     }
-    
     return false;
 }
 
-void ArbolBinarioOrdenado::insertarNodo(int dato, int valor_) {
-    NodoArbol *aux = new NodoArbol;
+void ArbolBiOrdFechas::insertarNodo(int dato, Fecha valor_) {
+    NodoArbolFechas *aux = new NodoArbolFechas;
     aux -> clave = dato;
     aux -> izquierda = NULL;
     aux -> derecha = NULL;
@@ -88,10 +87,14 @@ void ArbolBinarioOrdenado::insertarNodo(int dato, int valor_) {
         raiz = aux;
         this->tamArbol++;
     } else {
-        NodoArbol *iterador;
+        NodoArbolFechas *iterador;
         iterador = raiz;
+
         while (true) {
-            if (valor_ <= iterador -> valor) {//aca hubo cambio
+            bool comparacion = esMayorQue(valor_, iterador->valor);
+
+            // Mayor o igual
+            if (comparacion!=1) {
                 if (iterador -> izquierda == NULL) {
                     iterador -> izquierda = aux;
                     this->tamArbol++;
@@ -99,6 +102,7 @@ void ArbolBinarioOrdenado::insertarNodo(int dato, int valor_) {
                 } else {
                     iterador = iterador -> izquierda;
                 }
+            // Menor
             } else {
                 if (iterador -> derecha == NULL) {
                     iterador -> derecha = aux;
@@ -109,11 +113,12 @@ void ArbolBinarioOrdenado::insertarNodo(int dato, int valor_) {
                 }
             }
         }
+
     }
 }
 
-bool ArbolBinarioOrdenado::eliminarNodo(int dato) {
-    NodoArbol *nodoActual, *nodoCambio, *nodoPadre, *aux, *aux2;
+bool ArbolBiOrdFechas::eliminarNodo(int dato) {
+    NodoArbolFechas *nodoActual, *nodoCambio, *nodoPadre, *aux, *aux2;
     if (raiz == NULL) {
         return false;
     } else {
@@ -156,8 +161,8 @@ bool ArbolBinarioOrdenado::eliminarNodo(int dato) {
     return true;
 }
 
-NodoArbol *ArbolBinarioOrdenado::organizarNodo(NodoArbol *nodoActual, NodoArbol *aux) {
-    NodoArbol *nodoCambio, *aux2, *aux3;
+NodoArbolFechas *ArbolBiOrdFechas::organizarNodo(NodoArbolFechas *nodoActual, NodoArbolFechas *aux) {
+    NodoArbolFechas *nodoCambio, *aux2, *aux3;
     aux3 = aux -> izquierda;
     if (aux3 != NULL) {
         nodoCambio = aux -> izquierda;
@@ -179,20 +184,26 @@ NodoArbol *ArbolBinarioOrdenado::organizarNodo(NodoArbol *nodoActual, NodoArbol 
     return nodoCambio;
 }
 
-NodoArbol *ArbolBinarioOrdenado::obtenerRaiz() {
+NodoArbolFechas *ArbolBiOrdFechas::obtenerRaiz() {
     return raiz;
 }
 
-int ArbolBinarioOrdenado::getInfo(int id) {
-    NodoArbol *nodo = buscarNodo(id);
+Fecha ArbolBiOrdFechas::getInfo(int id) {
+    NodoArbolFechas *nodo = buscarNodo(id);
+
+    Fecha fechanula;
+    fechanula.anho=0;
+    fechanula.mes=0;
+    fechanula.dia=0;
+
     if (nodo != NULL) {
         return nodo->valor;
     }
-    return 0;
+    return fechanula;
 }
 
-NodoArbol *ArbolBinarioOrdenado::buscarNodo(int dato) {
-    NodoArbol *iterador;
+NodoArbolFechas *ArbolBiOrdFechas::buscarNodo(int dato) {
+    NodoArbolFechas *iterador;
     if (raiz != NULL) {
         iterador = raiz;
         while (dato != iterador -> clave) {
@@ -211,8 +222,8 @@ NodoArbol *ArbolBinarioOrdenado::buscarNodo(int dato) {
     }
 }
 
-NodoArbol *ArbolBinarioOrdenado::buscarPadre(int dato) {
-    NodoArbol *iterador, *aux;
+NodoArbolFechas *ArbolBiOrdFechas::buscarPadre(int dato) {
+    NodoArbolFechas *iterador, *aux;
     if (dato == raiz -> clave) {
         return NULL;
     }
@@ -234,7 +245,7 @@ NodoArbol *ArbolBinarioOrdenado::buscarPadre(int dato) {
     return aux;
 }
 
-void ArbolBinarioOrdenado::deforestacion(NodoArbol *nodoPrincipal) {
+void ArbolBiOrdFechas::deforestacion(NodoArbolFechas *nodoPrincipal) {
     if (nodoPrincipal != NULL) {
         deforestacion(nodoPrincipal -> izquierda);
         deforestacion(nodoPrincipal -> derecha);
@@ -242,14 +253,14 @@ void ArbolBinarioOrdenado::deforestacion(NodoArbol *nodoPrincipal) {
     }
 }
 
-void ArbolBinarioOrdenado::limpiarArbol() {
+void ArbolBiOrdFechas::limpiarArbol() {
     if (raiz != NULL) {
         deforestacion(raiz);
     }
     raiz = NULL;
 }
 
-void ArbolBinarioOrdenado::inorden(NodoArbol* p){
+void ArbolBiOrdFechas::inorden(NodoArbolFechas* p){
 	if(p != NULL){
 		inorden(p->izquierda);
 		cout<< p->clave << endl;
@@ -258,7 +269,7 @@ void ArbolBinarioOrdenado::inorden(NodoArbol* p){
 }
 
 
-void inorderComplement(NodoArbol* p, int currentIndex, int orderdArray[], int lenght){
+void inorderComplement(NodoArbolFechas* p, int currentIndex, int orderdArray[], int lenght){
     if(p != NULL){
 		inorderComplement(p->izquierda, currentIndex, orderdArray, lenght);
         while (orderdArray[currentIndex]!=0)
@@ -276,21 +287,22 @@ void inorderComplement(NodoArbol* p, int currentIndex, int orderdArray[], int le
 	}
 }
 
-void ArbolBinarioOrdenado::inordenArray(NodoArbol* p, int currentIndex, int array[]){
-	
+int * ArbolBiOrdFechas::inordenArray(NodoArbolFechas* p, int currentIndex){
+
     
     const int lenght = this->tamArbol;
-    
+    int orderdArray[lenght]={};
     for(int i=0;i<lenght;i++){
-        array[i] = 0;
+        orderdArray[i] = 0;
     }
 
-    inorderComplement(p, currentIndex, array, lenght);
+    inorderComplement(p, currentIndex, orderdArray, lenght);
+    return orderdArray;
 }
 
 
 
-void ArbolBinarioOrdenado::preorden(NodoArbol* p){
+void ArbolBiOrdFechas::preorden(NodoArbolFechas* p){
 	if(p != NULL){
 		cout<< p->clave << endl;
 		preorden(p->izquierda);
@@ -298,7 +310,7 @@ void ArbolBinarioOrdenado::preorden(NodoArbol* p){
 	}
 }
 
-void ArbolBinarioOrdenado::posorden(NodoArbol* p){
+void ArbolBiOrdFechas::posorden(NodoArbolFechas* p){
 	if(p != NULL){
 		
 		posorden(p->izquierda);
@@ -307,4 +319,5 @@ void ArbolBinarioOrdenado::posorden(NodoArbol* p){
 	}
 }
 #endif
+
 

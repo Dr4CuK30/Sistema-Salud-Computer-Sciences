@@ -42,6 +42,7 @@ class ControladorData{
 		int cantidadIPSVacunas;
 		int cantidadCiudades;
 		int cantidadPaises;
+		int cantidadLaburos;
 		
 		//---------------------listas generales-----------------------------------//
 		Lista < Casilla<Vacuna> > listaVacunas;
@@ -52,6 +53,7 @@ class ControladorData{
 		Lista < Casilla<Ips_Vacuna> > listaIpsVacuna;
 		Lista < Casilla <string> > listaCiudades;
 		Lista < Casilla<string> > listaPaises;
+		Lista < Casilla<string> > listaLaburo;
 		Lista <Fecha> listaFechas;
 		
 		 
@@ -187,6 +189,7 @@ ControladorData::ControladorData(){
 	this->cantidadIPS = 0;
 	this->cantidadCiudades = 0;
 	this->cantidadPaises = 0;
+	this->cantidadLaburos = 0;
 	
 	cargarArchivosLocales();
 	
@@ -276,6 +279,7 @@ void ControladorData::cargarArchivosLocales(){
 	
 	cargarArchivo("Archivos/eps_vacuna.txt", CANT_ATRIBUTOS_EPS_VACUNA + 1, 5);
 	cargarArchivo("Archivos/ips_vacuna.txt", CANT_ATRIBUTOS_IPS_VACUNA + 1, 6);
+	cargarArchivo("Archivos/laburos.txt", 2, 9);
 	
 }
 
@@ -402,7 +406,7 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 												atributos[5],atributos[6],pCiudadNac,pPais,pCiudadRes,atributos[10],
 												atributos[11],tel_cel,tel_fijo,
 												pFechaNac ,pFechaPri ,pFechaSec ,
-												pVacuna,pEps,pIpsDefault,pIpsAsignada); 
+												pVacuna,pEps,pIpsDefault,pIpsAsignada);
 					
 					
 					agregarPersona(persona, id);
@@ -458,6 +462,9 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					break;
 				case 8:
 					agregarPais(atributos[1], id);
+					break;
+				case 9:
+					agregarLaburo(atributos[1], id);
 					break;
 				default:
 					break; 
@@ -543,6 +550,15 @@ void ControladorData::agregarPais(string pais, int id){
 	
 	listaPaises.intertar_final(casilla);
 	cantidadPaises++;
+}
+
+void ControladorData::agregarLaburo(string labor, int id){
+	Casilla<string> casilla;
+	casilla.data = labor;
+	casilla.id = id;
+	
+	listaLaburo.intertar_final(casilla);
+	cantidadLaburos++;
 }
 
 void ControladorData::agregarEpsVacuna(Eps_Vacuna epsVacuna, int id){

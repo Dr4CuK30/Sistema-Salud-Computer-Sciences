@@ -258,8 +258,35 @@ bool Persona::Vacunar(Vacuna *vacuna, Fecha *fecha){
 int Persona::getEdad(){
 	time_t t = time(NULL);
 	tm* timePtr = localtime(&t);
-	float anho_nacimiento = this->f_nacimiento->anho + ((this->f_nacimiento->mes+1)/12) + (this->f_nacimiento->anho/365);
-	float anho_actual = timePtr->tm_year+1900 + (timePtr->tm_mon+1/12) + (timePtr->tm_mday/365);
+
+	float cantDias=0;
+
+	for (int i = 1; i <= (this->f_nacimiento->mes-1); i++)
+	{
+		if (i==2)
+		{
+			cantDias = cantDias + 28;
+		}
+
+		if(i%2!=0 && i<=7){
+			cantDias = cantDias + 31;
+		}
+
+		if(i%2==0 && i<7 && i!=2){
+			cantDias = cantDias + 30;
+		}
+
+		if (i%2==0 && i>=8){
+			cantDias = cantDias + 31;
+		}
+
+		if(i%2!=0 && i>=9){
+			cantDias = cantDias + 30;
+		}
+	}
+	
+	float anho_nacimiento = this->f_nacimiento->anho + ((this->f_nacimiento->mes)/12.0) + ((cantDias + this->f_nacimiento->dia)/365);
+	float anho_actual = timePtr->tm_year+1900.0 + (timePtr->tm_mon+1.0)/12 + ((timePtr->tm_mday+1.0)/365);
 	return floor(anho_actual-anho_nacimiento);
 }
 
