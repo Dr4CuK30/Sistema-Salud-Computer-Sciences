@@ -1070,8 +1070,6 @@ Cola<string*> ControladorData::getLaburos(){
 	return cola;
 }
 
-<<<<<<< HEAD
-=======
 Cola<Persona*> ControladorData::getVacunadosPorFecha(string fecha, bool praDosis){
 	Cola<Persona*> colaPersonas;
 	Fecha fechaVacuna = crearFecha(fecha);
@@ -1126,7 +1124,6 @@ Cola<Persona*> ControladorData::getNoVacunados(){
 	return deArbolACola(arbolPersonas);
 }
 
->>>>>>> b62d19c287e55a5656e429d8cf0f1140612e8aa9
 Cola<Persona*> ControladorData::getPersonasPorEps(string eps){
 	
 	ArbolBinarioOrdenado *arbolPersonas;
