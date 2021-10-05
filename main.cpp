@@ -41,12 +41,10 @@ int main(int argc, char *argv[]) {
 //	cout<<"--"<<endl;
 	ControladorData data;   
 	
-	
-	empezarPrograma(data);    
-	
-	
-	    
-    system("PAUSE");       
+	empezarPrograma(data);  
+	  
+    system("PAUSE");
+	       
     return EXIT_SUCCESS;
 }                   
 
