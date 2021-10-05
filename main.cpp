@@ -505,15 +505,70 @@ void consultasDobles(){
 			
 		switch(opcion){
 			case 1:{
+				//lista final con filtro
 				string laburo = escogerActividadLaboral();
 				string rango = escogerRangoDeEdad();
 				
 				Cola<Persona*> personas = data.getPersonasPorRangoDeEdad(rango);
 				int size = personas.getSize();
-				Persona *personasAdistribuir[size];
-				for(int i = 0 ; i < size; i++) personasAdistribuir[i] = personas.pop();
 				
-				Cola<Persona*> personasPorRangosDeEdad[8];
+				Cola<Persona*> personasFiltroLaburo;
+				for(int i = 0 ; i < size; i++){
+					Persona *persona = personas.pop();
+					if(*(persona->getAct_laboral()) == laburo){
+						personasFiltroLaburo.push(persona);
+					}
+				}
+				
+				size = personasFiltroLaburo.getSize();
+				
+				//clasificacion
+				
+				Cola<Persona*> personasPorCiudad[data.getCantidadCiudades()];
+				
+				for(int i = 0 ; i < size; i++) {
+					Persona *persona = personasFiltroLaburo.pop();
+					
+					for(int j = 0; j < data.getCantidadCiudades(); j++){
+						if(*(persona->getCiudad_resid()) == *ciudades[j]){
+							personasPorCiudad[j].push(persona);
+						}
+					}
+				}
+				
+				//impresion
+				
+				cout<<"-------------"<<laburo<<" ---- rango de edad"<<rango<<"-----------------------"<<endl;
+				
+				for(int i = 0;    i < data.getCantidadCiudades(); i++){
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "<<*ciudades[i]<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "; for(int j = 0; j < data.getCantidadEps(); j++) cout<<setw(25)<<epss[j]->getNombre()<<" | ";
+					cout<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+					while(personasPorCiudad[i].getSize() > 0){
+						cout<<"| ";
+						Persona *persona = personasPorCiudad[i].pop();
+						for(int j = 0; j < data.getCantidadEps(); j++){
+							string dato;	
+							if(persona->getEpsName() == epss[j]->getNombre()){
+								dato = persona->getNombres() + " " + persona->getApellidos();
+									
+							}else{
+								dato = "";
+							}
+							
+							cout<<setw(25)<<dato<<" | ";
+							
+						}	
+						cout<<endl; 
+					}
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+				}
+				
 				
 				
 				break;
