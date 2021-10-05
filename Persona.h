@@ -184,6 +184,7 @@ class Persona{
 		}
 
 		string getIpsAsignadaName(){
+			if(this->getIps_asignada() == NULL) return "";
 			Ips * ips = this->getIps_asignada();
 			Ips ipsObtained = *ips;
 			return ipsObtained.getNombre();

@@ -44,6 +44,9 @@ class Lista{
 			}
 			return &(nodo->value);
 		}
+		int getSize(){
+			return this->lenght;
+		}
 		
 		string getEtiqueta()
 	    {

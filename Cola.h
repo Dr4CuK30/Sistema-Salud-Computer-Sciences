@@ -15,12 +15,12 @@ struct nodoCola{
 
 template<class T>
 class Cola{
-	nodoCola<T> *cab,*fin = NULL;
+	nodoCola<T> *cab,*fin;
 	int tamano = 0;
     
 	public: 
 		
-		cola(){
+		Cola(){
 			cab=fin=NULL;
 			tamano = 0;
 		}
@@ -38,20 +38,21 @@ void Cola<T>::push(T i){
      nuevo->dato=i;
      nuevo->sig= NULL;
      
-     if (cab==NULL) {cab=nuevo;}
-     else {fin->sig = nuevo;}
+     if (cab==NULL) {
+	 	cab=nuevo;
+	 }
+     else{
+	 	fin->sig = nuevo;
+		}
      fin=nuevo;
-     
-     cout<<"al ingresar"<<fin->dato<<endl;
-     
      tamano++;
 }
 
 template<class T>
 T Cola<T>::pop(){
-	cout<<"al extraer "<<cab->dato<<endl;
 	T x;
     nodoCola<T> *aux = cab; 
+    
     cab=aux->sig;
     x=aux->dato;
     delete aux;
