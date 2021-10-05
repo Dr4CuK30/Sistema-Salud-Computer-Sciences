@@ -455,6 +455,7 @@ void consultarPacientesPor(){
 	
   
 }
+
 void consultasDobles(){
 	int opcion = 0;
 	while(opcion != 11){
@@ -640,6 +641,78 @@ void consultasDobles(){
 			case 3:{
 				string eps = escogerEps();
 				string vacuna = escogerVacuna();
+				
+				Cola<Persona*> personas = data.getPersonasPorTipoVacuna(vacuna);
+				int size = personas.getSize();
+				
+				Cola<Persona*> personasFiltroEps;
+				for(int i = 0; i < size; i++){
+					Persona *persona = personas.pop();
+					if(persona->getEpsName() == eps){
+						personasFiltroEps.push(persona);
+					}
+				}
+				
+				size = personasFiltroEps.getSize();
+				//clasificacion
+				
+				
+				Cola<Persona*> personasPorCiudad[data.getCantidadCiudades()];
+				//filtrado por ciudad
+				for(int i = 0 ; i < size; i++) {
+					Persona *persona = personasFiltroEps.pop();
+					
+					for(int j = 0; j < data.getCantidadCiudades(); j++){
+						if(*(persona->getCiudad_resid()) == *ciudades[j]){
+							personasPorCiudad[j].push(persona);
+						} 
+					}
+				}
+				
+				Cola<Ips*> colaIpsDisponibles = data.getIpsPorEps(eps);
+				int sizeIpsDisponibles = colaIpsDisponibles.getSize();
+				Ips *ipsDisponibles[sizeIpsDisponibles];
+				for(int i = 0; i < sizeIpsDisponibles; i++) ipsDisponibles[i] = colaIpsDisponibles.pop();
+				
+				//impresion
+				cout<<"-------------"<<eps<<" ---- vacuna"<<vacuna<<"-----------------------"<<endl;
+				
+				for(int i = 0;    i < data.getCantidadCiudades(); i++){
+					string ciudad = *ciudades[i];
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "<<ciudad<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "; for(int j = 0; j < sizeIpsDisponibles; j++){
+						if(*(ipsDisponibles[0]->getCiudad()) == ciudad){
+							cout<<setw(25)<<ipsDisponibles[j]->getNombre()<<" | ";
+						}
+					} 
+					cout<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+					while(personasPorCiudad[i].getSize() > 0){
+						cout<<"| ";
+						Persona *persona = personasPorCiudad[i].pop();
+						
+						for(int j = 0; j < sizeIpsDisponibles; j++){
+							string dato;
+							if(*(ipsDisponibles[0]->getCiudad()) == ciudad){  
+								if(persona->getIpsAsignadaName() == ipsDisponibles[j]->getNombre()){
+									dato = persona->getNombres() + " " + persona->getApellidos();	
+								}else{
+									dato = "";
+								}
+							}	
+							
+							cout<<setw(25)<<dato<<" | ";
+							
+						}	
+						cout<<endl; 
+					}
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+				
+				}
+				
 				break;
 			}
 			default:

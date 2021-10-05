@@ -105,7 +105,6 @@ string esMayorQue(Fecha comparada, Fecha aComparar){
 	float anho_actual = timePtr->tm_year+1900.0 + (timePtr->tm_mon+1.0)/12 + ((timePtr->tm_mday+1.0)/365);
 	float fecha_comparada = anho_actual - (comparada.anho + ((comparada.mes)/12.0) + ((cantDiasCom+comparada.dia)/365));
 	float fecha_aComparar = anho_actual - (aComparar.anho + ((aComparar.mes)/12.0) + ((cantDiasACom+aComparar.dia)/365));
-	cout<<"Comparada 1 : "<<fecha_comparada<<" , A Comparar: "<<fecha_aComparar<<endl;
 
 	if(fecha_comparada>fecha_aComparar){
 		return "mayor";
