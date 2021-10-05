@@ -297,12 +297,9 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					
 					if(idVacuna == 0) pVacuna = NULL;
 					else {
-						// pVacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
-						// cout<<pVacuna->getNombre()<<" HURTADO 1"<<endl;
 
 						NodoArbolRJ< Casilla<Vacuna> > * raiz = arbolRJVacunas.raiz_arbol();
 						pVacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raiz, NULL)->data->data);
-						// cout<<pVacuna->getNombre()<<" HURTADO 2"<<endl;
 					}
 					
 					if(idCiudadNac == 0) pCiudadNac = NULL;
@@ -325,30 +322,26 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					}
 					if(idEps== 0) pEps = NULL;
 					else {
-						// pEps = &(listaEPS.obtenerDato(idEps)->data);
 
 						NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
 						pEps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
-						// cout<<pEps->getNombre()<<" HURTADO 2"<<endl;
 					}
 					
 					if(idIpsDefault == 0) pIpsDefault = NULL;
 					else{
-						// pIpsDefault = &(listaIPS.obtenerDato(idIpsDefault)->data);
 
 						NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
 						pIpsDefault = &(arbolRJIps.buscarNodo(idIpsDefault, &raiz, NULL)->data->data);
-						// cout<<pIpsDefault->getNombre()<<" HURTADO 2"<<endl;
 						
 					}
 					
 					if(idIpsAsignada == 0) pIpsAsignada = NULL;
 					else{
-						// pIpsAsignada = &(listaIPS.obtenerDato(idIpsAsignada)->data);
+
 
 						NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
 						pIpsAsignada = &(arbolRJIps.buscarNodo(idIpsAsignada, &raiz, NULL)->data->data);
-						// cout<<pIpsAsignada->getNombre()<<" HURTADO 2"<<endl;
+
 					}
 					
 					if(idFNacimiento == 0) pFechaNac = NULL;
@@ -372,9 +365,6 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					
 					
 					agregarPersona(persona, id);
-//					if(persona.ips_asignada == NULL)cout<<"es nula mk"<<endl;
-//					cout<<persona.nombres<<" "<<idIpsAsignada<<" "<<persona.ips_asignada<<endl;
-//					cout<<listaIPS.obtenerDato(1).data.nombre<<" "<<listaIPS.obtenerDato(2).data.nombre;
 					break;
 				}
 				case 2:{
@@ -392,10 +382,9 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					int idEps = atoi(atributos[4].c_str());
 
 					Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
-//					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
-//					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
+					// NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
+					// Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
 					
-					//poner bien la ciudad
 					Ips ips = Ips(atributos[1],atributos[2],atributos[3],eps);
 					agregarIps(ips, id);
 					
@@ -408,13 +397,13 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					cout<<atributos[1]<<endl;
 					
 					// Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
-					Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
+//					Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
 
 					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
 					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
 
-					// NodoArbolRJ< Casilla<Vacuna> > * raizVacuna = arbolRJVacunas.raiz_arbol();
-					// Vacuna *vacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raizVacuna, NULL)->data->data);
+					NodoArbolRJ< Casilla<Vacuna> > * raizVacuna = arbolRJVacunas.raiz_arbol();
+					Vacuna *vacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raizVacuna, NULL)->data->data);
 					
 					Eps_Vacuna epsVacuna = Eps_Vacuna(eps, vacuna, atoi(atributos[2].c_str()));
 					agregarEpsVacuna(epsVacuna, id);
@@ -424,8 +413,14 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					int idIps = atoi(atributos[1].c_str());
 					int idVacuna = atoi(atributos[2].c_str());
 					
-					Ips *ips = &(listaIPS.obtenerDato(idIps)->data);
-					Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
+					// Ips *ips = &(listaIPS.obtenerDato(idIps)->data);
+					// Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
+
+					NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
+					Ips *ips = &(arbolRJIps.buscarNodo(idIps, &raiz, NULL)->data->data);
+
+					NodoArbolRJ< Casilla<Vacuna> > * raizVacuna = arbolRJVacunas.raiz_arbol();
+					Vacuna *vacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raizVacuna, NULL)->data->data);
 					
 					Ips_Vacuna ips_vacuna = Ips_Vacuna(ips, vacuna);
 					
