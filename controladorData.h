@@ -24,7 +24,7 @@
 using namespace std;
 
 const int CANT_ATRIBUTOS_VACUNA = 2;
-const int CANT_ATRIBUTOS_PERSONA = 20;
+const int CANT_ATRIBUTOS_PERSONA = 21;
 const int CANT_ATRIBUTOS_EPS = 1;
 const int CANT_ATRIBUTOS_IPS = 4;
 const int CANT_ATRIBUTOS_EPS_VACUNA = 3;
@@ -144,6 +144,7 @@ class ControladorData{
 		Cola<Ips*> getIpss();//
 		Cola<string*> getCiudades();
 		Cola<string*> getPaises();
+		Cola<string*> getLaburos();
 		Cola<Persona*> getPersonasPorCiudadResidencia(string ciudad);//
 		Cola<Persona*> getPersonasPorEps(string eps);//
 		Cola<Persona*> getPersonasPorRangoDeEdad(string rango);//
@@ -174,6 +175,7 @@ class ControladorData{
 		int getCantidadIps() {return cantidadIPS;}
 		int getCantidadCiudades(){return cantidadCiudades;}
 		int getCantidadPaises(){return cantidadPaises;}
+		int getCantidadLaburos(){return cantidadLaburos;}
 	
 		
 };
@@ -204,55 +206,6 @@ ControladorData::ControladorData(){
 	this->organizarVacunasPorIps();
 	this->organizarPacientesPorRangosDeEdad();
 	
-	//EJEMPLO RE UTIL PANA
-	
-//	int array[pacientesPorEdad.getTamArbol()];
-//	pacientesPorEdad.inordenArray(pacientesPorEdad.obtenerRaiz(),0, array);
-//	
-//	for(int i = 0; i < pacientesPorEdad.getTamArbol(); i++) cout<<array[i]<<endl;
-	
-//	cout<<"----"<<endl;
-//	cout<<"impresion arboles por EPS"<<endl;
-//	for(int i = 1;i <= cantidadEPS; i++){
-//		ArbolBinarioOrdenado *arbol = listaPacientesPorEps.obtenerDato(i);
-//		cout<<arbol->getEtiqueta()<<endl;
-//		arbol->inorden(arbol->obtenerRaiz());
-//	}
-//	
-//	cout<<"impresion arboles por vacuna"<<endl;
-//	for(int i = 1;i <= cantidadVacunas; i++){
-//		ArbolBinarioOrdenado *arbol = listaPacientesPorVacuna.obtenerDato(i);
-//		cout<<arbol->getEtiqueta()<<endl;
-//		arbol->inorden(arbol->obtenerRaiz());
-//	}
-//	
-//	cout<<"impresion arboles por SEXO GRATIS"<<endl;
-//	for(int i = 1;i <= 2; i++){
-//		ArbolBinarioOrdenado *arbol = listaPacientesPorSexo.obtenerDato(i);
-//		cout<<arbol->getEtiqueta()<<endl;
-//		arbol->inorden(arbol->obtenerRaiz());
-//	}
-//	
-//	cout<<"impresion arboles por ciudad de nacimiento"<<endl;
-//	for(int i = 1;i <= cantidadCiudades; i++){
-//		ArbolBinarioOrdenado *arbol = listaPacientesPorCiudadResidencia.obtenerDato(i);
-//		cout<<arbol->getEtiqueta()<<endl;
-//		arbol->inorden(arbol->obtenerRaiz());
-//	}
-//	cout<<"----"<<endl;
-
-//cout<<"impresion arboles por rangos"<<endl;
-//	for(int i = 1;i <= 8; i++){
-//		Lista<Persona*> *lista = listaPacientesPorRangosDeEdad.obtenerDato(i);
-//		cout<<lista->getEtiqueta()<<endl;
-//		
-//		for(int j = 1; j <= lista->getSize(); j++){
-//	
-//			Persona *persona = *lista->obtenerDato(j);
-//			cout<<persona->getNombres()<<endl;
-//		}
-//	}
-//	cout<<"----"<<endl;
 	
 }
 
@@ -274,6 +227,7 @@ void ControladorData::cargarArchivosLocales(){
 	
 	cargarArchivo("Archivos/vacunas.txt", CANT_ATRIBUTOS_VACUNA + 1, 2);
 	cargarArchivo("Archivos/eps.txt", CANT_ATRIBUTOS_EPS + 1, 3);
+	
 	cargarArchivo("Archivos/ips.txt", CANT_ATRIBUTOS_IPS + 1, 4);
 	
 	cargarArchivo("Archivos/personas.txt", CANT_ATRIBUTOS_PERSONA + 1, 1);
@@ -285,7 +239,6 @@ void ControladorData::cargarArchivosLocales(){
 }
 
 void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int modelo){
-//	cout<<"modelo "<<modelo<<" con "<<cantAtributos<<" atributos"<<endl;
 	fstream archivo;
 	string linea, *atributos;
 	
@@ -312,6 +265,7 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 			
 			if(atributos[pos] == "--") atributos[pos] = "";
 			
+			
 			switch(modelo){
 				case 1:{
 					
@@ -323,6 +277,7 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					int idEps = atoi(atributos[18].c_str());
 					int idIpsDefault =  atoi(atributos[19].c_str());
 					int idIpsAsignada =  atoi(atributos[20].c_str());
+					int idLaburo = atoi(atributos[21].c_str());
 					
 					int idFNacimiento = ingresarFecha(atributos[14]);
 					int idFPri = ingresarFecha(atributos[15]);
@@ -332,6 +287,7 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					string *pCiudadNac;
 					string *pPais;
 					string *pCiudadRes;
+					string *pLaburo;
 					Eps *pEps;
 					Ips *pIpsDefault;
 					Ips *pIpsAsignada;
@@ -361,6 +317,11 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					else{
 						Casilla<string> *casilla = listaCiudades.obtenerDato(idCiudadRes);
 						pCiudadRes = &(casilla->data);
+					}
+					if(idLaburo == 0) pLaburo = NULL;
+					else{
+						Casilla<string> *casilla = listaLaburo.obtenerDato(idLaburo);
+						pLaburo = &(casilla->data);
 					}
 					if(idEps== 0) pEps = NULL;
 					else {
@@ -407,7 +368,7 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 												atributos[5],atributos[6],pCiudadNac,pPais,pCiudadRes,atributos[10],
 												atributos[11],tel_cel,tel_fijo,
 												pFechaNac ,pFechaPri ,pFechaSec ,
-												pVacuna,pEps,pIpsDefault,pIpsAsignada);
+												pVacuna,pEps,pIpsDefault,pIpsAsignada, pLaburo);
 					
 					
 					agregarPersona(persona, id);
@@ -430,17 +391,20 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 				case 4:{
 					int idEps = atoi(atributos[4].c_str());
 
-					// Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
-
-					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
-					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
+					Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
+//					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
+//					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
 					
 					Ips ips = Ips(atributos[1],atributos[2],atributos[3],eps);
 					agregarIps(ips, id);
+					
+					break;
 				}
 				case 5:{
 					int idEps = atoi(atributos[1].c_str());
 					int idVacuna =  atoi(atributos[2].c_str()); 
+					
+					cout<<atributos[1]<<endl;
 					
 					// Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
 					Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
@@ -527,7 +491,6 @@ void ControladorData::agregarEps(Eps eps, int id){
 
 	Casilla< Eps > * epsDir = listaEPS.obtenerDato(id);
 	arbolRJEPS.insertar(epsDir);
-
 	cantidadEPS++;
 }
 
@@ -933,9 +896,10 @@ Cola<Persona*> ControladorData::deArbolACola(ArbolBinarioOrdenado *arbolPersonas
 		
 		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
 		Persona *persona = &(casilla->data);
+		cout<<persona->getNombres()<<endl;
 		colaPersonas.push(persona);
 	}
-	
+	cout<<"tamanio "<<colaPersonas.getSize()<<endl;
 	return colaPersonas;
 }
 //-------------------------metodos publicos----------------------------//
@@ -1007,6 +971,16 @@ Cola<string*> ControladorData::getPaises(){
 	return cola;
 }
 
+Cola<string*> ControladorData::getLaburos(){
+	Cola<string*> cola;
+	
+	for(int i = 1; i <= cantidadLaburos; i++){
+		string *laburo = &(listaLaburo.obtenerDato(i)->data);
+		cola.push(laburo);
+	}
+	
+	return cola;
+}
 
 Cola<Persona*> ControladorData::getPersonasPorEps(string eps){
 	

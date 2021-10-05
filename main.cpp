@@ -181,7 +181,7 @@ void empezarPrograma(){
     
 void consultarPacientesPor(){ 
 	int opcion;             
-	     
+	               
 	while(opcion != 10){    
 		cout<<"---------------------------------"<<endl;
 		cout<<"Puede consultar los pacientes por: "<<endl;
@@ -191,7 +191,7 @@ void consultarPacientesPor(){
 		cout<<"4. EPS"<<endl;
 		cout<<"5. IPS"<<endl;
 		cout<<"6. IPS asignada para vacunacion"<<endl;
-		cout<<"7. Ciudad de residencia"<<endl;
+		cout<<"7. Ciudad de residencia"<<endl; 
 		cout<<"8. Sexo"<<endl;
 		cout<<"9. Pais de nacimiento"<<endl;
 		cout<<"----"<<endl;
@@ -258,7 +258,7 @@ void consultarPacientesPor(){
 					
 					cout<<i+1<<". "<<epss[i]->getNombre()<<endl;
 				}
-				
+				  
 				cout<<"Opcion: ";
 				cin>>opcion;   
 				
@@ -313,6 +313,7 @@ void consultarPacientesPor(){
 				break;
 			}
 			case 7:{
+				//Seleccion de ciudad
 				Cola<string*> colaCiudades = data.getCiudades();
 				string *ciudades[data.getCantidadCiudades()];
 				
@@ -328,9 +329,75 @@ void consultarPacientesPor(){
 				cout<<"Opcion: ";
 				cin>>opcion;   
 				
-				Cola<Persona*> personas = data.getPersonasPorCiudadResidencia(*ciudades[opcion-1]);
+				string ciudadSeleccionada = *ciudades[opcion-1];
 				
-				impresionPersonaBasico(personas);
+				Cola<Persona*> personas = data.getPersonasPorCiudadResidencia(*ciudades[opcion-1]);
+				//otrs datos
+				
+				Cola<Eps*> colaEps = data.getEpss();
+				Eps *epss[data.getCantidadEps()];
+
+				for(int i = 0; i < data.getCantidadEps(); i++) epss[i] = colaEps.pop();
+				
+				Cola<string*> colaLaburos = data.getLaburos();
+				string *laburos[data.getCantidadLaburos()];
+				Cola<Persona*> personasPorLaburo[data.getCantidadLaburos()];
+				
+				for(int i = 0; i < data.getCantidadLaburos(); i++){
+					laburos[i] = colaLaburos.pop();
+					
+					Cola<Persona*> cola;
+					
+					personasPorLaburo[i] = cola;
+				} 
+				int size = personas.getSize();
+				for(int j = 0; j <  size; j++){
+					Persona *persona = personas.pop();
+					 
+					for(int i = 0; i < data.getCantidadLaburos(); i++){
+						if(*(persona->getAct_laboral()) == *laburos[i]){
+							personasPorLaburo[i].push(persona);
+						}
+					}
+				}
+			
+				
+				//impresion
+				cout<<"------------------"<<ciudadSeleccionada<<"-----------------------"<<endl;
+				
+				for(int i = 0;    i < data.getCantidadLaburos(); i++){
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "<<*laburos[i]<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "; for(int j = 0; j < data.getCantidadEps(); j++) cout<<setw(25)<<epss[j]->getNombre()<<" | ";
+					cout<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+					while(personasPorLaburo[i].getSize() > 0){
+						cout<<"| ";
+						Persona *persona = personasPorLaburo[i].pop();
+						
+						for(int j = 0; j < data.getCantidadEps(); j++){
+							
+							string dato;
+								
+							if(persona->getEpsName() == epss[j]->getNombre()){
+								dato = persona->getNombres() + " " + persona->getApellidos();
+								
+							}else{
+								dato = "";
+							}
+							
+							cout<<setw(25)<<dato<<" | ";
+							
+						}	
+						cout<<endl; 
+					}
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+				}
+				
+				
 				         
 				break;
 			}
@@ -392,7 +459,7 @@ void consultarPacientesPor(){
 				//impresion y verificacion por pais
 				cout<<"------------------"<<paisSeleccionado<<"-----------------------"<<endl;
 				
-				for(int i = 0; i < data.getCantidadCiudades(); i++){
+				for(int i = 0;    i < data.getCantidadCiudades(); i++){
 					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
 					cout<<"| "<<*ciudades[i]<<endl;
 					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
@@ -423,12 +490,6 @@ void consultarPacientesPor(){
 					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
 					
 				}
-				
-				   
-				
-				
-				
-//				impresionPersonaBasico(personas);
 
 				
 				break;
@@ -440,7 +501,7 @@ void consultarPacientesPor(){
 		cout<<endl<<endl;
 	}
 	
-
+  
 }
 
 void consultarEstadisticas(){

@@ -1,5 +1,5 @@
-1;;1000000;;cedula;;Santiago1;;Herrera;;masculino;;s@g.com;;1;;1;;1;;direccionpiola;;barriopiola;;300000000;;500000;;23-10-2001;;--;;--;;--;;2;;1;;--
-2;;1000000;;cedula;;Santiago2;;Herrera;;masculino;;s@g.com;;1;;1;;1;;direccionpiola;;barriopiola;;300000000;;500000;;25-10-2000;;--;;--;;--;;1;;1;;--
-3;;1000000;;cedula;;Santiago3;;Herrera;;masculino;;s@g.com;;1;;1;;1;;direccionpiola;;barriopiola;;300000000;;500000;;21-10-2003;;--;;--;;--;;1;;1;;--
-4;;23515236;;cedula;;Maria;;Clavijo;;femenino;;maria@gmail.com;;2;;1;;3;;direccionpueblerina;;barriopueblerinno;;3005226396;;215648;;5-8-1986;;20-02-2020;;--;;1;;2;;3;;3
-5;;20156015;;TI;;Ana;;Ramirez;;femenino;;ana@gmail.com;;2;;1;;2;;calle 1 #32;;barrismo;;3000512356;;5421369;;6-8-1999;;30-12-2020;;15-1-2021;;2;;3;;1;;1
+1;;1000000;;cedula;;Santiago1;;Herrera;;masculino;;s@g.com;;1;;1;;1;;direccionpiola;;barriopiola;;300000000;;500000;;23-10-2001;;--;;--;;--;;2;;1;;--;;1
+2;;1000000;;cedula;;Santiago2;;Herrera;;masculino;;s@g.com;;1;;1;;1;;direccionpiola;;barriopiola;;300000000;;500000;;25-10-2000;;--;;--;;--;;1;;1;;--;;2
+3;;1000000;;cedula;;Santiago3;;Herrera;;masculino;;s@g.com;;1;;1;;1;;direccionpiola;;barriopiola;;300000000;;500000;;21-10-2003;;--;;--;;--;;1;;1;;--;;2
+4;;23515236;;cedula;;Maria;;Clavijo;;femenino;;maria@gmail.com;;2;;1;;3;;direccionpueblerina;;barriopueblerinno;;3005226396;;215648;;5-8-1986;;20-02-2020;;--;;1;;2;;3;;3;;2
+5;;20156015;;TI;;Ana;;Ramirez;;femenino;;ana@gmail.com;;2;;1;;2;;calle 1 #32;;barrismo;;3000512356;;5421369;;6-8-1999;;30-12-2020;;15-1-2021;;2;;3;;1;;1;;1
