@@ -85,6 +85,7 @@ class ControladorData{
 		Lista < Lista< Eps_Vacuna* > > listaVacunasPorEps;
 		Lista < Lista< Ips_Vacuna* > > listaVacunasPorIps;
 		Lista < Lista< Ips* > > listaIpsPorCiudad; 
+		Lista < Lista< Ips* > > listaIpsPorEps;
 		
 		Lista < ArbolBinarioOrdenado > listaPacientesPorEstadoDeVacunacion;
 		
@@ -101,7 +102,7 @@ class ControladorData{
 		void organizarPacientesPorIps();//
 		void organizarPacientesPorIpsAsignada();
 		void organizarPacientesPorCiudadResidencia();//
-		void organizarPacientesPorPais();
+		void organizarPacientesPorPais();//
 		void organizarPacientesPorSexo();//
 		void organizarPacientesPorLaburo();
 		void organizarPacientesPorVacuna();//
@@ -110,6 +111,7 @@ class ControladorData{
 		void organizarVacunasPorEps();//
 		void organizarVacunasPorIps();//
 		void organizarIpsPorCiudad();//
+		void organizarIpsPorEps();
 		void organizarPacientesPorEstadoVacunacion();
 		
 		//---------------Mutacion de estructuras--------------------------------//
@@ -142,9 +144,9 @@ class ControladorData{
 		Cola<Vacuna*> getVacunas();//
 		Cola<Eps*> getEpss();//
 		Cola<Ips*> getIpss();//
-		Cola<string*> getCiudades();
-		Cola<string*> getPaises();
-		Cola<string*> getLaburos();
+		Cola<string*> getCiudades();//
+		Cola<string*> getPaises();//
+		Cola<string*> getLaburos();//
 		Cola<Persona*> getPersonasPorCiudadResidencia(string ciudad);//
 		Cola<Persona*> getPersonasPorEps(string eps);//
 		Cola<Persona*> getPersonasPorRangoDeEdad(string rango);//
@@ -152,6 +154,8 @@ class ControladorData{
 		Cola<Persona*> getPersonasPorIps(string ips, bool asignada);//
 		Cola<Persona*> getPersonasPorSexo(string sexo);//
 		Cola<Persona*> getPersonasPorPais(string pais);//
+		Cola<Ips*> getIpsPorCiudad(string ciudad);
+		Cola<Ips*> getIpsPorEps(string eps);
 		
 		
 		void getVacunadosPorFecha(string fecha);
@@ -205,7 +209,8 @@ ControladorData::ControladorData(){
 	this->organizarVacunasPorEps();
 	this->organizarVacunasPorIps();
 	this->organizarPacientesPorRangosDeEdad();
-	
+	this->organizarIpsPorCiudad();
+	this->organizarIpsPorEps();
 	
 }
 
@@ -886,6 +891,33 @@ void ControladorData::organizarIpsPorCiudad(){
 	}
 }
 
+void ControladorData::organizarIpsPorEps(){
+	string epsDisponibles[cantidadEPS];
+	
+	for(int i = 1; i <= cantidadEPS; i++){
+		Lista<Ips*> lista;
+		Eps eps = listaEPS.obtenerDato(i)->data;
+		lista.setEtiqueta(eps.getNombre());
+		
+		epsDisponibles[i-1] = eps.getNombre();
+		listaIpsPorEps.intertar_final(lista);
+	}
+	
+	for(int i = 1;i <= cantidadIPS ; i++){
+		Casilla<Ips> *casilla = listaIPS.obtenerDato(i);
+		Ips *ips = &(casilla->data);
+		
+		for(int j = 0; j < cantidadEPS; j++){
+			if(ips->getEpsName() == epsDisponibles[j]){
+				Lista<Ips*> *lista = listaIpsPorEps.obtenerDato(j+1);
+				lista->intertar_final(ips);
+				break;
+			}
+			
+		} 
+	}
+}
+
 Cola<Persona*> ControladorData::deArbolACola(ArbolBinarioOrdenado *arbolPersonas){
 	Cola<Persona*> colaPersonas;
 	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
@@ -903,9 +935,28 @@ Cola<Persona*> ControladorData::deArbolACola(ArbolBinarioOrdenado *arbolPersonas
 		cout<<persona->getNombres()<<endl;
 		colaPersonas.push(persona);
 	}
-	cout<<"tamanio "<<colaPersonas.getSize()<<endl;
 	return colaPersonas;
 }
+
+//Cola<Ips*> ControladorData::deListaACola(Lista<Ips> *listaIps){
+//	Cola<Ips*> colaIps;
+//	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
+//	
+//	int idPersonasOrdenadas[cantidadPersonasLocal];
+//	pacientesPorEdad.inordenArray(arbolPersonas->obtenerRaiz(),0, idPersonasOrdenadas);
+//	
+//	for(int i = 0; i < cantidadPersonasLocal; i++){
+//		int idBusqueda = idPersonasOrdenadas[i];
+//		
+//		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
+//		
+//		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
+//		Persona *persona = &(casilla->data);
+//		cout<<persona->getNombres()<<endl;
+//		colaPersonas.push(persona);
+//	}
+//	return colaPersonas;
+//}
 //-------------------------metodos publicos----------------------------//
 //aca son importantes los rojinegros
 Cola<Persona*> ControladorData::getPersonas(){
@@ -1092,5 +1143,39 @@ Cola<Persona*> ControladorData::getPersonasPorPais(string pais){
 	}
 	
 	return deArbolACola(arbolPersonas);	
+}
+
+Cola<Ips*> ControladorData::getIpsPorCiudad(string ciudad){
+	Cola<Ips*> colaIps;
+	Lista<Ips*> *listaIpss;
+	
+	for(int i = 1 ; i <= cantidadCiudades; i++){
+		Lista<Ips*> *ipss = listaIpsPorCiudad.obtenerDato(i);
+
+		if(ciudad == ipss->getEtiqueta()){
+			listaIpss = ipss;
+		}
+	}
+	
+	for(int i = 1 ; i <= listaIpss->getSize(); i++) colaIps.push(*(listaIpss->obtenerDato(i)));
+	
+	return colaIps;
+}
+
+Cola<Ips*> ControladorData::getIpsPorEps(string eps){
+	Cola<Ips*> colaIps;
+	Lista<Ips*> *listaIpss;
+	
+	for(int i = 1 ; i <= cantidadEPS ; i++){
+		Lista<Ips*> *ipss = listaIpsPorEps.obtenerDato(i);
+
+		if(eps == ipss->getEtiqueta()){
+			listaIpss = ipss;
+		}
+	}
+	
+	for(int i = 1 ; i <= listaIpss->getSize(); i++) colaIps.push(*(listaIpss->obtenerDato(i)));
+	
+	return colaIps;
 }
 #endif

@@ -132,7 +132,7 @@ void empezarPrograma(){
 				Cola<Eps*> epss = data.getEpss();
 				int cantidad = data.getCantidadEps();
 				
-				cout<<"---------------------------Pacientes registrados------------------------------"<<endl;
+				cout<<"---------------------------EPS registradas------------------------------"<<endl;
 				cout<<"------------------------------------------------------------------------------"<<endl;
 				cout<<"id |   Nombre             |"<<endl;
 				cout<<"---|----------------------|"<<endl;
@@ -160,7 +160,7 @@ void empezarPrograma(){
 					cout<<i<<"  | ";
 					cout<<setw(25)  <<ips->getNombre()<<" | ";
 					cout<<setw(30)	<<ips->getDireccion()<<" | ";
-					cout<<setw(15)	<<ips->getCiudad()<<" | ";
+					cout<<setw(15)	<<*(ips->getCiudad())<<" | ";
 					cout<<setw(15)	<<ips->getEpsName()<<" | ";
 					cout<<endl;
 				}
@@ -490,6 +490,10 @@ void consultasDobles(){
 		Cola<Eps*> colaEps = data.getEpss();
 		Eps *epss[data.getCantidadEps()];
 		for(int i = 0; i < data.getCantidadEps(); i++) epss[i] = colaEps.pop();  
+		
+		Cola<Ips*> colaIps = data.getIpss();
+		Ips *ipss[data.getCantidadIps()];
+		for(int i = 0; i < data.getCantidadIps(); i++) ipss[i] = colaIps.pop();
 			 
 		Cola<string*> colaLaburos = data.getLaburos();
 		string *laburos[data.getCantidadLaburos()];
@@ -604,8 +608,49 @@ void consultasDobles(){
 					}
 				}
 				
+				Cola<Ips*> colaIpsDisponibles = data.getIpsPorEps(eps);
+				int sizeIpsDisponibles = colaIpsDisponibles.getSize();
+				Ips *ipsDisponibles[sizeIpsDisponibles];
+				for(int i = 0; i < sizeIpsDisponibles; i++) ipsDisponibles[i] = colaIpsDisponibles.pop();
+				      
 				//impresion
+				cout<<"-------------"<<eps<<" ---- rango de edad"<<rango<<"-----------------------"<<endl;
 				
+				for(int i = 0;    i < data.getCantidadCiudades(); i++){
+					string ciudad = *ciudades[i];
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "<<ciudad<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "; for(int j = 0; j < sizeIpsDisponibles; j++){
+						if(*(ipsDisponibles[0]->getCiudad()) == ciudad){
+							cout<<setw(25)<<ipsDisponibles[j]->getNombre()<<" | ";
+						}
+					} 
+					cout<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+					while(personasPorCiudad[i].getSize() > 0){
+						cout<<"| ";
+						Persona *persona = personasPorCiudad[i].pop();
+						
+						for(int j = 0; j < sizeIpsDisponibles; j++){
+							string dato;
+							if(*(ipsDisponibles[0]->getCiudad()) == ciudad){
+								if(persona->getIpsAsignadaName() == ipsDisponibles[j]->getNombre()){
+									dato = persona->getNombres() + " " + persona->getApellidos();	
+								}else{
+									dato = "";
+								}
+							}	
+							
+							cout<<setw(25)<<dato<<" | ";
+							
+						}	
+						cout<<endl; 
+					}
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+				
+				}
 				break;
 			}
 			case 3:{
