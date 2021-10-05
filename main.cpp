@@ -357,7 +357,155 @@ void consultarPacientesPor(){
 		cout<<endl<<endl;
 	}
 	
-
+  
+}
+void consultasDobles(){
+	int opcion = 0;
+	while(opcion != 11){
+		cout<<"---------------------------------"<<endl;
+		cout<<"Puede consultar los pacientes por: "<<endl;
+	   	cout<<"1. Rango de edad y actividad laboral"<<endl;
+		cout<<"2. Rango de edad y EPS"<<endl;
+		cout<<"3. EPS y tipo de vacuna"<<endl;
+		cout<<"----"<<endl;
+		cout<<"10. Volver al menu anterior"<<endl;
+		cout<<"11. Volver al menu principal"<<endl<<endl;
+			        
+		cout<<"Opcion: ";
+		cin>>opcion;     
+		cout<<"---------------------------------"<<endl<<endl;
+		  
+		Cola<Eps*> colaEps = data.getEpss();
+		Eps *epss[data.getCantidadEps()];
+		for(int i = 0; i < data.getCantidadEps(); i++) epss[i] = colaEps.pop();  
+			 
+		Cola<string*> colaLaburos = data.getLaburos();
+		string *laburos[data.getCantidadLaburos()];
+		for(int i = 0; i < data.getCantidadLaburos(); i++)laburos[i] = colaLaburos.pop(); 
+		
+		Cola<string*> colaCiudades = data.getCiudades();
+		string *ciudades[data.getCantidadCiudades()];
+		for(int i = 0; i < data.getCantidadCiudades(); i++) ciudades[i] = colaCiudades.pop();
+		
+		Cola<Vacuna*> colaVacunas = data.getVacunas();
+		Vacuna *vacunas[data.getCantidadVacunas()];
+		for(int i = 0; i < data.getCantidadVacunas(); i++) vacunas[i] = colaVacunas.pop(); 
+			
+		switch(opcion){
+			case 1:{
+				//lista final con filtro
+				string laburo = escogerActividadLaboral();
+				string rango = escogerRangoDeEdad();
+				
+				Cola<Persona*> personas = data.getPersonasPorRangoDeEdad(rango);
+				int size = personas.getSize();
+				
+				Cola<Persona*> personasFiltroLaburo;
+				for(int i = 0 ; i < size; i++){
+					Persona *persona = personas.pop();
+					if(*(persona->getAct_laboral()) == laburo){
+						personasFiltroLaburo.push(persona);
+					}
+				}
+				
+				size = personasFiltroLaburo.getSize();
+				
+				//clasificacion
+				
+				Cola<Persona*> personasPorCiudad[data.getCantidadCiudades()];
+				
+				for(int i = 0 ; i < size; i++) {
+					Persona *persona = personasFiltroLaburo.pop();
+					
+					for(int j = 0; j < data.getCantidadCiudades(); j++){
+						if(*(persona->getCiudad_resid()) == *ciudades[j]){
+							personasPorCiudad[j].push(persona);
+						}
+					}
+				}
+				
+				//impresion
+				
+				cout<<"-------------"<<laburo<<" ---- rango de edad"<<rango<<"-----------------------"<<endl;
+				
+				for(int i = 0;    i < data.getCantidadCiudades(); i++){
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "<<*ciudades[i]<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "; for(int j = 0; j < data.getCantidadEps(); j++) cout<<setw(25)<<epss[j]->getNombre()<<" | ";
+					cout<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+					while(personasPorCiudad[i].getSize() > 0){
+						cout<<"| ";
+						Persona *persona = personasPorCiudad[i].pop();
+						for(int j = 0; j < data.getCantidadEps(); j++){
+							string dato;	
+							if(persona->getEpsName() == epss[j]->getNombre()){
+								dato = persona->getNombres() + " " + persona->getApellidos();
+									
+							}else{
+								dato = "";
+							}
+							
+							cout<<setw(25)<<dato<<" | ";
+							
+						}	
+						cout<<endl; 
+					}
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+				}
+				
+				
+				
+				break;
+			}
+			case 2:{
+				//lista final con filtro
+				string rango = escogerRangoDeEdad();
+				string eps = escogerEps();
+				
+				Cola<Persona*> personas = data.getPersonasPorRangoDeEdad(rango);
+				int size = personas.getSize();
+				
+				Cola<Persona*> personasFiltroEps;
+				for(int i = 0 ; i < size; i++){
+					Persona *persona = personas.pop();
+					if(persona->getEpsName() == eps){
+						personasFiltroEps.push(persona);
+					}
+				}
+				
+				//clasificacion
+				size = personasFiltroEps.getSize();
+				
+				Cola<Persona*> personasPorCiudad[data.getCantidadCiudades()];
+				//filtrado por ciudad
+				for(int i = 0 ; i < size; i++) {
+					Persona *persona = personasFiltroEps.pop();
+					
+					for(int j = 0; j < data.getCantidadCiudades(); j++){
+						if(*(persona->getCiudad_resid()) == *ciudades[j]){
+							personasPorCiudad[j].push(persona);
+						} 
+					}
+				}
+				
+				//impresion
+				
+				break;
+			}
+			case 3:{
+				string eps = escogerEps();
+				string vacuna = escogerVacuna();
+				break;
+			}
+			default:
+				break;
+		}
+	}
+	
 }
 
 void consultarEstadisticas(){
