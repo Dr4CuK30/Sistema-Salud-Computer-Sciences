@@ -1141,6 +1141,7 @@ Cola<string*> ControladorData::getLaburos(){
 }
 
 Cola<Persona*> ControladorData::getVacunadosPorFecha(string fecha, bool praDosis){
+	Cola<Persona*> colaPersonas;
 	Fecha fechaVacuna = crearFecha(fecha);
 	int size;
 	if(praDosis) size = pacientesPorFechaPrimeraDosis.getTamArbol();
@@ -1149,10 +1150,12 @@ Cola<Persona*> ControladorData::getVacunadosPorFecha(string fecha, bool praDosis
 	int idPersonas[size];
 	
 	if(praDosis){
-		pacientesPorFechaPrimeraDosis.inordenArray(pacientesPorFechaPrimeraDosis.obtenerRaiz(), 0);
+		pacientesPorFechaPrimeraDosis.inordenArray(pacientesPorFechaPrimeraDosis.obtenerRaiz(), 0, idPersonas);
 	}else{
-		pacientesPorFechaSegundaDosis.inordenArray(pacientesPorFechaSegundaDosis.obtenerRaiz(), 0);
+		pacientesPorFechaSegundaDosis.inordenArray(pacientesPorFechaSegundaDosis.obtenerRaiz(), 0, idPersonas);
 	}
+	
+	for(int i = 0; i < size; i++) colaPersonas.push(&(listaPersonas.obtenerDato(i)->data));
 }
 
 Cola<Persona*> ControladorData::getVacunados(){
