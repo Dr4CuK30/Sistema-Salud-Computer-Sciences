@@ -19,7 +19,13 @@
 using namespace std;
 void empezarPrograma();
 void consultarPacientesPor();
+void consultasDobles();
 void consultarEstadisticas();
+
+string escogerRangoDeEdad();
+string escogerEps();
+string escogerVacuna();
+string escogerActividadLaboral();
 void impresionPersonaBasico(Cola<Persona*>);
 
 ControladorData data;
@@ -27,8 +33,8 @@ string rangosDeEdad[] = {"-20","20-29","30-39","40-49","50-59","60-69","70-79","
 
 int main(int argc, char *argv[]) {          
 	
-	// Fechas de Prueba
 	
+	// Fechas de Prueba
 //	ArbolBiOrdFechas arbF;
 //	Fecha fecha1;
 //	Fecha fecha2;
@@ -53,7 +59,6 @@ int main(int argc, char *argv[]) {
 //	arbF.inorden(arbF.obtenerRaiz());
 	
 	empezarPrograma();
-	
 	    
     system("PAUSE");       
     return EXIT_SUCCESS;
@@ -182,8 +187,8 @@ void empezarPrograma(){
     
 void consultarPacientesPor(){ 
 	int opcion;             
-	     
-	while(opcion != 10){    
+	               
+	while(opcion != 11){    
 		cout<<"---------------------------------"<<endl;
 		cout<<"Puede consultar los pacientes por: "<<endl;
     	cout<<"1. Edad"<<endl;
@@ -192,11 +197,12 @@ void consultarPacientesPor(){
 		cout<<"4. EPS"<<endl;
 		cout<<"5. IPS"<<endl;
 		cout<<"6. IPS asignada para vacunacion"<<endl;
-		cout<<"7. Ciudad de residencia"<<endl;
+		cout<<"7. Ciudad de residencia"<<endl; 
 		cout<<"8. Sexo"<<endl;
+		cout<<"9. Pais de nacimiento"<<endl;
 		cout<<"----"<<endl;
-		cout<<"9. Consultas dobles"<<endl;
-		cout<<"10. Volver al menu principal"<<endl<<endl;
+		cout<<"10. Consultas dobles"<<endl;
+		cout<<"11. Volver al menu principal"<<endl<<endl;
 		        
 		cout<<"Opcion: ";
 		cin>>opcion;     
@@ -204,42 +210,15 @@ void consultarPacientesPor(){
 		  
 		switch(opcion){
 			case 1:{
-				
-				
-				int opcion;
-				cout<<"Seleccione el rango de edad: "<<endl;
-				
-				for(int i = 0; i < 8; i++){
-					cout<<i+1<<". "<<rangosDeEdad[i]<<endl;
-				}
-				
-				cout<<"Opcion: ";
-				cin>>opcion;   
-				
-				Cola<Persona*> personas = data.getPersonasPorRangoDeEdad(rangosDeEdad[opcion-1]);
-				
-				impresionPersonaBasico(personas);
-				         
+			
+				string rango = escogerRangoDeEdad(); 
+				Cola<Persona*> personas = data.getPersonasPorRangoDeEdad(rango);
+				impresionPersonaBasico(personas);       
 				break;
 			}
 			case 2:{
-				Cola<Vacuna*> colaVacuna = data.getVacunas();
-				Vacuna *vacunas[data.getCantidadVacunas()];
-				
-				int opcion;
-				cout<<"Seleccione la Vacuna: "<<endl;
-				
-				for(int i = 0; i < data.getCantidadVacunas(); i++){
-					vacunas[i] = colaVacuna.pop();
-					
-					cout<<i+1<<". "<<vacunas[i]->getNombre()<<endl;
-				}
-				
-				cout<<"Opcion: ";
-				cin>>opcion;   
-				
-				Cola<Persona*> personas = data.getPersonasPorTipoVacuna(vacunas[opcion-1]->getNombre());
-				
+				string vacuna = escogerVacuna(); 
+				Cola<Persona*> personas = data.getPersonasPorTipoVacuna(vacuna);
 				impresionPersonaBasico(personas);
 				         
 				break;
@@ -247,23 +226,8 @@ void consultarPacientesPor(){
 			case 3:
 				break;
 			case 4:{
-				Cola<Eps*> colaEps = data.getEpss();
-				Eps *epss[data.getCantidadEps()];
-				
-				int opcion;
-				cout<<"Seleccione la EPS: "<<endl;
-				
-				for(int i = 0; i < data.getCantidadEps(); i++){
-					epss[i] = colaEps.pop();
-					
-					cout<<i+1<<". "<<epss[i]->getNombre()<<endl;
-				}
-				
-				cout<<"Opcion: ";
-				cin>>opcion;   
-				
-				Cola<Persona*> personas = data.getPersonasPorEps(epss[opcion-1]->getNombre());
-				
+				string eps = escogerEps(); 
+				Cola<Persona*> personas = data.getPersonasPorEps(eps);
 				impresionPersonaBasico(personas);
 				         
 				break;
@@ -313,13 +277,14 @@ void consultarPacientesPor(){
 				break;
 			}
 			case 7:{
+				//Seleccion de ciudad
 				Cola<string*> colaCiudades = data.getCiudades();
 				string *ciudades[data.getCantidadCiudades()];
 				
 				int opcion;
 				cout<<"Seleccione la ciudad: "<<endl;
 				
-				for(int i = 0; i < data.getCantidadEps(); i++){
+				for(int i = 0; i < data.getCantidadCiudades(); i++){
 					ciudades[i] = colaCiudades.pop();
 					
 					cout<<i+1<<". "<<*ciudades[i]<<endl;
@@ -328,9 +293,75 @@ void consultarPacientesPor(){
 				cout<<"Opcion: ";
 				cin>>opcion;   
 				
-				Cola<Persona*> personas = data.getPersonasPorCiudadResidencia(*ciudades[opcion-1]);
+				string ciudadSeleccionada = *ciudades[opcion-1];
 				
-				impresionPersonaBasico(personas);
+				Cola<Persona*> personas = data.getPersonasPorCiudadResidencia(*ciudades[opcion-1]);
+				//otrs datos
+				
+				Cola<Eps*> colaEps = data.getEpss();
+				Eps *epss[data.getCantidadEps()];
+
+				for(int i = 0; i < data.getCantidadEps(); i++) epss[i] = colaEps.pop();
+				
+				Cola<string*> colaLaburos = data.getLaburos();
+				string *laburos[data.getCantidadLaburos()];
+				Cola<Persona*> personasPorLaburo[data.getCantidadLaburos()];
+				
+				for(int i = 0; i < data.getCantidadLaburos(); i++){
+					laburos[i] = colaLaburos.pop();
+					
+					Cola<Persona*> cola;
+					
+					personasPorLaburo[i] = cola;
+				} 
+				int size = personas.getSize();
+				for(int j = 0; j <  size; j++){
+					Persona *persona = personas.pop();
+					 
+					for(int i = 0; i < data.getCantidadLaburos(); i++){
+						if(*(persona->getAct_laboral()) == *laburos[i]){
+							personasPorLaburo[i].push(persona);
+						}
+					}
+				}
+			
+				
+				//impresion
+				cout<<"------------------"<<ciudadSeleccionada<<"-----------------------"<<endl;
+				
+				for(int i = 0;    i < data.getCantidadLaburos(); i++){
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "<<*laburos[i]<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "; for(int j = 0; j < data.getCantidadEps(); j++) cout<<setw(25)<<epss[j]->getNombre()<<" | ";
+					cout<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+					while(personasPorLaburo[i].getSize() > 0){
+						cout<<"| ";
+						Persona *persona = personasPorLaburo[i].pop();
+						
+						for(int j = 0; j < data.getCantidadEps(); j++){
+							
+							string dato;
+								
+							if(persona->getEpsName() == epss[j]->getNombre()){
+								dato = persona->getNombres() + " " + persona->getApellidos();
+								
+							}else{
+								dato = "";
+							}
+							
+							cout<<setw(25)<<dato<<" | ";
+							
+						}	
+						cout<<endl; 
+					}
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+				}
+				
+				
 				         
 				break;
 			}
@@ -351,6 +382,86 @@ void consultarPacientesPor(){
 				impresionPersonaBasico(personas);
 				break;
 			}        
+			case 9:{
+				//lectura pais
+				Cola<string*> colaPaises = data.getPaises();
+				string *paises[data.getCantidadPaises()];
+				
+				int opcion;
+				cout<<"Seleccione el pais: "<<endl;
+				
+				for(int i = 0; i < data.getCantidadPaises(); i++){
+					paises[i] = colaPaises.pop();
+					
+					cout<<i+1<<". "<<*paises[i]<<endl;
+				}
+				
+				cout<<"Opcion: ";
+				cin>>opcion;   
+				
+				string paisSeleccionado = *paises[opcion-1];
+				
+				//estructuracion
+				Cola<string*> colaCiudades = data.getCiudades();
+				string *ciudades[data.getCantidadCiudades()];
+				Cola<Persona*> arregloPersonasPorCiudad[data.getCantidadCiudades()];
+				
+				Cola<Eps*> colaEps = data.getEpss();
+				Eps *epss[data.getCantidadEps()];
+				
+				
+				for(int i = 0; i < data.getCantidadEps(); i++) epss[i] = colaEps.pop();
+				
+				
+				for(int i = 0; i < data.getCantidadCiudades(); i++){
+					ciudades[i] = colaCiudades.pop();
+					
+					Cola<Persona*> personas = data.getPersonasPorCiudadResidencia(*ciudades[i]);
+					arregloPersonasPorCiudad[i] = personas;
+				}
+				
+				//impresion y verificacion por pais
+				cout<<"------------------"<<paisSeleccionado<<"-----------------------"<<endl;
+				
+				for(int i = 0;    i < data.getCantidadCiudades(); i++){
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "<<*ciudades[i]<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "; for(int j = 0; j < data.getCantidadEps(); j++) cout<<setw(25)<<epss[j]->getNombre()<<" | ";
+					cout<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+					while(arregloPersonasPorCiudad[i].getSize() > 0){
+						cout<<"| ";
+						Persona *persona = arregloPersonasPorCiudad[i].pop();
+						for(int j = 0; j < data.getCantidadEps(); j++){
+							
+							string dato;
+							if(*(persona->getPais_nac()) == paisSeleccionado){
+								
+								if(persona->getEpsName() == epss[j]->getNombre()){
+									dato = persona->getNombres() + " " + persona->getApellidos();
+									
+								}else{
+									dato = "";
+								}
+							}
+							cout<<setw(25)<<dato<<" | ";
+							
+						}	
+						cout<<endl; 
+					}
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+				}
+
+				
+				break;
+			}
+			case 10:{
+				consultasDobles();
+				break;
+			}
 			default:	
 				cout<<"Opcion no valida"<<endl<<endl;
 				break;           
@@ -561,6 +672,7 @@ void consultarEstadisticas(){
 		cout<<"---------------------------------"<<endl;
 		cout<<"Puede consultar las siguientes estadisticas: "<<endl;
     	cout<<"1. Total de personas por EPS"<<endl;
+    	cout<<"2. Hombres y mujeres vacunados por eps"<<endl;
 		cout<<"10. Volver al menu principal"<<endl<<endl;
 		        
 		cout<<"Opcion: ";
@@ -623,6 +735,74 @@ void consultarEstadisticas(){
 	}
 }
 
+string escogerRangoDeEdad(){
+	int opcion;
+	cout<<"Seleccione el rango de edad: "<<endl;
+				
+	for(int i = 0; i < 8; i++){
+		cout<<i+1<<". "<<rangosDeEdad[i]<<endl;
+	}
+				
+	cout<<"Opcion: ";
+	cin>>opcion; 
+	
+	return rangosDeEdad[opcion-1];
+}
+
+string escogerVacuna(){
+	Cola<Vacuna*> colaVacuna = data.getVacunas();
+	Vacuna *vacunas[data.getCantidadVacunas()];
+				
+	int opcion;
+	cout<<"Seleccione la Vacuna: "<<endl;
+				
+	for(int i = 0; i < data.getCantidadVacunas(); i++){
+		vacunas[i] = colaVacuna.pop();		
+		cout<<i+1<<". "<<vacunas[i]->getNombre()<<endl;
+	}
+				
+	cout<<"Opcion: ";
+	cin>>opcion;  
+	
+	return vacunas[opcion-1]->getNombre();
+}
+
+string escogerEps(){
+	Cola<Eps*> colaEps = data.getEpss();
+	Eps *epss[data.getCantidadEps()];
+				
+	int opcion;
+	cout<<"Seleccione la EPS: "<<endl;
+				
+	for(int i = 0; i < data.getCantidadEps(); i++){
+		epss[i] = colaEps.pop();		
+		cout<<i+1<<". "<<epss[i]->getNombre()<<endl;
+	}
+				  
+	cout<<"Opcion: ";
+	cin>>opcion;  
+	
+	return epss[opcion-1]->getNombre();
+}
+
+string escogerActividadLaboral(){
+	
+	Cola<string*> colaLaburo = data.getLaburos();
+	string *laburos[data.getCantidadLaburos()];
+	
+	int opcion;
+	cout<<"Seleccione la actividad laboral: "<<endl;
+	
+	for(int i = 0; i < data.getCantidadLaburos(); i++){
+		laburos[i] = colaLaburo.pop();
+		cout<<i+1<<". "<<*laburos[i]<<endl;
+	}
+	
+	cout<<"Opcion: ";
+	cin>>opcion;
+	
+	return *laburos[opcion-1];
+}
 
 void impresionPersonaBasico(Cola<Persona*> personas){
 	int cantidad = personas.getSize();
