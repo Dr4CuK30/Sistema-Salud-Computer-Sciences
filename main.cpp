@@ -592,6 +592,7 @@ void consultasDobles(){
 					}
 				}
 				
+				
 				Cola<Ips*> colaIpsDisponibles = data.getIpsPorEps(eps);
 				int sizeIpsDisponibles = colaIpsDisponibles.getSize();
 				Ips *ipsDisponibles[sizeIpsDisponibles];

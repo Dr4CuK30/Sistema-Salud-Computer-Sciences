@@ -1070,60 +1070,6 @@ Cola<string*> ControladorData::getLaburos(){
 	return cola;
 }
 
-Cola<Persona*> ControladorData::getVacunadosPorFecha(string fecha, bool praDosis){
-	Cola<Persona*> colaPersonas;
-	Fecha fechaVacuna = crearFecha(fecha);
-	int size;
-	if(praDosis) size = pacientesPorFechaPrimeraDosis.getTamArbol();
-	else size = pacientesPorFechaSegundaDosis.getTamArbol();
-	
-	int idPersonas[size];
-	
-	if(praDosis){
-		pacientesPorFechaPrimeraDosis.inordenArrayFechas(pacientesPorFechaPrimeraDosis.obtenerRaiz(), 0, idPersonas);
-	}else{
-		pacientesPorFechaSegundaDosis.inordenArrayFechas(pacientesPorFechaSegundaDosis.obtenerRaiz(), 0, idPersonas);
-	}
-	
-	for(int i = 0; i < size; i++) colaPersonas.push(&(listaPersonas.obtenerDato(i)->data));
-}
-
-Cola<Persona*> ControladorData::getVacunados(){
-	ArbolBinarioOrdenado *arbolPersonas;
-	
-	for(int i = 1 ; i <= 3; i++){
-		ArbolBinarioOrdenado *pacientes = listaPacientesPorEstadoDeVacunacion.obtenerDato(i);
-		if("vacunados" == pacientes->getEtiqueta()){
-			arbolPersonas = pacientes;
-		}
-	}
-	return deArbolACola(arbolPersonas);	
-}
-
-Cola<Persona*> ControladorData::getSemiVacunados(){
-	ArbolBinarioOrdenado *arbolPersonas;
-	
-	for(int i = 1 ; i <= 3; i++){
-		ArbolBinarioOrdenado *pacientes = listaPacientesPorEstadoDeVacunacion.obtenerDato(i);
-		if("semi-vacunados" == pacientes->getEtiqueta()){
-			arbolPersonas = pacientes;
-		}
-	}
-	return deArbolACola(arbolPersonas);
-}
-
-Cola<Persona*> ControladorData::getNoVacunados(){
-	ArbolBinarioOrdenado *arbolPersonas;
-	
-	for(int i = 1 ; i <= 3; i++){
-		ArbolBinarioOrdenado *pacientes = listaPacientesPorEstadoDeVacunacion.obtenerDato(i);
-		if("no-vacunados" == pacientes->getEtiqueta()){
-			arbolPersonas = pacientes;
-		}
-	}
-	return deArbolACola(arbolPersonas);
-}
-
 Cola<Persona*> ControladorData::getPersonasPorEps(string eps){
 	
 	ArbolBinarioOrdenado *arbolPersonas;
@@ -1211,6 +1157,7 @@ Cola<Persona*> ControladorData::getPersonasPorCiudadResidencia(string ciudad){
 			arbolPersonas = pacientes;
 		}
 	}
+	
 	
 	
 	return deArbolACola(arbolPersonas);	
