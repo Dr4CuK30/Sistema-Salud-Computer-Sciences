@@ -158,14 +158,14 @@ class ControladorData{
 		Cola<Persona*> getPersonasPorIps(string ips, bool asignada);//
 		Cola<Persona*> getPersonasPorSexo(string sexo);//
 		Cola<Persona*> getPersonasPorPais(string pais);//
-		Cola<Ips*> getIpsPorCiudad(string ciudad);
-		Cola<Ips*> getIpsPorEps(string eps);
+		Cola<Ips*> getIpsPorCiudad(string ciudad);//
+		Cola<Ips*> getIpsPorEps(string eps);//
 		
 		
-		void getVacunadosPorFecha(string fecha);
-		void getVacunados();
-		void getSemiVacunados();
-		void getNoVacunados();
+		Cola<Persona*> getVacunadosPorFecha(string fecha);
+		Cola<Persona*> getVacunados();
+		Cola<Persona*> getSemiVacunados();
+		Cola<Persona*> getNoVacunados();
 		void getVacunasDisponibles(string ips);
 		
 		Persona *getPersona(int id);
@@ -1138,6 +1138,45 @@ Cola<string*> ControladorData::getLaburos(){
 	}
 	
 	return cola;
+}
+
+Cola<Persona*> getVacunadosPorFecha(string fecha){
+	
+}
+
+Cola<Persona*> ControladorData::getVacunados(){
+	ArbolBinarioOrdenado *arbolPersonas;
+	
+	for(int i = 1 ; i <= 3; i++){
+		ArbolBinarioOrdenado *pacientes = listaPacientesPorEstadoDeVacunacion.obtenerDato(i);
+		if("vacunados" == pacientes->getEtiqueta()){
+			arbolPersonas = pacientes;
+		}
+	}
+	return deArbolACola(arbolPersonas);	
+}
+
+Cola<Persona*> ControladorData::getSemiVacunados(){
+	ArbolBinarioOrdenado *arbolPersonas;
+	
+	for(int i = 1 ; i <= 3; i++){
+		ArbolBinarioOrdenado *pacientes = listaPacientesPorEstadoDeVacunacion.obtenerDato(i);
+		if("semi-vacunados" == pacientes->getEtiqueta()){
+			arbolPersonas = pacientes;
+		}
+	}
+	return deArbolACola(arbolPersonas);
+}
+Cola<Persona*> ControladorData::getNoVacunados(){
+	ArbolBinarioOrdenado *arbolPersonas;
+	
+	for(int i = 1 ; i <= 3; i++){
+		ArbolBinarioOrdenado *pacientes = listaPacientesPorEstadoDeVacunacion.obtenerDato(i);
+		if("no-vacunados" == pacientes->getEtiqueta()){
+			arbolPersonas = pacientes;
+		}
+	}
+	return deArbolACola(arbolPersonas);
 }
 
 Cola<Persona*> ControladorData::getPersonasPorEps(string eps){
