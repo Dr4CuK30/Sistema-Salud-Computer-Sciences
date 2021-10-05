@@ -125,6 +125,7 @@ class ControladorData{
 		//cambios de datos
 		//--------------------------Utils-------------------------------------//
 		int validarID(string);
+		Cola<Persona*> deArbolACola(ArbolBinarioOrdenado *);
 		
 		
 	public:
@@ -145,6 +146,8 @@ class ControladorData{
 		Cola<Persona*> getPersonasPorTipoVacuna(string vacuna);//
 		Cola<Persona*> getPersonasPorIps(string ips, bool asignada);//
 		Cola<Persona*> getPersonasPorSexo(string sexo);//
+		
+		
 		void getVacunadosPorFecha(string fecha);
 		void getVacunados();
 		void getSemiVacunados();
@@ -857,7 +860,25 @@ void ControladorData::organizarIpsPorCiudad(){
 	}
 }
 
-
+Cola<Persona*> ControladorData::deArbolACola(ArbolBinarioOrdenado *arbolPersonas){
+	Cola<Persona*> colaPersonas;
+	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
+	
+	int idPersonasOrdenadas[cantidadPersonasLocal];
+	pacientesPorEdad.inordenArray(arbolPersonas->obtenerRaiz(),0, idPersonasOrdenadas);
+	
+	for(int i = 0; i < cantidadPersonasLocal; i++){
+		int idBusqueda = idPersonasOrdenadas[i];
+		
+		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
+		
+		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
+		Persona *persona = &(casilla->data);
+		colaPersonas.push(persona);
+	}
+	
+	return colaPersonas;
+}
 //-------------------------metodos publicos----------------------------//
 //aca son importantes los rojinegros
 Cola<Persona*> ControladorData::getPersonas(){
@@ -918,7 +939,7 @@ Cola<string*> ControladorData::getCiudades(){
 
 
 Cola<Persona*> ControladorData::getPersonasPorEps(string eps){
-	Cola<Persona*> colaPersonas;
+	
 	ArbolBinarioOrdenado *arbolPersonas;
 	for(int i = 1 ; i <= cantidadEPS; i++){
 		ArbolBinarioOrdenado *pacientesEnEps = listaPacientesPorEps.obtenerDato(i);
@@ -926,22 +947,7 @@ Cola<Persona*> ControladorData::getPersonasPorEps(string eps){
 			arbolPersonas = pacientesEnEps;
 		}
 	}
-	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
-	
-	int idPersonasOrdenadas[cantidadPersonasLocal];
-	pacientesPorEdad.inordenArray(arbolPersonas->obtenerRaiz(),0, idPersonasOrdenadas);
-	
-	for(int i = 0; i < cantidadPersonasLocal; i++){
-		int idBusqueda = idPersonasOrdenadas[i];
-		
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
-		colaPersonas.push(persona);
-	}
-	
-	return colaPersonas;
+	return deArbolACola(arbolPersonas);
 	
 }
 
@@ -967,7 +973,6 @@ Cola<Persona*> ControladorData::getPersonasPorRangoDeEdad(string rango){
 }
 
 Cola<Persona*> ControladorData::getPersonasPorTipoVacuna(string vacuna){
-	Cola<Persona*> colaPersonas;
 	ArbolBinarioOrdenado *arbolPersonas;
 	
 	for(int i = 1 ; i <= cantidadVacunas; i++){
@@ -976,27 +981,12 @@ Cola<Persona*> ControladorData::getPersonasPorTipoVacuna(string vacuna){
 			arbolPersonas = pacientes;
 		}
 	}
+
 	
-	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
-	
-	int idPersonasOrdenadas[cantidadPersonasLocal];
-	pacientesPorEdad.inordenArray(arbolPersonas->obtenerRaiz(),0, idPersonasOrdenadas);
-	
-	for(int i = 0; i < cantidadPersonasLocal; i++){
-		int idBusqueda = idPersonasOrdenadas[i];
-		
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
-		colaPersonas.push(persona);
-	}
-	
-	return colaPersonas;
+	return deArbolACola(arbolPersonas);
 }
 
 Cola<Persona*> ControladorData::getPersonasPorIps(string ips, bool asignada){
-	Cola<Persona*> colaPersonas;
 	ArbolBinarioOrdenado *arbolPersonas;
 	
 	for(int i = 1 ; i <= cantidadIPS; i++){
@@ -1008,26 +998,11 @@ Cola<Persona*> ControladorData::getPersonasPorIps(string ips, bool asignada){
 			arbolPersonas = pacientes;
 		}
 	}
-	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
 	
-	int idPersonasOrdenadas[cantidadPersonasLocal];
-	pacientesPorEdad.inordenArray(arbolPersonas->obtenerRaiz(),0, idPersonasOrdenadas);
-	
-	for(int i = 0; i < cantidadPersonasLocal; i++){
-		int idBusqueda = idPersonasOrdenadas[i];
-		
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
-		colaPersonas.push(persona);
-	}
-	
-	return colaPersonas;
+	return deArbolACola(arbolPersonas);
 }
 
 Cola<Persona*> ControladorData::getPersonasPorSexo(string sexo){
-	Cola<Persona*> colaPersonas;
 	ArbolBinarioOrdenado *arbolPersonas;
 	
 	for(int i = 1 ; i <= 2; i++){
@@ -1037,27 +1012,10 @@ Cola<Persona*> ControladorData::getPersonasPorSexo(string sexo){
 			arbolPersonas = pacientes;
 		}
 	}
-	
-	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
-	
-	int idPersonasOrdenadas[cantidadPersonasLocal];
-	pacientesPorEdad.inordenArray(arbolPersonas->obtenerRaiz(),0, idPersonasOrdenadas);
-	
-	for(int i = 0; i < cantidadPersonasLocal; i++){
-		int idBusqueda = idPersonasOrdenadas[i];
-		
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
-		colaPersonas.push(persona);
-	}
-	
-	return colaPersonas;
+	return deArbolACola(arbolPersonas);
 }
 
 Cola<Persona*> ControladorData::getPersonasPorCiudadResidencia(string ciudad){
-	Cola<Persona*> colaPersonas;
 	ArbolBinarioOrdenado *arbolPersonas;
 	
 	for(int i = 1 ; i <= cantidadCiudades; i++){
@@ -1067,21 +1025,7 @@ Cola<Persona*> ControladorData::getPersonasPorCiudadResidencia(string ciudad){
 			arbolPersonas = pacientes;
 		}
 	}
-	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
 	
-	int idPersonasOrdenadas[cantidadPersonasLocal];
-	pacientesPorEdad.inordenArray(arbolPersonas->obtenerRaiz(),0, idPersonasOrdenadas);
-	
-	for(int i = 0; i < cantidadPersonasLocal; i++){
-		int idBusqueda = idPersonasOrdenadas[i];
-		
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
-		colaPersonas.push(persona);
-	}
-	
-	return colaPersonas;	
+	return deArbolACola(arbolPersonas);	
 }
 #endif

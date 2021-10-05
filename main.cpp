@@ -18,9 +18,11 @@
 using namespace std;
 void empezarPrograma();
 void consultarPacientesPor();
+void consultarEstadisticas();
 void impresionPersonaBasico(Cola<Persona*>);
 
 ControladorData data;
+string rangosDeEdad[] = {"-20","20-29","30-39","40-49","50-59","60-69","70-79","+80"};
 
 int main(int argc, char *argv[]) {          
 	
@@ -38,7 +40,7 @@ void empezarPrograma(){
 	
 	int opcion;
 	  
-	while(opcion != 8){  
+	while(opcion != 9){  
 		cout<<"------------------------------------------------------------------------------------------------"<<endl;
 		cout<<"-------------------------------BIENVENIDO A SALDAVACUNA APP-------------------------------------"<<endl;
 		cout<<"------------------------------------------------------------------------------------------------"<<endl;
@@ -50,8 +52,9 @@ void empezarPrograma(){
 		cout<<"5. Ver todos las vacunas registradas"<<endl;
 		cout<<"6. Ver todas las EPSs"<<endl;
 		cout<<"7. Ver todas las IPSs"<<endl;
-		cout<<"8. SALIR"<<endl<<endl;  
-		      
+		cout<<"8. Consultas estadisticas"<<endl;
+		cout<<"9. SALIR"<<endl<<endl;  
+		        
 		cout<<"Opcion: ";
 		cin>>opcion;      
 		cout<<" "<<endl<<endl<<endl<<endl;
@@ -137,6 +140,9 @@ void empezarPrograma(){
 				break;
 			}
 			case 8:
+				consultarEstadisticas();
+				break;
+			case 9:
 				cout<<"Hasta pronto..."<<endl; 
 				break;
 			default:	
@@ -153,7 +159,7 @@ void empezarPrograma(){
 void consultarPacientesPor(){ 
 	int opcion;             
 	     
-	while(opcion != 5){    
+	while(opcion != 10){    
 		cout<<"---------------------------------"<<endl;
 		cout<<"Puede consultar los pacientes por: "<<endl;
     	cout<<"1. Edad"<<endl;
@@ -164,7 +170,9 @@ void consultarPacientesPor(){
 		cout<<"6. IPS asignada para vacunacion"<<endl;
 		cout<<"7. Ciudad de residencia"<<endl;
 		cout<<"8. Sexo"<<endl;
-		cout<<"9. Volver al menu principal"<<endl<<endl;
+		cout<<"----"<<endl;
+		cout<<"9. Consultas dobles"<<endl;
+		cout<<"10. Volver al menu principal"<<endl<<endl;
 		        
 		cout<<"Opcion: ";
 		cin>>opcion;     
@@ -172,7 +180,7 @@ void consultarPacientesPor(){
 		  
 		switch(opcion){
 			case 1:{
-				string rangosDeEdad[] = {"-20","20-29","30-39","40-49","50-59","60-69","70-79","+80"};
+				
 				
 				int opcion;
 				cout<<"Seleccione el rango de edad: "<<endl;
@@ -327,6 +335,75 @@ void consultarPacientesPor(){
 	}
 	
 
+}
+
+void consultarEstadisticas(){
+	int opcion; 
+	
+	while(opcion != 10){    
+		cout<<"---------------------------------"<<endl;
+		cout<<"Puede consultar las siguientes estadisticas: "<<endl;
+    	cout<<"1. Total de personas por EPS"<<endl;
+		cout<<"10. Volver al menu principal"<<endl<<endl;
+		        
+		cout<<"Opcion: ";
+		cin>>opcion;     
+		cout<<"---------------------------------"<<endl<<endl;
+		
+		switch(opcion){
+			case 1:{
+				Cola<Eps*> colaEps = data.getEpss();
+				Eps *epss[data.getCantidadEps()];
+				
+				int opcion;
+				cout<<"Seleccione la EPS: "<<endl;
+				
+				for(int i = 0; i < data.getCantidadEps(); i++){
+					epss[i] = colaEps.pop();
+					
+					cout<<i+1<<". "<<epss[i]->getNombre()<<endl;
+				}
+				
+				cout<<"Opcion: ";
+				cin>>opcion;   
+				
+				Cola<Persona*> personas = data.getPersonasPorEps(epss[opcion-1]->getNombre());
+				int cantidadTotal = personas.getSize();
+				
+				int cantidadPorEps[] = {0,0,0,0,0,0,0,0};
+				
+				for(int i = 1; i <= cantidadTotal; i++){
+					Persona *persona = personas.pop();
+					
+					if(persona->getEdad() < 20) cantidadPorEps[0]++;
+					else if(persona->getEdad() >= 20 && persona->getEdad() <= 29) cantidadPorEps[1]++;
+					else if(persona->getEdad() >= 30 && persona->getEdad() <= 39) cantidadPorEps[2]++;
+					else if(persona->getEdad() >= 40 && persona->getEdad() <= 49) cantidadPorEps[3]++;
+					else if(persona->getEdad() >= 50 && persona->getEdad() <= 59) cantidadPorEps[4]++;
+					else if(persona->getEdad() >= 60 && persona->getEdad() <= 69) cantidadPorEps[5]++;
+					else if(persona->getEdad() >= 70 && persona->getEdad() <= 79) cantidadPorEps[6]++;
+					else if(persona->getEdad() >= 80) cantidadPorEps[7]++;
+				}
+				         
+				cout<<"|---------------------------------------------------------------|"<<endl;
+				cout<<"|EPS   "<<setw(15)<<left<<epss[opcion-1]->getNombre()<<endl;
+				cout<<"|---------------------------------------------------------------|"<<endl;
+				cout<<"|Cantidad total: "<<cantidadTotal<<endl;
+				cout<<"|---------------------------------------------------------------|"<<endl;
+				cout<<"|---------------------------------------------------------------|"<<endl;
+				cout<<"|---------------------------------------------------------------|"<<endl;
+				cout<<"| ";for(int i = 0; i < 8; i++)cout<<setw(5)<<rangosDeEdad[i]<<" | ";
+				cout<<endl;
+				cout<<"|---------------------------------------------------------------|"<<endl;
+				cout<<"| ";for(int i = 0; i < 8; i++)cout<<setw(5)<<cantidadPorEps[i]<<" | ";
+				cout<<endl;
+				cout<<"|---------------------------------------------------------------|"<<endl;
+				break;
+			}
+			default:
+				break;
+		}
+	}
 }
 
 
