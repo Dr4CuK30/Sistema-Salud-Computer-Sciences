@@ -390,13 +390,16 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 				}
 				case 4:{
 					int idEps = atoi(atributos[4].c_str());
+					int idCiudad = atoi(atributos[3].c_str());
 
 					Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
+					string *ciudad = &(listaCiudades.obtenerDato(idCiudad)->data);
+					
 //					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
 //					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
 					
 					//poner bien la ciudad
-					Ips ips = Ips(atributos[1],atributos[2],atributos[3],eps);
+					Ips ips = Ips(atributos[1],atributos[2],ciudad,eps);
 					agregarIps(ips, id);
 					
 					break;
@@ -873,7 +876,7 @@ void ControladorData::organizarIpsPorCiudad(){
 		Ips *ips = &(casilla->data);
 		
 		for(int j = 0; j < cantidadCiudades; j++){
-			if(ips->getCiudad() == ciudadesDisponibles[j]){
+			if(*(ips->getCiudad()) == ciudadesDisponibles[j]){
 				Lista<Ips*> *lista = listaIpsPorCiudad.obtenerDato(j+1);
 				lista->intertar_final(ips);
 				break;

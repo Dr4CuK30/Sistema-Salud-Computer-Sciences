@@ -574,8 +574,38 @@ void consultasDobles(){
 				break;
 			}
 			case 2:{
+				//lista final con filtro
 				string rango = escogerRangoDeEdad();
 				string eps = escogerEps();
+				
+				Cola<Persona*> personas = data.getPersonasPorRangoDeEdad(rango);
+				int size = personas.getSize();
+				
+				Cola<Persona*> personasFiltroEps;
+				for(int i = 0 ; i < size; i++){
+					Persona *persona = personas.pop();
+					if(persona->getEpsName() == eps){
+						personasFiltroEps.push(persona);
+					}
+				}
+				
+				//clasificacion
+				size = personasFiltroEps.getSize();
+				
+				Cola<Persona*> personasPorCiudad[data.getCantidadCiudades()];
+				//filtrado por ciudad
+				for(int i = 0 ; i < size; i++) {
+					Persona *persona = personasFiltroEps.pop();
+					
+					for(int j = 0; j < data.getCantidadCiudades(); j++){
+						if(*(persona->getCiudad_resid()) == *ciudades[j]){
+							personasPorCiudad[j].push(persona);
+						} 
+					}
+				}
+				
+				//impresion
+				
 				break;
 			}
 			case 3:{

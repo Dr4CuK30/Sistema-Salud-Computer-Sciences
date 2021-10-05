@@ -10,14 +10,14 @@ class Ips{
 	private:
 		string nombre;
 		string direccion;
-		string ciudad;
+		string *ciudad;
 		Eps *eps;
 
 	public:
 
 		Ips(){
 		}
-		Ips(string nombre, string direccion, string ciudad, Eps *eps){
+		Ips(string nombre, string direccion, string *ciudad, Eps *eps){
 			this->nombre = nombre;
 			this->direccion = direccion;
 			this->ciudad = ciudad;
@@ -34,7 +34,7 @@ class Ips{
 			return this->direccion;
 		}
 
-		string getCiudad()
+		string *getCiudad()
 		{
 			return this->ciudad;
 		}
