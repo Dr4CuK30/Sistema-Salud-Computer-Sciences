@@ -91,10 +91,10 @@ void ArbolBiOrdFechas::insertarNodo(int dato, Fecha valor_) {
         iterador = raiz;
 
         while (true) {
-            bool comparacion = esMayorQue(valor_, iterador->valor);
+            string comparacion = esMayorQue(valor_, iterador->valor);
 
             // Mayor o igual
-            if (comparacion!=1) {
+            if (comparacion=="menor") {
                 if (iterador -> izquierda == NULL) {
                     iterador -> izquierda = aux;
                     this->tamArbol++;
