@@ -764,9 +764,32 @@ string escogerEps(){
 	}
 				  
 	cout<<"Opcion: ";
+	
+	
 	cin>>opcion;  
 	
 	return epss[opcion-1]->getNombre();
+}
+
+string escogerCiudad(){
+	Cola<string*> colaCiudad = data.getCiudades();
+	string *ciudad[data.getCantidadCiudades()];
+				
+	int opcion;
+	cout<<"Seleccione la ciudad: "<<endl;
+				
+	for(int i = 0; i < data.getCantidadCiudades(); i++){
+		ciudad[i] = colaCiudad.pop();		
+		cout<<i+1<<". "<<*(ciudad[i])<<endl;
+	}
+				  
+	cout<<"Opcion: ";
+	cin>>opcion;
+
+	if(opcion<1 || opcion>data.getCantidadCiudades())
+	return "";
+	
+	return *(ciudad[opcion-1]);
 }
 
 string escogerActividadLaboral(){
@@ -946,4 +969,12 @@ void registrarPersonaMenu(){
 			cout<<"Revise la información registrada e intentélo nuevamente"<<endl;
 		}
 	}
+
+	//Ciudad de nacimiento:
+	
+	string ciudadNacimiento="";
+	while (ciudadNacimiento==""){
+		ciudadNacimiento = escogerCiudad();
+	}
+	
 }
