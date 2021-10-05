@@ -295,7 +295,12 @@ int Persona::getEdad(){
 
 int Persona::estadoVacuna(){
 	if(this->f_segunda_dosis != NULL) return 2;
-	if(this->f_primera_dosis != NULL) return 1;
+	if(this->f_primera_dosis != NULL) {
+		if(this->vacuna->getCantidadDosis() == 1){
+			return 2;
+		}
+		return 1;
+	}
 	return 0;
 }
 #endif

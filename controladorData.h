@@ -12,6 +12,7 @@
 
 #include "ArbolBinarioOrdenado.h"
 #include "ArbolRojiNegro.h"
+#include "ArbolBiOrdFechas.h"
 #include "Pila.h"
 #include "Cola.h"
 
@@ -60,8 +61,8 @@ class ControladorData{
 		//---------------------Arboles ordenados----------------------------------//
 		
 		ArbolBinarioOrdenado pacientesPorEdad;
-		ArbolBinarioOrdenado pacientesPorFechaPrimeraDosis;
-		ArbolBinarioOrdenado pacientesPorFechaSegundaDosis;
+		ArbolBiOrdFechas pacientesPorFechaPrimeraDosis;
+		ArbolBiOrdFechas pacientesPorFechaSegundaDosis;
 
 		//---------------------Arboles Rojinegros--------------------------------//
 		ArbolRojiNegro < Casilla<Vacuna> > arbolRJVacunas;
@@ -107,14 +108,14 @@ class ControladorData{
 		void organizarPacientesPorCiudadResidencia();//
 		void organizarPacientesPorPais();//
 		void organizarPacientesPorSexo();//
-		void organizarPacientesPorLaburo();
+		void organizarPacientesPorLaburo();//
 		void organizarPacientesPorVacuna();//
 		
 		void organizarPacientesPorRangosDeEdad();//
 		void organizarVacunasPorEps();//
 		void organizarVacunasPorIps();//
 		void organizarIpsPorCiudad();//
-		void organizarIpsPorEps();
+		void organizarIpsPorEps();//
 		void organizarPacientesPorEstadoVacunacion();
 		
 		//---------------Mutacion de estructuras--------------------------------//
@@ -209,11 +210,13 @@ ControladorData::ControladorData(){
 	this->organizarPacientesPorPais();
 	
 	this->organizarPacientesPorCiudadResidencia();
+	this->organizarPacientesPorEstadoVacunacion();
 	this->organizarVacunasPorEps();
 	this->organizarVacunasPorIps();
 	this->organizarPacientesPorRangosDeEdad();
 	this->organizarIpsPorCiudad();
 	this->organizarIpsPorEps();
+	
 	
 }
 
@@ -484,6 +487,11 @@ void ControladorData::agregarPersona(Persona persona, int id){
 	casilla.id = id;
 	
 	pacientesPorEdad.insertarNodo(id, persona.getEdad());
+	if(persona.getF_primera_dosis() != NULL)
+		 pacientesPorFechaPrimeraDosis.insertarNodo(id, *(persona.getF_primera_dosis()));
+	if(persona.getF_segunda_dosis() != NULL)
+		 pacientesPorFechaSegundaDosis.insertarNodo(id, *(persona.getF_segunda_dosis()));
+		 
 	listaPersonas.intertar_final(casilla);
 
 	Casilla< Persona > * personaDir = listaPersonas.obtenerDato(id);
@@ -983,6 +991,35 @@ void ControladorData::organizarIpsPorEps(){
 	}
 }
 
+void ControladorData::organizarPacientesPorEstadoVacunacion(){
+	ArbolBinarioOrdenado vacunados;
+	vacunados.setEtiqueta("vacunados");
+	ArbolBinarioOrdenado semivacunados;
+	semivacunados.setEtiqueta("semi-vacunados");
+	ArbolBinarioOrdenado novacunados;
+	novacunados.setEtiqueta("no-vacunados");
+	
+	for(int i = 1; i <= listaPersonas.Tam_lista(); i++){
+		
+		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
+		Persona *persona = &(arbolRJPersonas.buscarNodo(i, &raiz, NULL)->data->data);
+
+		int id = i;
+		
+		if(persona->estadoVacuna() == 2){
+			vacunados.insertarNodo(id, persona->getEdad());
+		}else if(persona->estadoVacuna() == 1){
+			semivacunados.insertarNodo(id, persona->getEdad());
+		}else if(persona->estadoVacuna() == 0){
+			novacunados.insertarNodo(id, persona->getEdad());
+		}
+	}
+	
+	listaPacientesPorEstadoDeVacunacion.intertar_final(vacunados);
+	listaPacientesPorEstadoDeVacunacion.intertar_final(semivacunados);
+	listaPacientesPorEstadoDeVacunacion.intertar_final(novacunados);
+}
+
 Cola<Persona*> ControladorData::deArbolACola(ArbolBinarioOrdenado *arbolPersonas){
 	Cola<Persona*> colaPersonas;
 	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
@@ -1003,25 +1040,7 @@ Cola<Persona*> ControladorData::deArbolACola(ArbolBinarioOrdenado *arbolPersonas
 	return colaPersonas;
 }
 
-//Cola<Ips*> ControladorData::deListaACola(Lista<Ips> *listaIps){
-//	Cola<Ips*> colaIps;
-//	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
-//	
-//	int idPersonasOrdenadas[cantidadPersonasLocal];
-//	pacientesPorEdad.inordenArray(arbolPersonas->obtenerRaiz(),0, idPersonasOrdenadas);
-//	
-//	for(int i = 0; i < cantidadPersonasLocal; i++){
-//		int idBusqueda = idPersonasOrdenadas[i];
-//		
-//		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-//		
-//		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
-//		Persona *persona = &(casilla->data);
-//		cout<<persona->getNombres()<<endl;
-//		colaPersonas.push(persona);
-//	}
-//	return colaPersonas;
-//}
+
 //-------------------------metodos publicos----------------------------//
 //aca son importantes los rojinegros
 Cola<Persona*> ControladorData::getPersonas(){
