@@ -162,7 +162,7 @@ class ControladorData{
 		Cola<Ips*> getIpsPorEps(string eps);//
 		
 		
-		Cola<Persona*> getVacunadosPorFecha(string fecha);
+		Cola<Persona*> getVacunadosPorFecha(string fecha, bool);
 		Cola<Persona*> getVacunados();
 		Cola<Persona*> getSemiVacunados();
 		Cola<Persona*> getNoVacunados();
@@ -1140,8 +1140,19 @@ Cola<string*> ControladorData::getLaburos(){
 	return cola;
 }
 
-Cola<Persona*> getVacunadosPorFecha(string fecha){
+Cola<Persona*> ControladorData::getVacunadosPorFecha(string fecha, bool praDosis){
+	Fecha fechaVacuna = crearFecha(fecha);
+	int size;
+	if(praDosis) size = pacientesPorFechaPrimeraDosis.getTamArbol();
+	else size = pacientesPorFechaSegundaDosis.getTamArbol();
 	
+	int idPersonas[size];
+	
+	if(praDosis){
+		pacientesPorFechaPrimeraDosis.inordenArray(pacientesPorFechaPrimeraDosis.obtenerRaiz(), 0);
+	}else{
+		pacientesPorFechaSegundaDosis.inordenArray(pacientesPorFechaSegundaDosis.obtenerRaiz(), 0);
+	}
 }
 
 Cola<Persona*> ControladorData::getVacunados(){
@@ -1167,6 +1178,7 @@ Cola<Persona*> ControladorData::getSemiVacunados(){
 	}
 	return deArbolACola(arbolPersonas);
 }
+
 Cola<Persona*> ControladorData::getNoVacunados(){
 	ArbolBinarioOrdenado *arbolPersonas;
 	
@@ -1242,6 +1254,7 @@ Cola<Persona*> ControladorData::getPersonasPorIps(string ips, bool asignada){
 	
 	return deArbolACola(arbolPersonas);
 }
+
 
 Cola<Persona*> ControladorData::getPersonasPorSexo(string sexo){
 	ArbolBinarioOrdenado *arbolPersonas;
