@@ -395,6 +395,7 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 //					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
 //					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
 					
+					//poner bien la ciudad
 					Ips ips = Ips(atributos[1],atributos[2],atributos[3],eps);
 					agregarIps(ips, id);
 					

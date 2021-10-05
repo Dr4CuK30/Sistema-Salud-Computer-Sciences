@@ -505,8 +505,16 @@ void consultasDobles(){
 			
 		switch(opcion){
 			case 1:{
-				string laburo; //escoger actividad laboral
+				string laburo = escogerActividadLaboral();
 				string rango = escogerRangoDeEdad();
+				
+				Cola<Persona*> personas = data.getPersonasPorRangoDeEdad(rango);
+				int size = personas.getSize();
+				Persona *personasAdistribuir[size];
+				for(int i = 0 ; i < size; i++) personasAdistribuir[i] = personas.pop();
+				
+				Cola<Persona*> personasPorRangosDeEdad[8];
+				
 				
 				break;
 			}
@@ -645,6 +653,25 @@ string escogerEps(){
 	cin>>opcion;  
 	
 	return epss[opcion-1]->getNombre();
+}
+
+string escogerActividadLaboral(){
+	
+	Cola<string*> colaLaburo = data.getLaburos();
+	string *laburos[data.getCantidadLaburos()];
+	
+	int opcion;
+	cout<<"Seleccione la actividad laboral: "<<endl;
+	
+	for(int i = 0; i < data.getCantidadLaburos(); i++){
+		laburos[i] = colaLaburo.pop();
+		cout<<i+1<<". "<<*laburos[i]<<endl;
+	}
+	
+	cout<<"Opcion: ";
+	cin>>opcion;
+	
+	return *laburos[opcion-1];
 }
 
 void impresionPersonaBasico(Cola<Persona*> personas){
