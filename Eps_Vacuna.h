@@ -41,6 +41,10 @@ class Eps_Vacuna{
 			Eps obtained = *eps;
 			return obtained.getNombre();
 		}
+
+		string getNombre(){
+			return this->getVacunaName() + this->getEpsName();
+		}
 };
 
 #endif
