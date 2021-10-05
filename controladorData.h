@@ -268,6 +268,7 @@ void ControladorData::cargarArchivosLocales(){
 	//9 Laburo
 	
 	//Este orden es importante
+	cargarArchivo("Archivos/laburos.txt", 2, 9);
 	cargarArchivo("Archivos/ciudades.txt", 2, 7);
 	cargarArchivo("Archivos/paises.txt", 2, 8);
 	
@@ -279,7 +280,7 @@ void ControladorData::cargarArchivosLocales(){
 	
 	cargarArchivo("Archivos/eps_vacuna.txt", CANT_ATRIBUTOS_EPS_VACUNA + 1, 5);
 	cargarArchivo("Archivos/ips_vacuna.txt", CANT_ATRIBUTOS_IPS_VACUNA + 1, 6);
-	cargarArchivo("Archivos/laburos.txt", 2, 9);
+	
 	
 }
 
@@ -428,7 +429,11 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 				}
 				case 4:{
 					int idEps = atoi(atributos[4].c_str());
-					Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
+
+					// Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
+
+					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
+					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
 					
 					Ips ips = Ips(atributos[1],atributos[2],atributos[3],eps);
 					agregarIps(ips, id);
@@ -437,8 +442,14 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					int idEps = atoi(atributos[1].c_str());
 					int idVacuna =  atoi(atributos[2].c_str()); 
 					
-					Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
+					// Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
 					Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
+
+					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
+					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
+
+					// NodoArbolRJ< Casilla<Vacuna> > * raizVacuna = arbolRJVacunas.raiz_arbol();
+					// Vacuna *vacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raizVacuna, NULL)->data->data);
 					
 					Eps_Vacuna epsVacuna = Eps_Vacuna(eps, vacuna, atoi(atributos[2].c_str()));
 					agregarEpsVacuna(epsVacuna, id);
