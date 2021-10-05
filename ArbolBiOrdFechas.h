@@ -45,7 +45,7 @@ public:
 	void preorden(NodoArbolFechas*);
 	void posorden(NodoArbolFechas*);
 
-    int * inordenArray(NodoArbolFechas*, int currentIndex);
+    void inordenArray(NodoArbolFechas*, int currentIndex, int array[]);
 
     string getEtiqueta()
     {
@@ -268,8 +268,7 @@ void ArbolBiOrdFechas::inorden(NodoArbolFechas* p){
 	}
 }
 
-
-void inorderComplement(NodoArbolFechas* p, int currentIndex, int orderdArray[], int lenght){
+void inorderComplement(NodoArbol* p, int currentIndex, int orderdArray[], int lenght){
     if(p != NULL){
 		inorderComplement(p->izquierda, currentIndex, orderdArray, lenght);
         while (orderdArray[currentIndex]!=0)
@@ -287,17 +286,16 @@ void inorderComplement(NodoArbolFechas* p, int currentIndex, int orderdArray[], 
 	}
 }
 
-int * ArbolBiOrdFechas::inordenArray(NodoArbolFechas* p, int currentIndex){
-
+void ArbolBinarioOrdenado::inordenArray(NodoArbol* p, int currentIndex, int array[]){
+	
     
     const int lenght = this->tamArbol;
-    int orderdArray[lenght]={};
+    
     for(int i=0;i<lenght;i++){
-        orderdArray[i] = 0;
+        array[i] = 0;
     }
 
-    inorderComplement(p, currentIndex, orderdArray, lenght);
-    return orderdArray;
+    inorderComplement(p, currentIndex, array, lenght);
 }
 
 
