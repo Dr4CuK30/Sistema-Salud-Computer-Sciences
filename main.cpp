@@ -28,17 +28,14 @@ string escogerVacuna();
 string escogerActividadLaboral();
 void impresionPersonaBasico(Cola<Persona*>);
 
+
 ControladorData data;
 string rangosDeEdad[] = {"-20","20-29","30-39","40-49","50-59","60-69","70-79","+80"};
 
 int main(int argc, char *argv[]) {          
 	
 	
-<<<<<<< HEAD
-	
-=======
 	// Fechas de Prueba
->>>>>>> 133b2d5ee6d20887a8d3b13f608b1d75257f813e
 //	ArbolBiOrdFechas arbF;
 //	Fecha fecha1;
 //	Fecha fecha2;
