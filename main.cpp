@@ -170,6 +170,7 @@ void consultarPacientesPor(){
 		cout<<"6. IPS asignada para vacunacion"<<endl;
 		cout<<"7. Ciudad de residencia"<<endl;
 		cout<<"8. Sexo"<<endl;
+		cout<<"9. Pais de nacimiento"<<endl;
 		cout<<"----"<<endl;
 		cout<<"9. Consultas dobles"<<endl;
 		cout<<"10. Volver al menu principal"<<endl<<endl;
@@ -295,7 +296,7 @@ void consultarPacientesPor(){
 				int opcion;
 				cout<<"Seleccione la ciudad: "<<endl;
 				
-				for(int i = 0; i < data.getCantidadEps(); i++){
+				for(int i = 0; i < data.getCantidadCiudades(); i++){
 					ciudades[i] = colaCiudades.pop();
 					
 					cout<<i+1<<". "<<*ciudades[i]<<endl;
@@ -327,6 +328,88 @@ void consultarPacientesPor(){
 				impresionPersonaBasico(personas);
 				break;
 			}        
+			case 9:{
+				//lectura pais
+				Cola<string*> colaPaises = data.getPaises();
+				string *paises[data.getCantidadPaises()];
+				
+				int opcion;
+				cout<<"Seleccione el pais: "<<endl;
+				
+				for(int i = 0; i < data.getCantidadPaises(); i++){
+					paises[i] = colaPaises.pop();
+					
+					cout<<i+1<<". "<<*paises[i]<<endl;
+				}
+				
+				cout<<"Opcion: ";
+				cin>>opcion;   
+				
+				string paisSeleccionado = *paises[opcion-1];
+				
+				//estructuracion
+				Cola<string*> colaCiudades = data.getCiudades();
+				string *ciudades[data.getCantidadCiudades()];
+				Cola<Persona*> arregloPersonasPorCiudad[data.getCantidadCiudades()];
+				
+				Cola<Eps*> colaEps = data.getEpss();
+				Eps *epss[data.getCantidadEps()];
+				
+				
+				for(int i = 0; i < data.getCantidadEps(); i++) epss[i] = colaEps.pop();
+				
+				
+				for(int i = 0; i < data.getCantidadCiudades(); i++){
+					ciudades[i] = colaCiudades.pop();
+					
+					Cola<Persona*> personas = data.getPersonasPorCiudadResidencia(*ciudades[i]);
+					arregloPersonasPorCiudad[i] = personas;
+				}
+				
+				//impresion y verificacion por pais
+				cout<<"------------------"<<paisSeleccionado<<"-----------------------"<<endl;
+				
+				for(int i = 0; i < data.getCantidadCiudades(); i++){
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "<<*ciudades[i]<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					cout<<"| "; for(int j = 0; j < data.getCantidadEps(); j++) cout<<setw(25)<<epss[j]->getNombre()<<" | ";
+					cout<<endl;
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+					while(arregloPersonasPorCiudad[i].getSize() > 0){
+						cout<<"| ";
+						Persona *persona = arregloPersonasPorCiudad[i].pop();
+						for(int j = 0; j < data.getCantidadEps(); j++){
+							
+							string dato;
+							if(*(persona->getPais_nac()) == paisSeleccionado){
+								
+								if(persona->getEpsName() == epss[j]->getNombre()){
+									dato = persona->getNombres() + " " + persona->getApellidos();
+									
+								}else{
+									dato = "";
+								}
+							}
+							cout<<setw(25)<<dato<<" | ";
+							
+						}	
+						cout<<endl; 
+					}
+					cout<<"|-----------------------------------------------------------------------------------|"<<endl;
+					
+				}
+				
+				   
+				
+				
+				
+//				impresionPersonaBasico(personas);
+
+				
+				break;
+			}
 			default:	
 				cout<<"Opcion no valida"<<endl<<endl;
 				break;           

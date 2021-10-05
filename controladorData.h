@@ -74,6 +74,7 @@ class ControladorData{
 		Lista < ArbolBinarioOrdenado > listaPacientesPorIps;
 		Lista < ArbolBinarioOrdenado > listaPacientesPorIpsAsignada;
 		Lista < ArbolBinarioOrdenado > listaPacientesPorCiudadResidencia;
+		Lista < ArbolBinarioOrdenado > listaPacientesPorPais;
 		Lista < ArbolBinarioOrdenado > listaPacientesPorSexo;
 		Lista < ArbolBinarioOrdenado > listaPacientesPorLaburo;
 		Lista < ArbolBinarioOrdenado > listaPacientesPorVacuna;
@@ -98,6 +99,7 @@ class ControladorData{
 		void organizarPacientesPorIps();//
 		void organizarPacientesPorIpsAsignada();
 		void organizarPacientesPorCiudadResidencia();//
+		void organizarPacientesPorPais();
 		void organizarPacientesPorSexo();//
 		void organizarPacientesPorLaburo();
 		void organizarPacientesPorVacuna();//
@@ -146,6 +148,7 @@ class ControladorData{
 		Cola<Persona*> getPersonasPorTipoVacuna(string vacuna);//
 		Cola<Persona*> getPersonasPorIps(string ips, bool asignada);//
 		Cola<Persona*> getPersonasPorSexo(string sexo);//
+		Cola<Persona*> getPersonasPorPais(string pais);//
 		
 		
 		void getVacunadosPorFecha(string fecha);
@@ -191,6 +194,8 @@ ControladorData::ControladorData(){
 	this->organizarPacientesPorIps();
 	this->organizarPacientesPorSexo();
 	this->organizarPacientesPorVacuna();
+	this->organizarPacientesPorPais();
+	
 	this->organizarPacientesPorCiudadResidencia();
 	this->organizarVacunasPorEps();
 	this->organizarVacunasPorIps();
@@ -344,7 +349,7 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					
 					if(idPais == 0) pPais = NULL;
 					else{
-						Casilla<string> *casilla = listaCiudades.obtenerDato(idPais);
+						Casilla<string> *casilla = listaPaises.obtenerDato(idPais);
 						pPais = &(casilla->data);
 					}
 					if(idCiudadRes == 0) pCiudadRes = NULL;
@@ -728,6 +733,33 @@ void ControladorData::organizarPacientesPorCiudadResidencia(){
 	
 }
 
+void ControladorData::organizarPacientesPorPais(){
+	
+	string paisesDisponibles[cantidadPaises];
+	
+	for(int i = 1; i <= cantidadPaises; i++){
+		ArbolBinarioOrdenado arbol;
+		string pais = listaPaises.obtenerDato(i)->data;
+		arbol.setEtiqueta(pais); 
+		listaPacientesPorPais.intertar_final(arbol);
+		paisesDisponibles[i-1] = pais;
+		
+	}
+	for(int i = 1;i <= cantidadPersonas; i++){
+		Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
+		Persona persona = casilla->data;
+		
+		for(int j = 0; j < cantidadCiudades; j++){
+			if(*(persona.getPais_nac()) == paisesDisponibles[j]){
+				ArbolBinarioOrdenado *arbol = listaPacientesPorPais.obtenerDato(j+1);
+				arbol->insertarNodo(casilla->id, persona.getEdad());
+				break;
+			}
+			
+		} 
+	}
+}
+
 void ControladorData::organizarPacientesPorRangosDeEdad(){
 	
 	string rangosDeEdad[] = {"-20","20-29","30-39","40-49","50-59","60-69","70-79","+80"};
@@ -937,6 +969,17 @@ Cola<string*> ControladorData::getCiudades(){
 	return cola;
 }
 
+Cola<string*> ControladorData::getPaises(){
+	Cola<string*> cola;
+	
+	for(int i = 1; i <= cantidadPaises; i++){
+		string *pais = &(listaPaises.obtenerDato(i)->data);
+		cola.push(pais);
+	}
+	
+	return cola;
+}
+
 
 Cola<Persona*> ControladorData::getPersonasPorEps(string eps){
 	
@@ -1022,6 +1065,23 @@ Cola<Persona*> ControladorData::getPersonasPorCiudadResidencia(string ciudad){
 		ArbolBinarioOrdenado *pacientes = listaPacientesPorCiudadResidencia.obtenerDato(i);
 		
 		if(ciudad == pacientes->getEtiqueta()){
+			arbolPersonas = pacientes;
+		}
+	}
+	
+	return deArbolACola(arbolPersonas);	
+}
+
+Cola<Persona*> ControladorData::getPersonasPorPais(string pais){
+	
+	ArbolBinarioOrdenado *arbolPersonas;
+	
+	for(int i = 1 ; i <= cantidadPaises; i++){
+		ArbolBinarioOrdenado *pacientes = listaPacientesPorPais.obtenerDato(i);
+		
+		
+		if(pais == pacientes->getEtiqueta()){
+			
 			arbolPersonas = pacientes;
 		}
 	}
