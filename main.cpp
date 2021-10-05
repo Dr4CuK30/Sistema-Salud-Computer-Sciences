@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
 	
 	// Fechas de Prueba
 	
+	
 //	ArbolBiOrdFechas arbF;
 //	Fecha fecha1;
 //	Fecha fecha2;
@@ -54,7 +55,6 @@ int main(int argc, char *argv[]) {
 	
 	empezarPrograma();
 	
-	    
     system("PAUSE");       
     return EXIT_SUCCESS;
 }                   
