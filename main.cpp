@@ -593,11 +593,11 @@ void consultasDobles(){
 					}
 				}
 				
-				
 				Cola<Ips*> colaIpsDisponibles = data.getIpsPorEps(eps);
 				int sizeIpsDisponibles = colaIpsDisponibles.getSize();
 				Ips *ipsDisponibles[sizeIpsDisponibles];
 				for(int i = 0; i < sizeIpsDisponibles; i++) ipsDisponibles[i] = colaIpsDisponibles.pop();
+				      
 				      
 				//impresion
 				cout<<"-------------"<<eps<<" ---- rango de edad"<<rango<<"-----------------------"<<endl;
