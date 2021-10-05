@@ -1150,9 +1150,9 @@ Cola<Persona*> ControladorData::getVacunadosPorFecha(string fecha, bool praDosis
 	int idPersonas[size];
 	
 	if(praDosis){
-		pacientesPorFechaPrimeraDosis.inordenArray(pacientesPorFechaPrimeraDosis.obtenerRaiz(), 0, idPersonas);
+		pacientesPorFechaPrimeraDosis.inordenArrayFechas(pacientesPorFechaPrimeraDosis.obtenerRaiz(), 0, idPersonas);
 	}else{
-		pacientesPorFechaSegundaDosis.inordenArray(pacientesPorFechaSegundaDosis.obtenerRaiz(), 0, idPersonas);
+		pacientesPorFechaSegundaDosis.inordenArrayFechas(pacientesPorFechaSegundaDosis.obtenerRaiz(), 0, idPersonas);
 	}
 	
 	for(int i = 0; i < size; i++) colaPersonas.push(&(listaPersonas.obtenerDato(i)->data));

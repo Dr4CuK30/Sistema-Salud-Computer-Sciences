@@ -268,7 +268,7 @@ void ArbolBiOrdFechas::inorden(NodoArbolFechas* p){
 	}
 }
 
-void inorderComplement(NodoArbolFechas* p, int currentIndex, int orderdArray[], int lenght){
+void inorderComplementFecha(NodoArbolFechas* p, int currentIndex, int orderdArray[], int lenght){
     if(p != NULL){
 		inorderComplementFecha(p->izquierda, currentIndex, orderdArray, lenght);
         while (orderdArray[currentIndex]!=0)
@@ -286,11 +286,7 @@ void inorderComplement(NodoArbolFechas* p, int currentIndex, int orderdArray[], 
 	}
 }
 
-<<<<<<< HEAD
-void ArbolBiOrdFechas::inordenArray(NodoArbolFechas* p, int currentIndex, int array[]){
-=======
 void ArbolBiOrdFechas::inordenArrayFechas(NodoArbolFechas* p, int currentIndex, int array[]){
->>>>>>> e4c569c5614e3f14000bd85285732a3e947700a2
 	
     const int lenght = this->tamArbol;
     
