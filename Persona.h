@@ -28,7 +28,7 @@ class Persona{
 		string *ciudad_resid;
 		string direccion;
 		string barrio;
-		string act_laboral;
+		string *act_laboral;
 		long long int telefono_cel;
 		long long int telefono_fijo;
 		Fecha *f_nacimiento;
@@ -60,7 +60,8 @@ class Persona{
 				Vacuna *vacuna,
 				Eps *eps,
 				Ips *ips_default,
-				Ips *ips_asignada);
+				Ips *ips_asignada,
+				string *act_laboral);
 		Identificacion getId(){
 			return id;
 		}
@@ -114,7 +115,7 @@ class Persona{
 			return this->barrio;
 		}
 
-		string getAct_laboral()
+		string * getAct_laboral()
 		{
 			return this->act_laboral;
 		}
@@ -211,7 +212,8 @@ Persona::Persona(long long int numeroId,
 				Vacuna *vacuna,
 				Eps *eps,
 				Ips *ips_default,
-				Ips *ips_asignada){
+				Ips *ips_asignada,
+				string *act_laboral){
 					
 	Identificacion id;
 	id.numero = numeroId;
@@ -235,6 +237,7 @@ Persona::Persona(long long int numeroId,
 	this->eps = eps;
 	this->ips_default = ips_default;
 	this->ips_asignada = ips_asignada;
+	this->act_laboral = act_laboral;
 }
 
 //-------------- METODOS -------------------//
