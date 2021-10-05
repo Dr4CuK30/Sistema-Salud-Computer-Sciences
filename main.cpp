@@ -971,7 +971,6 @@ void registrarPersonaMenu(){
 	}
 
 	//Ciudad de nacimiento:
-	
 	string ciudadNacimiento="";
 	while (ciudadNacimiento==""){
 		ciudadNacimiento = escogerCiudad();
