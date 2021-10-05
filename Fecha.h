@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stdlib.h>
+#include <sstream>
 
 #include "Lista.h"
 #include <ctime>
@@ -118,4 +119,9 @@ string esMayorQue(Fecha comparada, Fecha aComparar){
 
 }
 
+string fechaToString(Fecha fecha){
+	stringstream ss;
+	ss <<fecha.dia<<"-"<<fecha.mes<<"-"<<fecha.anho;
+	return ss.str();
+}
 #endif
