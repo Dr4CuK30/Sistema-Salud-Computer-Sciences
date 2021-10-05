@@ -22,6 +22,13 @@ void consultarPacientesPor();
 void consultasDobles();
 void consultarEstadisticas();
 
+
+// Menu Hurtado /Inserciones:
+// Principal:
+void crearRegistrosMenu();
+//Persona:
+void registrarPersonaMenu();
+
 string escogerRangoDeEdad();
 string escogerEps();
 string escogerVacuna();
@@ -33,31 +40,6 @@ ControladorData data;
 string rangosDeEdad[] = {"-20","20-29","30-39","40-49","50-59","60-69","70-79","+80"};
 
 int main(int argc, char *argv[]) {          
-	
-	
-	// Fechas de Prueba
-//	ArbolBiOrdFechas arbF;
-//	Fecha fecha1;
-//	Fecha fecha2;
-//	Fecha fecha3;
-//
-//	fecha1.anho = 2001;
-//	fecha1.mes = 8;
-//	fecha1.dia = 5;
-//
-//	fecha2.anho = 2001;
-//	fecha2.mes = 10;
-//	fecha2.dia = 10;
-//
-//	fecha3.anho = 2000;
-//	fecha3.mes = 8;
-//	fecha3.dia = 31;
-//
-//	arbF.insertarNodo(1, fecha1);
-//	arbF.insertarNodo(2, fecha2);
-//	arbF.insertarNodo(3, fecha3);
-//
-//	arbF.inorden(arbF.obtenerRaiz());
 	
 	empezarPrograma();
 	    
@@ -93,6 +75,7 @@ void empezarPrograma(){
 			case 1:
 				break;
 			case 2: 
+				crearRegistrosMenu();
 				break;
 			case 3:
 				consultarPacientesPor();
@@ -823,4 +806,144 @@ void impresionPersonaBasico(Cola<Persona*> personas){
 	}
 				
 	cout<<endl;	
+}
+
+void crearRegistrosMenu(){
+	int opcion; 
+	while (opcion!=11)
+	{
+		cout<<"---------------------------------"<<endl;
+		cout<<"Ingrese el tipo de registro que desea insertar: "<<endl;
+    	cout<<"1. Persona"<<endl;
+		// cout<<"2. Vacunados con un tipo de vacuna"<<endl;
+		// cout<<"3. Fecha de vacunacion"<<endl;
+		// cout<<"4. EPS"<<endl;
+		// cout<<"5. IPS"<<endl;
+		// cout<<"6. IPS asignada para vacunacion"<<endl;
+		// cout<<"7. Ciudad de residencia"<<endl; 
+		// cout<<"8. Sexo"<<endl;
+		// cout<<"9. Pais de nacimiento"<<endl;
+		cout<<"11. Volver al menu principal"<<endl<<endl;
+		        
+		cout<<"Opcion: ";
+		cin>>opcion;     
+		cout<<"---------------------------------"<<endl<<endl;
+
+		switch (opcion){
+		case 1:
+			registrarPersonaMenu();
+			break;
+		
+		default:
+			break;
+		}
+	}
+	
+}
+
+void registrarPersonaMenu(){
+
+	Identificacion personaId;
+	long long int numId = 0;
+	int tipoId;
+
+	// Identificación
+	while (numId==0 && tipoId!=4)
+	{
+		cout<<"Ingrese el tipo de documento de la persona a ingresar: "<<endl;
+		cout<<"1. CC"<<endl;
+		cout<<"2. TI"<<endl;
+		cout<<"3. CE"<<endl;
+		cout<<"4. Salir"<<endl;
+
+		cout<<"Tipo De Documento: ";
+		cin>>tipoId;
+
+		switch (tipoId){
+		case 1:
+			personaId.tipo = "CC";
+			break;
+		case 2:
+			personaId.tipo = "TI";
+			break;
+		case 3:
+			personaId.tipo = "CE";
+			break;
+		case 4:
+			break;		
+		default:
+			cout<<"Opción inválida"<<endl;
+			break;
+		}
+
+		cout<<"Ingrese el número de identificación"<<endl;
+		cin>>numId;
+
+		if(numId<=0) {
+			cout<<"Valor inválido, revise su entrada"<<endl;
+			numId = 0;
+		}
+		else{
+			personaId.numero = numId;
+		}
+	}
+
+	// Nombre
+	string nombrePersona = "";
+	while (nombrePersona == "")
+	{
+		cout<<"Inserte el nombre de la persona que desea registrar"<<endl;
+		cin>>nombrePersona;
+	}
+
+	// Apellido
+	string apelPersona = "";
+	while (apelPersona == "")
+	{
+		cout<<"Inserte el apellido de la persona que desea registrar"<<endl;
+		cin>>apelPersona;
+	}
+
+	// Género
+	string genero = "";
+	int generoOpcion;
+	while (genero == "" && generoOpcion!=4)
+	{
+		cout<<"Seleccione el género de la persona que desea registrar"<<endl;
+		cout<<"1. Masculino"<<endl;
+		cout<<"2. Femenino"<<endl;
+		cout<<"3. No Específica"<<endl;
+		cout<<"4. Salir"<<endl;
+
+		cout<<"Tipo De Documento: ";
+		cin>>generoOpcion;
+
+		switch (generoOpcion){
+		case 1:
+			genero = "Masculino";
+			break;
+		case 2:
+			genero = "Femenino";
+			break;
+		case 3:
+			genero = "No específica";
+			break;
+		case 4:
+			break;		
+		default:
+			cout<<"Opción inválida"<<endl;
+			break;
+		}
+	}
+
+	// Email:
+	string email = "";
+	while(email == ""){
+		cout<<"Ingrese el correo de la persona a ingresar"<<endl;
+		cin>>email;
+
+		if(email==""){
+			cout<<"Revise la información registrada e intentélo nuevamente"<<endl;
+		}
+	}
 }

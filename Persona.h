@@ -39,6 +39,108 @@ class Persona{
 		Ips *ips_default;
 		Ips *ips_asignada;
 
+
+		// void setId(Identificacion id)
+		// {
+		// 	this.id = id;
+		// }
+
+		// void setNombres(string nombres)
+		// {
+		// 	this.nombres = nombres;
+		// }
+
+		// void setApellidos(string apellidos)
+		// {
+		// 	this.apellidos = apellidos;
+		// }
+
+		// void setGenero(string genero)
+		// {
+		// 	this.genero = genero;
+		// }
+
+		// void setEmail(string email)
+		// {
+		// 	this.email = email;
+		// }
+
+		// void set *Ciudad_nac(string *ciudad_nac)
+		// {
+		// 	this.*ciudad_nac = *ciudad_nac;
+		// }
+
+		// void set *Pais_nac(string *pais_nac)
+		// {
+		// 	this.*pais_nac = *pais_nac;
+		// }
+
+		// void set *Ciudad_resid(string *ciudad_resid)
+		// {
+		// 	this.*ciudad_resid = *ciudad_resid;
+		// }
+
+		// void setDireccion(string direccion)
+		// {
+		// 	this.direccion = direccion;
+		// }
+
+		// void setBarrio(string barrio)
+		// {
+		// 	this.barrio = barrio;
+		// }
+
+		// void set *Act_laboral(string *act_laboral)
+		// {
+		// 	this.*act_laboral = *act_laboral;
+		// }
+
+		// void setInt(long int)
+		// {
+		// 	this.int = int;
+		// }
+
+
+		// void setInt(long int)
+		// {
+		// 	this.int = int;
+		// }
+
+		// void set *F_nacimiento(Fecha *f_nacimiento)
+		// {
+		// 	this.*f_nacimiento = *f_nacimiento;
+		// }
+
+		// void set *F_primera_dosis(Fecha *f_primera_dosis)
+		// {
+		// 	this.*f_primera_dosis = *f_primera_dosis;
+		// }
+
+		// void set *F_segunda_dosis(Fecha *f_segunda_dosis)
+		// {
+		// 	this.*f_segunda_dosis = *f_segunda_dosis;
+		// }
+
+		// void set *Vacuna(Vacuna *vacuna)
+		// {
+		// 	this.*vacuna = *vacuna;
+		// }
+
+		// void set *Eps(Eps *eps)
+		// {
+		// 	this.*eps = *eps;
+		// }
+
+		// void set *Ips_default(Ips *ips_default)
+		// {
+		// 	this.*ips_default = *ips_default;
+		// }
+
+		// void set *Ips_asignada(Ips *ips_asignada)
+		// {
+		// 	this.*ips_asignada = *ips_asignada;
+		// }
+
 	public:
 		Persona(){};
 		Persona(long long int numeroId,

@@ -46,7 +46,7 @@ Fecha crearFecha(string fechaString){
 }
 
 
-bool esMayorQue(Fecha comparada, Fecha aComparar){
+string esMayorQue(Fecha comparada, Fecha aComparar){
 	time_t t = time(NULL);
 	tm* timePtr = localtime(&t);
 	float cantDiasCom=0;
@@ -106,11 +106,15 @@ bool esMayorQue(Fecha comparada, Fecha aComparar){
 	float fecha_aComparar = anho_actual - (aComparar.anho + ((aComparar.mes)/12.0) + ((cantDiasACom+aComparar.dia)/365));
 	cout<<"Comparada 1 : "<<fecha_comparada<<" , A Comparar: "<<fecha_aComparar<<endl;
 
-	if(fecha_comparada>=fecha_aComparar){
-		return true;
+	if(fecha_comparada>fecha_aComparar){
+		return "mayor";
 	}
 
-	return false;
+	if(fecha_comparada==fecha_aComparar){
+		return "igual";
+	}
+
+	return "menor";
 
 }
 
