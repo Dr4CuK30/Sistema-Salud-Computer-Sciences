@@ -126,10 +126,10 @@ class ControladorData{
 		//---------------Mutacion de estructuras--------------------------------//
 		//posiblemente a otra clase
 		
-		void agregarLaburo(string, int);
+		// void agregarLaburo(string, int);
 		void agregarVacuna(Vacuna, int);
 		
-		void agregarEps(Eps, int);
+		// void agregarEps(Eps, int);
 		void agregarIps(Ips, int);
 		
 		void agregarEpsVacuna(Eps_Vacuna, int);
@@ -148,6 +148,7 @@ class ControladorData{
 		ControladorData();
 		int ingresarFecha(string);
 		
+		void agregarEps(Eps, int);
 		
 		void setPersona(Persona p, int id){
 			
@@ -227,15 +228,53 @@ class ControladorData{
 
 			// Agregar a árboles por Rango de edad:
 			for(int i=1; i<=listaPacientesPorRangosDeEdad.Tam_lista(); i++){
-				listaPacientesPorRangosDeEdad.eliminar(id);
+				listaPacientesPorRangosDeEdad.eliminar(i);
 			}
 
 			this->organizarPacientesPorRangosDeEdad();
 			
 		};
 
+
+		void setIPS(Ips ips, int id){
+			this->agregarIps(ips, id);
+
+			// Ips por Ciudad:
+			for(int i=1; i<=listaIpsPorCiudad.Tam_lista(); i++){
+				listaIpsPorCiudad.eliminar(i);
+			}
+
+			this->organizarIpsPorCiudad();
+
+			// Ips por Eps:
+			for(int i=1; i<=listaIpsPorEps.Tam_lista(); i++){
+				listaIpsPorEps.eliminar(i);
+			}
+
+			this->organizarIpsPorEps();
+
+		}
+
+		void setVacuna(Vacuna vacuna, int id){
+			agregarVacuna(vacuna, id);
+
+			// Vacuna por IPS:
+			for(int i=1; i<=listaVacunasPorIps.Tam_lista(); i++){
+				listaVacunasPorIps.eliminar(i);
+			}
+
+			this->organizarVacunasPorIps();
+
+			// Vacuna por EPS:
+			for(int i=1; i<=listaVacunasPorEps.Tam_lista(); i++){
+				listaVacunasPorEps.eliminar(i);
+			}
+
+			this->organizarVacunasPorEps();
+		}
 		void agregarPais(string, int);
 		void agregarCiudad(string, int);
+		void agregarLaburo(string, int);
 		Lista<Fecha> getListaFechas()
 		{
 			return this->listaFechas;

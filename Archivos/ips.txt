@@ -9,3 +9,4 @@
 9;;Sisben Bogota;;Calle 28 #1;;4;;4
 10;;Sisben Soacha;;Calle 28 #6;;4;;4
 11;;Sisben Cali;;Calle 2 #2;;4;;4
+12;;IPSPrueba;;CLL_Gei;;1;;5
