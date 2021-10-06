@@ -157,6 +157,7 @@ void empezarPrograma(){
 				break;
 			case 9:
 				cout<<"Hasta pronto..."<<endl; 
+				data.terminarPrograma(); 
 				break;
 			default:	
 				cout<<"Opcion no valida"<<endl<<endl;
