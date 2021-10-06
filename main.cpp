@@ -1335,10 +1335,10 @@ void registrarPersonaMenu(){
 		cout<<endl<<"Ingrese la fecha en la que fue aplicada su primera dosis con el siguiente formato DD-MM-AAA: "<<endl;
 		cout<<"En caso de no tener aplicadad dicha dosis, ingrese --: "<<endl;
 		cin>>f_primera_dosisString;
-		if(f_primera_dosisString!="") {
+		if(f_primera_dosisString!="" && f_primera_dosisString != "--") {
 			int tam = data.ingresarFecha(f_primera_dosisString);
 			f_primera_dosis = data.getListaFechas().obtenerDato(tam);
-		}else if(f_primera_dosisString != "--") f_primera_dosis=NULL;
+		}else if(f_primera_dosisString == "--") f_primera_dosis=NULL;
 		
 
 	}
@@ -1350,10 +1350,10 @@ void registrarPersonaMenu(){
 		cout<<endl<<"Ingrese la fecha en la que fue aplicada su segunda dosis con el siguiente formato DD-MM-AAA: "<<endl;
 		cout<<"En caso de no tener aplicadad dicha dosis, ingrese --: "<<endl;
 		cin>>f_segunda_dosisString;
-		if(f_segunda_dosisString!=""){
+		if(f_segunda_dosisString!="" && f_primera_dosisString != "--"){
 			int tam = data.ingresarFecha(f_segunda_dosisString);
 			f_segunda_dosis = data.getListaFechas().obtenerDato(tam);
-		}else if(f_primera_dosisString != "--") f_primera_dosis=NULL;
+		}else if(f_primera_dosisString == "--") f_primera_dosis=NULL;
 		
 	}
 

@@ -80,6 +80,7 @@ class ControladorData{
 		Lista < ArbolBinarioOrdenado > listaPacientesPorLaburo;
 		Lista < ArbolBinarioOrdenado > listaPacientesPorVacuna;
 		Lista < Lista<Persona*> > listaPacientesPorRangosDeEdad;
+		Lista < ArbolBinarioOrdenado > listaPacientesPorEstadoDeVacunacion;
 		
 		Lista < Lista< Eps_Vacuna* > > listaVacunasPorEps;
 		Lista < Lista< Ips_Vacuna* > > listaVacunasPorIps;
@@ -87,7 +88,7 @@ class ControladorData{
 		
 		Lista < Lista< Ips* > > listaIpsPorEps;
 		
-		Lista < ArbolBinarioOrdenado > listaPacientesPorEstadoDeVacunacion;
+		
 		
 		//-------------------Carga de datos--------------------------------------//
 		void cargarArchivosLocales();

@@ -5,6 +5,7 @@ template <class T>
 struct Casilla{
 	int id;
 	T data;
+	bool disabled;
 };
 
 #endif
