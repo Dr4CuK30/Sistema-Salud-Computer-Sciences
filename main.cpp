@@ -1338,7 +1338,10 @@ void registrarPersonaMenu(){
 		if(f_primera_dosisString!="" && f_primera_dosisString != "--") {
 			int tam = data.ingresarFecha(f_primera_dosisString);
 			f_primera_dosis = data.getListaFechas().obtenerDato(tam);
-		}else if(f_primera_dosisString == "--") f_primera_dosis=NULL;
+		}else if(f_primera_dosisString == "--") {
+			f_primera_dosis=NULL;
+			break;
+		}
 		
 
 	}
@@ -1353,7 +1356,10 @@ void registrarPersonaMenu(){
 		if(f_segunda_dosisString!="" && f_primera_dosisString != "--"){
 			int tam = data.ingresarFecha(f_segunda_dosisString);
 			f_segunda_dosis = data.getListaFechas().obtenerDato(tam);
-		}else if(f_primera_dosisString == "--") f_primera_dosis=NULL;
+		}else if(f_primera_dosisString == "--") {
+			f_segunda_dosis=NULL;
+			break;
+		}
 		
 	}
 
