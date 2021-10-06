@@ -239,8 +239,7 @@ void consultarPacientesPor(){
 				
 				int opcion;
 				cout<<"Seleccione la IPS: "<<endl;
-				
-				for(int i = 0; i < data.getCantidadEps(); i++){
+				for(int i = 0; i < data.getCantidadIps(); i++){
 					ipss[i] = colaIps.pop();
 					
 					cout<<i+1<<". "<<ipss[i]->getNombre()<<endl;
@@ -262,7 +261,7 @@ void consultarPacientesPor(){
 				int opcion;
 				cout<<"Seleccione la IPS: "<<endl;
 				
-				for(int i = 0; i < data.getCantidadEps(); i++){
+				for(int i = 0; i < data.getCantidadIps(); i++){
 					ipss[i] = colaIps.pop();
 					
 					cout<<i+1<<". "<<ipss[i]->getNombre()<<endl;
@@ -892,7 +891,7 @@ void consultarEstadisticas(){
 						if(epss[i]->getNombre() == persona->getEpsName()){
 							vacunadosPorEps[i]++;
 						}
-					} 
+					}    
 				}
 				
 				//impresion
@@ -905,7 +904,7 @@ void consultarEstadisticas(){
 			
 				
 				break;
-			}
+			}    
 			default:
 				break;
 		}
@@ -1034,8 +1033,9 @@ void impresionPersonaBasico(Cola<Persona*> personas){
 	cout<<"---|------------------------------|----------|-----------------|--------------------------------|--------------------------------|--------------|"<<endl;
 	for(int i = 1; i <= cantidad; i++){
 		Persona *persona = personas.pop();
+		string nombre = persona->getNombres()+" "+persona->getApellidos();
 		cout<<i<<"  | ";
-		cout<<setw(20)  <<persona->getNombres()<<" "<<persona->getApellidos()<<" | ";
+		cout<<setw(28)  <<nombre<<" | ";
 		cout<<persona->getEdad()<<" anhos | ";
 		cout<<setw(15)<<persona->getEpsName()<<" | ";
 		cout<<setw(30)<<persona->getIpsDefaultName()<<" | ";
