@@ -1,6 +1,6 @@
 1;;Bogota DC
 2;;Cali
-3;;Medellín
+3;;Medellin
 4;;Barranquilla
 5;;Cartagena
 6;;Soacha
