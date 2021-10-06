@@ -992,11 +992,11 @@ void registrarPersonaMenu(){
 		case 4:
 			break;		
 		default:
-			cout<<"Opción invalida"<<endl;
+			cout<<"Opcion invalida"<<endl;
 			break;
 		}
 
-		cout<<"Ingrese el número de identificacion"<<endl;
+		cout<<"Ingrese el numero de identificacion"<<endl;
 		cin>>numId;
 
 		if(numId<=0) {
@@ -1024,18 +1024,18 @@ void registrarPersonaMenu(){
 		cin>>apelPersona;
 	}
 
-	// Género
+	// Genero
+	
 	string genero = "";
 	int generoOpcion;
 	while (genero == "" && generoOpcion!=4)
 	{
-		cout<<"Seleccione el género de la persona que desea registrar"<<endl;
+		cout<<"Seleccione el genero de la persona que desea registrar"<<endl;
 		cout<<"1. Masculino"<<endl;
 		cout<<"2. Femenino"<<endl;
-		cout<<"3. No Específica"<<endl;
+		cout<<"3. No Especifica"<<endl;
 		cout<<"4. Salir"<<endl;
-
-		cout<<"Tipo De Documento: ";
+		cout<<"Genero: ";
 		cin>>generoOpcion;
 
 		switch (generoOpcion){
@@ -1068,7 +1068,7 @@ void registrarPersonaMenu(){
 	}
 
 	//Ciudad de nacimiento:
-	string * ciudadNacimiento;
+	string * ciudadNacimiento=NULL;
 	while (ciudadNacimiento==NULL){
 		cout<<"CIUDAD DE NACIMIENTO"<<endl;
 		Cola<string*> colaCiudad = data.getCiudades();
@@ -1085,15 +1085,14 @@ void registrarPersonaMenu(){
 		cout<<"Opcion: ";
 		cin>>opcionCiudad;
 
-		if(opcionCiudad<1 || opcionCiudad>data.getCantidadCiudades())
-		ciudadNacimiento = ciudad[opcionCiudad];
+		if(opcionCiudad>0 && (opcionCiudad-1)<data.getCantidadCiudades())
+		ciudadNacimiento = ciudad[(opcionCiudad-1)];
 		else
 		ciudadNacimiento = NULL;
-
 	}
 
-	//País de nacimiento:
-	string * paisNacimiento;
+	//Pais de nacimiento:
+	string * paisNacimiento=NULL;
 	while (paisNacimiento==NULL){
 		cout<<"PAIS DE NACIMIENTO"<<endl;
 		Cola<string*> colaPais = data.getPaises();
@@ -1110,14 +1109,14 @@ void registrarPersonaMenu(){
 		cout<<"Opcion: ";
 		cin>>opcionPais;
 
-		if(opcionPais<1 || opcionPais>data.getCantidadPaises())
-		paisNacimiento = pais[opcionPais];
+		if(opcionPais>0 && (opcionPais-1)<data.getCantidadPaises())
+		paisNacimiento = pais[opcionPais-1];
 		else
 		paisNacimiento = NULL;
 	}
 
 	//Ciudad de Residencia:
-	string * ciudadResi;
+	string * ciudadResi=NULL;
 	while (ciudadResi==NULL){
 		cout<<"CIUDAD DE RESIDENCIA"<<endl;
 		Cola<string*> colaCiudad = data.getCiudades();
@@ -1134,8 +1133,8 @@ void registrarPersonaMenu(){
 		cout<<"Opcion: ";
 		cin>>opcionCiudad2;
 
-		if(opcionCiudad2<1 || opcionCiudad2>data.getCantidadCiudades())
-		ciudadNacimiento = ciudad[opcionCiudad2];
+		if(opcionCiudad2>0 && (opcionCiudad2-1)<data.getCantidadCiudades())
+		ciudadResi = ciudad[opcionCiudad2-1];
 		else
 		ciudadResi = NULL;
 	}
@@ -1143,7 +1142,7 @@ void registrarPersonaMenu(){
 	//Direccion
 	string direccion="";
 	while (direccion==""){
-		cout<<"Ingrese la dirección : "<<endl;
+		cout<<"Ingrese la direccion : "<<endl;
 		cin>>direccion;
 	}
 
@@ -1157,14 +1156,14 @@ void registrarPersonaMenu(){
 	//Telefono Celular:
 	long long int telefono_cel=0;
 	while (telefono_cel==0){
-		cout<<"Ingrese su teléfono cecular : "<<endl;
+		cout<<"Ingrese su telefono celular : "<<endl;
 		cin>>telefono_cel;
 	}
 
 	//Telefono Fijo:
 	long long int telefono_fijo=0;
 	while (telefono_fijo==0){
-		cout<<"Ingrese su teléfono cecular : "<<endl;
+		cout<<"Ingrese su telefono fijo : "<<endl;
 		cin>>telefono_fijo;
 	}
 
@@ -1216,6 +1215,7 @@ void registrarPersonaMenu(){
 		cout<<f_segunda_dosis->anho<<", "<<f_segunda_dosis->mes<<", "<<f_segunda_dosis->dia<<endl;
 	}
 
+
 	//Vacuna
 	Vacuna *vacunaPersona;
 	int vacunaOpcion=0;
@@ -1223,7 +1223,7 @@ void registrarPersonaMenu(){
 		Cola<Vacuna*> colaVacuna = data.getVacunas();
 		Vacuna *vacunas[data.getCantidadVacunas()];
 					
-		cout<<"Seleccione la Vacuna que le fue aplicada (Si no se le aplicó ninguna vacuna, ingrese el valor 0): "<<endl;
+		cout<<"Seleccione la Vacuna que le fue aplicada (Si no se le aplico ninguna vacuna, ingrese el valor 0): "<<endl;
 					
 		for(int i = 0; i < data.getCantidadVacunas(); i++){
 			vacunas[i] = colaVacuna.pop();		
@@ -1248,7 +1248,7 @@ void registrarPersonaMenu(){
 		Cola<Eps*> colaEps = data.getEpss();
 		Eps *epss[data.getCantidadEps()];
 					
-		cout<<"Seleccione la Eps a la que está registrado: "<<endl;
+		cout<<"Seleccione la Eps a la que esta registrado: "<<endl;
 					
 		for(int i = 0; i < data.getCantidadEps(); i++){
 			epss[i] = colaEps.pop();		
@@ -1266,34 +1266,36 @@ void registrarPersonaMenu(){
 		
 	}
 
+
 	//Ips Asignada
 	Ips *ipsAsignada=NULL;
 	Ips *ipsDefault=NULL;
 	int ipsOpcion=0;
 	while(ipsOpcion<=0){
-		Cola<Ips*> colaIps = data.getIpss();
-		Ips *ipss[data.getCantidadIps()];
+		
+		Cola<Ips*> colaIps = data.getIpsPorEps(epsPersona->getNombre());
+		int lenghtIps = colaIps.getSize();
+		Ips *ipss[lenghtIps];
+		
+		cout<<"Seleccione la Ips a la que esta registrado: "<<endl;
 					
-		cout<<"Seleccione la Ips a la que está registrado: "<<endl;
-					
-		for(int i = 0; i < data.getCantidadIps(); i++){
+		for(int i = 0; i < lenghtIps; i++){
 			ipss[i] = colaIps.pop();		
 			cout<<i+1<<". "<<ipss[i]->getNombre()<<endl;
 		}
+					
 					
 		cout<<"Opcion: ";
 		cin>>ipsOpcion;  
 		
 		
 		ipsDefault = ipss[0];
-		if(ipsOpcion>0 && (ipsOpcion-1)<data.getCantidadIps()){
+		if(ipsOpcion>0 && (ipsOpcion-1)<lenghtIps){
 			ipsAsignada = ipss[ipsOpcion-1];
 		} else {
 			ipsAsignada = NULL;
 		}
-		
 	}
-	
 	
 	//Actividad Laboral:
 	string * actLaboral=NULL;
@@ -1310,12 +1312,14 @@ void registrarPersonaMenu(){
 			cout<<i+1<<". "<<*laburos[i]<<endl;
 		}
 		
+		
 		cout<<"Opcion: ";
 		cin>>opcionAct;
 
 		if(opcionAct>0 && (opcionAct-1)<data.getCantidadLaburos())
 		actLaboral = laburos[opcionAct-1];
 	}
+	
 
 	Persona persona = Persona(personaId.numero,personaId.tipo,nombrePersona,apelPersona,
 											    genero,email,ciudadNacimiento,paisNacimiento,ciudadResi,direccion,
@@ -1324,5 +1328,6 @@ void registrarPersonaMenu(){
 												vacunaPersona,epsPersona,ipsDefault,ipsAsignada, actLaboral);
 
 
-	data.agregarPersona(persona, data.getCantidadPersonas()+1);
+	data.setPersona(persona, data.getCantidadPersonas()+1);
+	
 }

@@ -57,9 +57,6 @@ class ControladorData{
 		Lista < Casilla<string> > listaLaburo;
 		Lista<Fecha> listaFechas;
 
-
-		
-
 		//---------------------Arboles ordenados----------------------------------//
 		
 		ArbolBinarioOrdenado pacientesPorEdad;
@@ -126,12 +123,13 @@ class ControladorData{
 		
 		void agregarLaburo(string, int);
 		void agregarVacuna(Vacuna, int);
-		void agregarPersona(Persona, int);
+		
 		void agregarEps(Eps, int);
 		void agregarIps(Ips, int);
 		
 		void agregarEpsVacuna(Eps_Vacuna, int);
 		void agregarIpsVacuna(Ips_Vacuna, int);
+		void agregarPersona(Persona, int);
 		
 		
 		//cambios de datos
@@ -145,10 +143,92 @@ class ControladorData{
 		ControladorData();
 		int ingresarFecha(string);
 		
-		void setPersona(Persona p, int id){
-			agregarPersona(p, id);
-		};
 		
+		void setPersona(Persona p, int id){
+			
+			agregarPersona(p, id);
+			
+			//Organiza por *EPS, *IPS, *Sexo, *Vacuna, *Pais, *Estado de Vac, Residencia
+
+			// Agregar a árboles de EPS:
+			for(int i = 1; i<=cantidadEPS; i++){
+				ArbolBinarioOrdenado * arbOrd = listaPacientesPorEps.obtenerDato(i);
+				if(arbOrd->getEtiqueta()==p.getEpsName()){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+				
+			}
+
+			// Agregar a árboles De IPS:
+			for(int i =1; i<=cantidadIPS; i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorIps.obtenerDato(i);
+				if(arbOrd->getEtiqueta()==p.getIpsAsignadaName()){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+
+			// Agregar a árboles de Sexo/Género:
+			for(int i=1; i<=2; i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorSexo.obtenerDato(i);
+				string sxEtiqueta;
+				if(p.getGenero()=="Masculino")sxEtiqueta="Hombres";
+				if(p.getGenero()=="Femenino")sxEtiqueta="Mujeres";
+				if(arbOrd->getEtiqueta()==sxEtiqueta){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+			// Agregar a árboles de Vacuna:
+			for(int i=1; i<=cantidadVacunas; i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorVacuna.obtenerDato(i);
+				if(arbOrd->getEtiqueta()==p.getVacunaName()){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+			// Agregar a arboles de Pais:
+			for(int i=1; i<=cantidadPaises; i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorPais.obtenerDato(i);
+				string pais = *(p.getPais_nac());
+				if(arbOrd->getEtiqueta()==*(p.getPais_nac())){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+			// Agregar a árboles por estado de vacuna
+			for(int i=1; i<=listaPacientesPorEstadoDeVacunacion.Tam_lista(); i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorEstadoDeVacunacion.obtenerDato(i);
+				int valorEtiqueta = 0;
+				if(arbOrd->getEtiqueta()=="vacunados"){
+					valorEtiqueta = 2;
+				}
+
+				if(arbOrd->getEtiqueta()=="semi-vacunados"){
+					valorEtiqueta = 1;
+				}
+				if(valorEtiqueta==p.estadoVacuna()){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+			// Agregar a árboles por Residencia:
+			for(int i=1; i<=cantidadCiudades; i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorCiudadResidencia.obtenerDato(i);
+				if(arbOrd->getEtiqueta()==*(p.getCiudad_resid())){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+			// Agregar a árboles por Rango de edad:
+			for(int i=1; i<=listaPacientesPorRangosDeEdad.Tam_lista(); i++){
+				listaPacientesPorRangosDeEdad.eliminar(id);
+			}
+
+			this->organizarPacientesPorRangosDeEdad();
+			
+		};
+
 		void agregarPais(string, int);
 		void agregarCiudad(string, int);
 		Lista<Fecha> getListaFechas()
