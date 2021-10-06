@@ -21,7 +21,6 @@
 #include <cstdlib>  
 #include <string>
 
-
 using namespace std;
 
 const int CANT_ATRIBUTOS_VACUNA = 2;
@@ -55,9 +54,8 @@ class ControladorData{
 		Lista < Casilla <string> > listaCiudades;
 		Lista < Casilla<string> > listaPaises;
 		Lista < Casilla<string> > listaLaburo;
-		Lista <Fecha> listaFechas;
-		
-		 
+		Lista<Fecha> listaFechas;
+
 		//---------------------Arboles ordenados----------------------------------//
 		
 		ArbolBinarioOrdenado pacientesPorEdad;
@@ -71,9 +69,6 @@ class ControladorData{
 		ArbolRojiNegro < Casilla<Eps_Vacuna> > arbolRJEpsVacuna;
 		ArbolRojiNegro < Casilla <Ips> > arbolRJIps;
 		ArbolRojiNegro < Casilla <Ips_Vacuna> > arbolRJIpsVacuna;
-		ArbolRojiNegro < Casilla <string> > arbolRJCiudad;
-		ArbolRojiNegro < Casilla <string> > arbolRJPais;
-		ArbolRojiNegro < Casilla <string> > arbolRJLaburo;
 		//---------------------Estructuras multiples-----------------------------//
 		//preguntar por arreglos
 		Lista < ArbolBinarioOrdenado > listaPacientesPorEps;
@@ -96,9 +91,18 @@ class ControladorData{
 		
 		//-------------------Carga de datos--------------------------------------//
 		void cargarArchivosLocales();
-		void guardarDatos();
 		void cargarArchivo(string rutaArchivo, int cantAtributos, int modelo);
-	
+		
+		//------------------- Busquedas ---------------------------------------//
+		string idDeVacunaPorNombre(string nombre);
+		string idDeCiudadPorNombre(string nombre);
+		string idDePaisPorNombre(string nombre);
+		string idDeEpsPorNombre(string nombre);
+		string idDeIpsPorNombre(string nombre);
+		string idDeLaburoPorNombre(string nombre);
+		
+		//-------------------Guardado de datos-----------------------------------//
+		void guardarDatos(string ruta, int modelo);
 		
 		//-------------------Formacion de estructuras----------------------------//
 		
@@ -109,7 +113,7 @@ class ControladorData{
 		void organizarPacientesPorCiudadResidencia();//
 		void organizarPacientesPorPais();
 		void organizarPacientesPorSexo();//
-		void organizarPacientesPorLaburo();
+		void organizarPacientesPorLaburo();//
 		void organizarPacientesPorVacuna();//
 		
 		void organizarPacientesPorRangosDeEdad();//
@@ -121,18 +125,18 @@ class ControladorData{
 		
 		//---------------Mutacion de estructuras--------------------------------//
 		//posiblemente a otra clase
-		void agregarPersona(Persona, int);
-		void agregarCiudad(string, int);
+		
 		void agregarLaburo(string, int);
 		void agregarVacuna(Vacuna, int);
+		
 		void agregarEps(Eps, int);
 		void agregarIps(Ips, int);
-		void agregarPais(string, int);
 		
 		void agregarEpsVacuna(Eps_Vacuna, int);
 		void agregarIpsVacuna(Ips_Vacuna, int);
+		void agregarPersona(Persona, int);
 		
-		int ingresarFecha(string);
+		
 		//cambios de datos
 		//--------------------------Utils-------------------------------------//
 		int validarID(string);
@@ -142,6 +146,102 @@ class ControladorData{
 	public:
 		
 		ControladorData();
+		int ingresarFecha(string);
+		
+		
+		void setPersona(Persona p, int id){
+			
+			agregarPersona(p, id);
+			
+			//Organiza por *EPS, *IPS, *Sexo, *Vacuna, *Pais, *Estado de Vac, Residencia
+
+			// Agregar a árboles de EPS:
+			for(int i = 1; i<=cantidadEPS; i++){
+				ArbolBinarioOrdenado * arbOrd = listaPacientesPorEps.obtenerDato(i);
+				if(arbOrd->getEtiqueta()==p.getEpsName()){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+				
+			}
+
+			// Agregar a árboles De IPS:
+			for(int i =1; i<=cantidadIPS; i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorIps.obtenerDato(i);
+				if(arbOrd->getEtiqueta()==p.getIpsAsignadaName()){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+
+			// Agregar a árboles de Sexo/Género:
+			for(int i=1; i<=2; i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorSexo.obtenerDato(i);
+				string sxEtiqueta;
+				if(p.getGenero()=="Masculino")sxEtiqueta="Hombres";
+				if(p.getGenero()=="Femenino")sxEtiqueta="Mujeres";
+				if(arbOrd->getEtiqueta()==sxEtiqueta){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+			// Agregar a árboles de Vacuna:
+			for(int i=1; i<=cantidadVacunas; i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorVacuna.obtenerDato(i);
+				if(arbOrd->getEtiqueta()==p.getVacunaName()){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+			// Agregar a arboles de Pais:
+			for(int i=1; i<=cantidadPaises; i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorPais.obtenerDato(i);
+				string pais = *(p.getPais_nac());
+				if(arbOrd->getEtiqueta()==*(p.getPais_nac())){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+			// Agregar a árboles por estado de vacuna
+			for(int i=1; i<=listaPacientesPorEstadoDeVacunacion.Tam_lista(); i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorEstadoDeVacunacion.obtenerDato(i);
+				int valorEtiqueta = 0;
+				if(arbOrd->getEtiqueta()=="vacunados"){
+					valorEtiqueta = 2;
+				}
+
+				if(arbOrd->getEtiqueta()=="semi-vacunados"){
+					valorEtiqueta = 1;
+				}
+				if(valorEtiqueta==p.estadoVacuna()){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+			// Agregar a árboles por Residencia:
+			for(int i=1; i<=cantidadCiudades; i++){
+				ArbolBinarioOrdenado *arbOrd = listaPacientesPorCiudadResidencia.obtenerDato(i);
+				if(arbOrd->getEtiqueta()==*(p.getCiudad_resid())){
+					arbOrd->insertarNodo(id, p.getEdad());
+				}
+			}
+
+			// Agregar a árboles por Rango de edad:
+			for(int i=1; i<=listaPacientesPorRangosDeEdad.Tam_lista(); i++){
+				listaPacientesPorRangosDeEdad.eliminar(id);
+			}
+
+			this->organizarPacientesPorRangosDeEdad();
+			
+		};
+
+		void agregarPais(string, int);
+		void agregarCiudad(string, int);
+		Lista<Fecha> getListaFechas()
+		{
+			return this->listaFechas;
+		}
+		
+		void terminarPrograma();
 		
 		//-----------------------------Getters-----------------------------------//
 		
@@ -213,6 +313,7 @@ ControladorData::ControladorData(){
 	this->organizarPacientesPorPais();
 	this->organizarPacientesPorEstadoVacunacion();
 	this->organizarPacientesPorCiudadResidencia();
+	this->organizarPacientesPorEstadoVacunacion();
 	this->organizarVacunasPorEps();
 //	this->organizarVacunasPorIps();
 	cout<<"organiza por vac ips"<<endl;
@@ -240,19 +341,15 @@ void ControladorData::cargarArchivosLocales(){
 	cargarArchivo("Archivos/laburos.txt", 2, 9);
 	cargarArchivo("Archivos/ciudades.txt", 2, 7);
 	cargarArchivo("Archivos/paises.txt", 2, 8);
-	
 	cargarArchivo("Archivos/vacunas.txt", CANT_ATRIBUTOS_VACUNA + 1, 2);
 	cargarArchivo("Archivos/eps.txt", CANT_ATRIBUTOS_EPS + 1, 3);
-	
 	cargarArchivo("Archivos/ips.txt", CANT_ATRIBUTOS_IPS + 1, 4);
-	
 	cargarArchivo("Archivos/personas.txt", CANT_ATRIBUTOS_PERSONA + 1, 1);
 	
 	
 	cargarArchivo("Archivos/eps_vacuna.txt", CANT_ATRIBUTOS_EPS_VACUNA + 1, 5);
 	
 	cargarArchivo("Archivos/ips_vacuna.txt", CANT_ATRIBUTOS_IPS_VACUNA + 1, 6);
-	
 	
 }
 
@@ -314,9 +411,12 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					
 					if(idVacuna == 0) pVacuna = NULL;
 					else {
+						// pVacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
+						// cout<<pVacuna->getNombre()<<" HURTADO 1"<<endl;
 
 						NodoArbolRJ< Casilla<Vacuna> > * raiz = arbolRJVacunas.raiz_arbol();
 						pVacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raiz, NULL)->data->data);
+						// cout<<pVacuna->getNombre()<<" HURTADO 2"<<endl;
 					}
 					
 					if(idCiudadNac == 0) pCiudadNac = NULL;
@@ -339,27 +439,30 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					}
 					if(idEps== 0) pEps = NULL;
 					else {
+						// pEps = &(listaEPS.obtenerDato(idEps)->data);
 
 						NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
 						pEps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
-
+						// cout<<pEps->getNombre()<<" HURTADO 2"<<endl;
 					}
 					
 					if(idIpsDefault == 0) pIpsDefault = NULL;
 					else{
-
+						// pIpsDefault = &(listaIPS.obtenerDato(idIpsDefault)->data);
 
 						NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
 						pIpsDefault = &(arbolRJIps.buscarNodo(idIpsDefault, &raiz, NULL)->data->data);
+						// cout<<pIpsDefault->getNombre()<<" HURTADO 2"<<endl;
 						
 					}
 					
 					if(idIpsAsignada == 0) pIpsAsignada = NULL;
 					else{
-
+						// pIpsAsignada = &(listaIPS.obtenerDato(idIpsAsignada)->data);
 
 						NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
 						pIpsAsignada = &(arbolRJIps.buscarNodo(idIpsAsignada, &raiz, NULL)->data->data);
+						// cout<<pIpsAsignada->getNombre()<<" HURTADO 2"<<endl;
 					}
 					
 					if(idFNacimiento == 0) pFechaNac = NULL;
@@ -381,13 +484,14 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 												pFechaNac ,pFechaPri ,pFechaSec ,
 												pVacuna,pEps,pIpsDefault,pIpsAsignada, pLaburo);
 					
-					
 					agregarPersona(persona, id);
+//					if(persona.ips_asignada == NULL)cout<<"es nula mk"<<endl;
+//					cout<<persona.nombres<<" "<<idIpsAsignada<<" "<<persona.ips_asignada<<endl;
+//					cout<<listaIPS.obtenerDato(1).data.nombre<<" "<<listaIPS.obtenerDato(2).data.nombre;
 					break;
 				}
 				case 2:{
 					Vacuna vacuna = Vacuna(atributos[1], atoi(atributos[2].c_str())); 
-					
 					agregarVacuna(vacuna, id);
 					break;
 				}
@@ -398,18 +502,16 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 				}
 				case 4:{
 					int idEps = atoi(atributos[4].c_str());
-					int idCiudad = atoi(atributos[3].c_str());					
+					int idCiudad = atoi(atributos[3].c_str());
 
-
+					Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
 					string *ciudad = &(listaCiudades.obtenerDato(idCiudad)->data);
 					
-					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
-					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
-					
+//					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
+//					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
 					
 					//poner bien la ciudad
 					Ips ips = Ips(atributos[1],atributos[2],ciudad,eps);
-					cout<<"IPS : "<<ips.getNombre()<<"EPS: "<<eps->getNombre()<<endl;
 					agregarIps(ips, id);
 					
 					break;
@@ -421,13 +523,13 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					cout<<atributos[1]<<endl;
 					
 					// Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
-					// Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
+					Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
 
 					NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
 					Eps *eps = &(arbolRJEPS.buscarNodo(idEps, &raiz, NULL)->data->data);
 
-					NodoArbolRJ< Casilla<Vacuna> > * raizVacuna = arbolRJVacunas.raiz_arbol();
-					Vacuna *vacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raizVacuna, NULL)->data->data);
+					// NodoArbolRJ< Casilla<Vacuna> > * raizVacuna = arbolRJVacunas.raiz_arbol();
+					// Vacuna *vacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raizVacuna, NULL)->data->data);
 					
 					Eps_Vacuna epsVacuna = Eps_Vacuna(eps, vacuna, atoi(atributos[2].c_str()));
 					agregarEpsVacuna(epsVacuna, id);
@@ -437,15 +539,9 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					int idIps = atoi(atributos[1].c_str());
 					int idVacuna = atoi(atributos[2].c_str());
 					
-					// Ips *ips = &(listaIPS.obtenerDato(idIps)->data);
-					// Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
+					Ips *ips = &(listaIPS.obtenerDato(idIps)->data);
+					Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
 					
-					NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
-					Ips *ips = &(arbolRJIps.buscarNodo(idIps, &raiz, NULL)->data->data);
-
-					NodoArbolRJ< Casilla<Vacuna> > * raizVacuna = arbolRJVacunas.raiz_arbol();
-					Vacuna *vacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raizVacuna, NULL)->data->data);
-
 					Ips_Vacuna ips_vacuna = Ips_Vacuna(ips, vacuna);
 					
 					agregarIpsVacuna(ips_vacuna, id);
@@ -472,13 +568,231 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 	}
 }
 
+void ControladorData::guardarDatos(string ruta, int modelo){
+	fstream archivo;
+	string linea, *atributos;
+	archivo.open(ruta.c_str(), ofstream::out | ofstream::trunc);
+	if(archivo.is_open()){
+		switch (modelo) {
+			case 1:
+				//PERSONA
+				for(int i = 1; i <= listaPersonas.getSize(); i++){
+					Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
+					Persona persona = casilla->data;
+					
+					string idVacuna =  "--";
+					string idCiudadNac = "--"; //atoi(atributos[7].c_str());
+					string idPais = "--"; //atoi(atributos[8].c_str());
+					string idCiudadRes = "--"; //atoi(atributos[9].c_str());
+					string FNacimiento = "--"; //fechaToString(persona.getF_nacimiento());	
+					string FPri = "--"; //ingresarFecha(atributos[15]);
+					string FSeg = "--"; //ingresarFecha(atributos[16]);
+					string idEps = "--"; //atoi(atributos[18].c_str());
+					string idIpsDefault = "--"; // atoi(atributos[19].c_str());
+					string idIpsAsignada = "--"; // atoi(atributos[20].c_str());
+					string idLaburo = "--"; // atoi(atributos[21].c_str());
+					if(persona.getVacuna() != NULL){
+						idVacuna = idDeVacunaPorNombre(persona.getVacuna()->getNombre());
+					}
+					if(persona.getCiudad_nac() != NULL){
+						idCiudadNac = idDeCiudadPorNombre(*persona.getCiudad_nac());
+					}
+					if(persona.getPais_nac() != NULL){
+						idPais = idDePaisPorNombre(*persona.getPais_nac());
+					}
+					if(persona.getCiudad_resid() != NULL){
+						idCiudadRes = idDeCiudadPorNombre(*persona.getCiudad_resid());
+					}
+					if(persona.getF_nacimiento() != NULL){
+						FNacimiento = fechaToString(*persona.getF_nacimiento());	
+					}
+					if(persona.getF_primera_dosis() != NULL){
+						FPri = fechaToString(*persona.getF_primera_dosis());	
+					}
+					if(persona.getF_segunda_dosis() != NULL){
+						FSeg = fechaToString(*persona.getF_segunda_dosis());	
+					}
+					if(persona.getVacuna() != NULL){
+						idVacuna = idDeVacunaPorNombre(persona.getVacunaName());
+					}
+					if(persona.getEps() != NULL){
+						idEps = idDeEpsPorNombre(persona.getEpsName());
+					}
+					if(persona.getIps_default() != NULL){
+						idIpsDefault = idDeIpsPorNombre(persona.getIpsDefaultName());
+					}
+					if(persona.getIps_asignada() != NULL){
+						idIpsAsignada = idDeIpsPorNombre(persona.getIpsAsignadaName());
+					}
+					if(persona.getAct_laboral() != NULL){
+						idLaburo = idDeLaburoPorNombre(*persona.getAct_laboral());
+					}
+					archivo
+						<<casilla->id<<";;"
+						<<persona.getId().numero<<";;"
+						<<persona.getId().tipo<<";;"
+						<<persona.getNombres()<<";;"
+						<<persona.getApellidos()<<";;"
+						<<persona.getGenero()<<";;"
+						<<persona.getEmail()<<";;"
+						<<idCiudadNac<<";;"
+						<<idPais<<";;"
+						<<idCiudadRes<<";;"
+						<<persona.getDireccion()<<";;"
+						<<persona.getBarrio()<<";;"
+						<<persona.getTelefono_cel()<<";;"
+						<<persona.getTelefono_fijo()<<";;"
+						<<FNacimiento<<";;"
+						<<FPri<<";;"
+						<<FSeg<<";;"
+						<<idVacuna<<";;"
+						<<idEps<<";;"
+						<<idIpsDefault<<";;"
+						<<idIpsAsignada<<";;"
+						<<idLaburo<<endl
+						;
+				}
+				break;
+			case 2:
+				//VACUNAS
+				for(int i = 1; i <= listaVacunas.getSize(); i++){
+					Casilla<Vacuna> *casilla = listaVacunas.obtenerDato(i);
+					Vacuna vacuna = casilla->data;
+					archivo
+						<<casilla->id<<";;"
+						<<vacuna.getNombre()<<";;"
+						<<vacuna.getCantidadDosis()<<endl;
+				}
+				break;
+			case 3:
+				//EPS
+				for(int i = 1; i <= listaEPS.getSize(); i++){
+					Casilla<Eps> *casilla = listaEPS.obtenerDato(i);
+					Eps eps = casilla->data;
+					archivo
+						<<casilla->id<<";;"
+						<<eps.getNombre()<<endl;
+				}
+				break;
+			case 4:
+				//IPS
+				for(int i = 1; i <= listaIPS.getSize(); i++){
+					Casilla<Ips> *casilla = listaIPS.obtenerDato(i);
+					Ips ips = casilla->data;
+					
+					string idCiudad = "--";
+					string idEps = "--";
+					
+					if(ips.getEps() != NULL){
+						idEps = idDeEpsPorNombre(ips.getEpsName());
+					}
+					if(ips.getCiudad() != NULL){
+						idCiudad = idDeCiudadPorNombre(*ips.getCiudad());
+					}
+					
+					archivo
+						<<casilla->id<<";;"
+						<<ips.getNombre()<<";;"
+						<<ips.getDireccion()<<";;"
+						<<idCiudad<<";;"
+						<<idEps<<endl;
+				}
+				break;
+			case 5:
+				//EPS_VACUNA
+				for(int i = 1; i <= listaEpsVacuna.getSize(); i++){
+					Casilla<Eps_Vacuna> *casilla = listaEpsVacuna.obtenerDato(i);
+					Eps_Vacuna epsv = casilla->data;
+					
+					string idVacuna = "--";
+					string idEps = "--";
+					
+					if(epsv.getEps() != NULL){
+						idEps = idDeEpsPorNombre(epsv.getEpsName());
+					}
+					if(epsv.getVacuna() != NULL){
+						idVacuna = idDeVacunaPorNombre(epsv.getVacunaName());
+					}
+					archivo
+						<<casilla->id<<";;"
+						<<idEps<<";;"
+						<<idVacuna<<";;"
+						<<epsv.getStock()<<endl;
+				}
+				break;
+			case 6:
+				//IPS_VACUNA
+				for(int i = 1; i <= listaIpsVacuna.getSize(); i++){
+					Casilla<Ips_Vacuna> *casilla = listaIpsVacuna.obtenerDato(i);
+					Ips_Vacuna ipsv = casilla->data;
+					
+					string idVacuna = "--";
+					string idIps = "--";
+					
+					if(ipsv.getIps() != NULL){
+						idIps = idDeIpsPorNombre(ipsv.getIpsName());
+					}
+					if(ipsv.getVacuna() != NULL){
+						idVacuna = idDeVacunaPorNombre(ipsv.getVacunaName());
+					}
+					archivo
+						<<casilla->id<<";;"
+						<<idIps<<";;"
+						<<idVacuna<<endl;
+				}
+				break;
+			case 7:
+				//CIUDADES
+				for(int i = 1; i <= listaCiudades.getSize(); i++){
+					Casilla<string> *casilla = listaCiudades.obtenerDato(i);
+					archivo
+						<<casilla->id<<";;"
+						<<casilla->data<<endl;
+				}
+				break;
+			case 8:
+				//PAISES
+				for(int i = 1; i <= listaPaises.getSize(); i++){
+					Casilla<string> *casilla = listaPaises.obtenerDato(i);
+					archivo
+						<<casilla->id<<";;"
+						<<casilla->data<<endl;
+				}
+				break;
+			case 9:
+				//LABUROS
+				for(int i = 1; i <= listaLaburo.getSize(); i++){
+					Casilla<string> *casilla = listaLaburo.obtenerDato(i);
+					archivo
+						<<casilla->id<<";;"
+						<<casilla->data<<endl;
+				}
+				break;
+			default:
+				break;
+		}
+	} else {
+		cout<<"No abre pa: "<<modelo<<endl;
+	}
+}
+
+void ControladorData::terminarPrograma(){
+	guardarDatos("Archivos/laburos.txt", 9);
+	guardarDatos("Archivos/ciudades.txt", 7);
+	guardarDatos("Archivos/paises.txt", 8);
+	guardarDatos("Archivos/vacunas.txt", 2);
+	guardarDatos("Archivos/eps.txt", 3);
+	guardarDatos("Archivos/ips.txt", 4);
+	guardarDatos("Archivos/personas.txt", 1);
+	guardarDatos("Archivos/eps_vacuna.txt", 5);
+	guardarDatos("Archivos/ips_vacuna.txt", 6);
+}
 
 void ControladorData::agregarVacuna(Vacuna vacuna, int id){
 //	int posicion = listaVacunas.Tam_lista(); podria ser util para verificacion de pos de ser necesario
 	Casilla<Vacuna> casilla;
 	casilla.data = vacuna;
 	casilla.id = id;
-	
 	listaVacunas.intertar_final(casilla);
 	
 	Casilla< Vacuna > * vacunaDir = listaVacunas.obtenerDato(id);
@@ -493,6 +807,11 @@ void ControladorData::agregarPersona(Persona persona, int id){
 	casilla.id = id;
 	
 	pacientesPorEdad.insertarNodo(id, persona.getEdad());
+	if(persona.getF_primera_dosis() != NULL)
+		 pacientesPorFechaPrimeraDosis.insertarNodo(id, *(persona.getF_primera_dosis()));
+	if(persona.getF_segunda_dosis() != NULL)
+		 pacientesPorFechaSegundaDosis.insertarNodo(id, *(persona.getF_segunda_dosis()));
+		 
 	listaPersonas.intertar_final(casilla);
 	
 	if(persona.getF_primera_dosis() != NULL)
@@ -613,18 +932,14 @@ void ControladorData::organizarPacientesPorSexo(){
 	arbolMujeres.setEtiqueta("Mujeres");
 	
 	for(int i = 1; i <= listaPersonas.Tam_lista(); i++){
-		// Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
-		// Persona persona = casilla->data;
-
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		Persona *persona = &(arbolRJPersonas.buscarNodo(i, &raiz, NULL)->data->data);
-
-		int id = i;
+		Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
+		Persona persona = casilla->data;
+		int id = casilla->id;
 		
-		if(persona->getGenero() == "masculino"){
-			arbolHombres.insertarNodo(id, persona->getEdad());
-		}else if(persona->getGenero() == "femenino"){
-			arbolMujeres.insertarNodo(id, persona->getEdad());
+		if(persona.getGenero() == "masculino"){
+			arbolHombres.insertarNodo(id, persona.getEdad());
+		}else if(persona.getGenero() == "femenino"){
+			arbolMujeres.insertarNodo(id, persona.getEdad());
 		}
 	}
 	 
@@ -638,31 +953,23 @@ void ControladorData::organizarPacientesPorEps(){
 	
 	for(int i = 1;i <= cantidadEPS; i++){
 		ArbolBinarioOrdenado arbol;
-
-		// Eps eps = listaEPS.obtenerDato(i)->data;
-
-		NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
-		Eps *eps = &(arbolRJEPS.buscarNodo(i, &raiz, NULL)->data->data);
+		Eps eps = listaEPS.obtenerDato(i)->data;
 		
-		arbol.setEtiqueta(eps->getNombre());
+		arbol.setEtiqueta(eps.getNombre());
 		listaPacientesPorEps.intertar_final(arbol);
 		
-		epsDisponibles[i-1] = eps->getNombre();
+		epsDisponibles[i-1] = eps.getNombre();
 	}
 	
 	for(int i = 1;i <= cantidadPersonas ; i++){
-		// Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
-		// Persona persona = casilla->data;
-
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(i, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
+		Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
+		Persona persona = casilla->data;
 		
 		for(int j = 0; j < cantidadEPS; j++){
 			
-			if(persona->getEpsName() == epsDisponibles[j]){
+			if(persona.getEpsName() == epsDisponibles[j]){
 				ArbolBinarioOrdenado *arbol = listaPacientesPorEps.obtenerDato(j+1);
-				arbol->insertarNodo(casilla->id, persona->getEdad());
+				arbol->insertarNodo(casilla->id, persona.getEdad());
 				break;
 			}
 		}
@@ -675,38 +982,30 @@ void ControladorData::organizarPacientesPorIps(){
 	for(int i = 1;i <= cantidadIPS; i++){
 		ArbolBinarioOrdenado arbol1;
 		ArbolBinarioOrdenado arbol2;
-
-		// Ips ips = listaIPS.obtenerDato(i)->data;
-		NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
-		Ips *ips = &(arbolRJIps.buscarNodo(i, &raiz, NULL)->data->data);
+		Ips ips = listaIPS.obtenerDato(i)->data;
 		
-		arbol1.setEtiqueta(ips->getNombre());
-		arbol2.setEtiqueta(ips->getNombre());
+		arbol1.setEtiqueta(ips.getNombre());
+		arbol2.setEtiqueta(ips.getNombre());
 		listaPacientesPorIps.intertar_final(arbol1);
 		listaPacientesPorIpsAsignada.intertar_final(arbol2);
 		
-		ipsDisponibles[i-1] = ips->getNombre();
+		ipsDisponibles[i-1] = ips.getNombre();
 	}
 	
 	
 	for(int i = 1;i <= cantidadPersonas ; i++){
-		// Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
-		// Persona persona = casilla->data;
-
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(i, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
-
+		Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
+		Persona persona = casilla->data;
 		for(int j = 0; j < cantidadIPS; j++){
 			
-			if(persona->getIpsDefaultName() == ipsDisponibles[j]){
+			if(persona.getIpsDefaultName() == ipsDisponibles[j]){
 				ArbolBinarioOrdenado *arbol = listaPacientesPorIps.obtenerDato(j+1);
-				arbol->insertarNodo(casilla->id, persona->getEdad());
+				arbol->insertarNodo(casilla->id, persona.getEdad());
 			}
 			
-			if(persona->getIpsAsignadaName() == ipsDisponibles[j]){
+			if(persona.getIpsAsignadaName() == ipsDisponibles[j]){
 				ArbolBinarioOrdenado *arbol = listaPacientesPorIpsAsignada.obtenerDato(j+1);
-				arbol->insertarNodo(casilla->id, persona->getEdad());
+				arbol->insertarNodo(casilla->id, persona.getEdad());
 			}
 		}
 	}
@@ -718,32 +1017,22 @@ void ControladorData::organizarPacientesPorVacuna(){
 	
 	for(int i = 1; i <= cantidadVacunas; i++){
 		ArbolBinarioOrdenado arbol;
-		// Vacuna vacuna = listaVacunas.obtenerDato(i)->data;
-
-		NodoArbolRJ< Casilla<Vacuna> > * raiz = arbolRJVacunas.raiz_arbol();
-		Casilla<Vacuna> *casilla = arbolRJVacunas.buscarNodo(i, &raiz, NULL)->data;
-		Vacuna *vacuna = &(casilla->data);
-
-		arbol.setEtiqueta(vacuna->getNombre());
+		Vacuna vacuna = listaVacunas.obtenerDato(i)->data;
+		arbol.setEtiqueta(vacuna.getNombre());
 		
 		listaPacientesPorVacuna.intertar_final(arbol);
 		
-		vacunasDisponibles[i-1] = vacuna->getNombre();
+		vacunasDisponibles[i-1] = vacuna.getNombre();
 	}
 	
 	for(int i = 1; i <= cantidadPersonas; i++){
-		// Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
-		// Persona persona = casilla->data;
-
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(i, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
-
+		Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
+		Persona persona = casilla->data;
 		for(int j = 0; j < cantidadVacunas; j++){
-			if(persona->getVacuna() != NULL){
-				if(persona->getVacunaName() == vacunasDisponibles[j]){
+			if(persona.getVacuna() != NULL){
+				if(persona.getVacunaName() == vacunasDisponibles[j]){
 					ArbolBinarioOrdenado *arbol = listaPacientesPorVacuna.obtenerDato(j+1);
-					arbol->insertarNodo(casilla->id, persona->getEdad());
+					arbol->insertarNodo(casilla->id, persona.getEdad());
 					break;
 				}
 			}
@@ -764,17 +1053,12 @@ void ControladorData::organizarPacientesPorCiudadResidencia(){
 	}
 	
 	for(int i = 1;i <= cantidadPersonas; i++){
-		// Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
-		// Persona persona = casilla->data;
-
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(i, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
-
+		Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
+		Persona persona = casilla->data;
 		for(int j = 0; j < cantidadCiudades; j++){
-			if(*(persona->getCiudad_resid()) == ciudadesDisponibles[j]){
+			if(*(persona.getCiudad_resid()) == ciudadesDisponibles[j]){
 				ArbolBinarioOrdenado *arbol = listaPacientesPorCiudadResidencia.obtenerDato(j+1);
-				arbol->insertarNodo(casilla->id, persona->getEdad());
+				arbol->insertarNodo(casilla->id, persona.getEdad());
 				break;
 			}
 			
@@ -796,17 +1080,13 @@ void ControladorData::organizarPacientesPorPais(){
 		
 	}
 	for(int i = 1;i <= cantidadPersonas; i++){
-		// Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
-		// Persona persona = casilla->data;
-
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(i, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
+		Casilla<Persona> *casilla = listaPersonas.obtenerDato(i);
+		Persona persona = casilla->data;
 		
 		for(int j = 0; j < cantidadCiudades; j++){
-			if(*(persona->getPais_nac()) == paisesDisponibles[j]){
+			if(*(persona.getPais_nac()) == paisesDisponibles[j]){
 				ArbolBinarioOrdenado *arbol = listaPacientesPorPais.obtenerDato(j+1);
-				arbol->insertarNodo(casilla->id, persona->getEdad());
+				arbol->insertarNodo(casilla->id, persona.getEdad());
 				break;
 			}
 			
@@ -869,24 +1149,15 @@ void ControladorData::organizarVacunasPorEps(){
 	
 	for(int i = 1; i <= cantidadEPS; i++){
 		Lista<Eps_Vacuna*> lista;
-		// Eps eps = listaEPS.obtenerDato(i)->data;
-
-		NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
-		Casilla<Eps> *casilla = arbolRJEPS.buscarNodo(i, &raiz, NULL)->data;
-		Eps *eps = &(casilla->data);
-
-		lista.setEtiqueta(eps->getNombre());
+		Eps eps = listaEPS.obtenerDato(i)->data;
+		lista.setEtiqueta(eps.getNombre());
 		
-		epsDisponibles[i-1] = eps->getNombre();
+		epsDisponibles[i-1] = eps.getNombre();
 		listaVacunasPorEps.intertar_final(lista);
 	}
 	
 	for(int i = 1; i <= cantidadEPSVacunas; i++){
-		// Casilla<Eps_Vacuna> *casilla = listaEpsVacuna.obtenerDato(i);
-		// Eps_Vacuna *epsVacuna = &(casilla->data);
-
-		NodoArbolRJ< Casilla<Eps_Vacuna> > * raiz = arbolRJEpsVacuna.raiz_arbol();
-		Casilla<Eps_Vacuna> *casilla = arbolRJEpsVacuna.buscarNodo(i, &raiz, NULL)->data;
+		Casilla<Eps_Vacuna> *casilla = listaEpsVacuna.obtenerDato(i);
 		Eps_Vacuna *epsVacuna = &(casilla->data);
 		
 		for(int j = 0; j < cantidadEPS; j++){
@@ -906,26 +1177,15 @@ void ControladorData::organizarVacunasPorIps(){
 	
 	for(int i = 1; i <= cantidadIPS; i++){
 		Lista<Ips_Vacuna*> lista;
-
-		// Ips ips = listaIPS.obtenerDato(i)->data;
-
-		NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
-		Casilla<Ips> *casilla = arbolRJIps.buscarNodo(i, &raiz, NULL)->data;
-		Ips *ips = &(casilla->data);
-
-
-		lista.setEtiqueta(ips->getNombre());
+		Ips ips = listaIPS.obtenerDato(i)->data;
+		lista.setEtiqueta(ips.getNombre());
 		
-		ipsDisponibles[i-1] = ips->getNombre();
+		ipsDisponibles[i-1] = ips.getNombre();
 		listaVacunasPorIps.intertar_final(lista);
 	}
 	cout<<"obtiene las ips"<<endl;
 	for(int i = 1; i <= cantidadEPSVacunas; i++){
-		// Casilla<Ips_Vacuna> *casilla = listaIpsVacuna.obtenerDato(i);
-		// Ips_Vacuna *ipsVacuna = &(casilla->data);
-
-		NodoArbolRJ< Casilla<Ips_Vacuna> > * raiz = arbolRJIpsVacuna.raiz_arbol();
-		Casilla<Ips_Vacuna> *casilla = arbolRJIpsVacuna.buscarNodo(i, &raiz, NULL)->data;
+		Casilla<Ips_Vacuna> *casilla = listaIpsVacuna.obtenerDato(i);
 		Ips_Vacuna *ipsVacuna = &(casilla->data);
 		
 		for(int j = 0; j < cantidadIPS; j++){
@@ -953,11 +1213,7 @@ void ControladorData::organizarIpsPorCiudad(){
 	}
 	
 	for(int i = 1;i <= cantidadIPS ; i++){
-		// Casilla<Ips> *casilla = listaIPS.obtenerDato(i);
-		// Ips *ips = &(casilla->data);
-
-		NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
-		Casilla<Ips> *casilla = arbolRJIps.buscarNodo(i, &raiz, NULL)->data;
+		Casilla<Ips> *casilla = listaIPS.obtenerDato(i);
 		Ips *ips = &(casilla->data);
 		
 		for(int j = 0; j < cantidadCiudades; j++){
@@ -1027,6 +1283,74 @@ void ControladorData::organizarPacientesPorEstadoVacunacion(){
 	listaPacientesPorEstadoDeVacunacion.intertar_final(novacunados);
 }
 
+//---------------------------Busquedas-----------------------------------//
+string ControladorData::idDeVacunaPorNombre(string nombre){
+	stringstream ss;
+	Casilla<Vacuna> *aux_vacuna;
+	for(int i = 1; i<=listaVacunas.getSize(); i++){
+		aux_vacuna = listaVacunas.obtenerDato(i);
+		if(aux_vacuna->data.getNombre() == nombre){
+			ss<<aux_vacuna->id;
+			return ss.str();
+		}
+	}
+}
+string ControladorData::idDeCiudadPorNombre(string nombre){
+	stringstream ss;
+	Casilla<string> *aux_ciudad;
+	for(int i = 1; i<=listaCiudades.getSize(); i++){
+		aux_ciudad = listaCiudades.obtenerDato(i);
+		if(aux_ciudad->data == nombre){
+			ss<<aux_ciudad->id;
+			return ss.str();
+		}
+	}
+}
+string ControladorData::idDePaisPorNombre(string nombre){
+	stringstream ss;
+	Casilla<string> *aux_pais;
+	for(int i = 1; i<=listaPaises.getSize(); i++){
+		aux_pais = listaPaises.obtenerDato(i);
+		if(aux_pais->data == nombre){
+			ss<<aux_pais->id;
+			return ss.str();
+		}
+	}
+}
+string ControladorData::idDeEpsPorNombre(string nombre){
+	stringstream ss;
+	Casilla<Eps> *aux_eps;
+	for(int i = 1; i<=listaEPS.getSize(); i++){
+		aux_eps = listaEPS.obtenerDato(i);
+		if(aux_eps->data.getNombre() == nombre){
+			ss<<aux_eps->id;
+			return ss.str();
+		}
+	}
+}
+string ControladorData::idDeIpsPorNombre(string nombre){
+	stringstream ss;
+	Casilla<Ips> *aux_ips;
+	for(int i = 1; i<=listaIPS.getSize(); i++){
+		aux_ips = listaIPS.obtenerDato(i);
+		if(aux_ips->data.getNombre() == nombre){
+			ss<<aux_ips->id;
+			return ss.str();
+		}
+	}
+}
+string ControladorData::idDeLaburoPorNombre(string nombre){
+	stringstream ss;
+	Casilla<string> *aux_laburo;
+	for(int i = 1; i<=listaLaburo.getSize(); i++){
+		aux_laburo = listaLaburo.obtenerDato(i);
+		if(aux_laburo->data == nombre){
+			ss<<aux_laburo->id;
+			return ss.str();
+		}
+	}
+}
+
 Cola<Persona*> ControladorData::deArbolACola(ArbolBinarioOrdenado *arbolPersonas){
 	Cola<Persona*> colaPersonas;
 	int cantidadPersonasLocal = arbolPersonas->getTamArbol();
@@ -1047,6 +1371,7 @@ Cola<Persona*> ControladorData::deArbolACola(ArbolBinarioOrdenado *arbolPersonas
 	cout<<"tamanio "<<colaPersonas.getSize()<<endl;
 	return colaPersonas;
 }
+
 //-------------------------metodos publicos----------------------------//
 //aca son importantes los rojinegros
 Cola<Persona*> ControladorData::getPersonas(){
@@ -1054,12 +1379,7 @@ Cola<Persona*> ControladorData::getPersonas(){
 	Cola<Persona*> cola;
 	
 	for(int i = 1; i <= cantidadPersonas; i++){
-		// Persona *persona = &(listaPersonas.obtenerDato(i)->data);
-
-		NodoArbolRJ< Casilla<Persona> > * raiz = arbolRJPersonas.raiz_arbol();
-		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(i, &raiz, NULL)->data;
-		Persona *persona = &(casilla->data);
-		
+		Persona *persona = &(listaPersonas.obtenerDato(i)->data);
 		cola.push(persona);
 	}
 	
@@ -1070,11 +1390,7 @@ Cola<Vacuna*> ControladorData::getVacunas(){
 	Cola<Vacuna*> cola;
 	
 	for(int i = 1; i <= cantidadVacunas; i++){
-		// Vacuna *vacuna = &(listaVacunas.obtenerDato(i)->data);
-		NodoArbolRJ< Casilla<Vacuna> > * raiz = arbolRJVacunas.raiz_arbol();
-		Casilla<Vacuna> *casilla = arbolRJVacunas.buscarNodo(i, &raiz, NULL)->data;
-		Vacuna *vacuna = &(casilla->data);
-
+		Vacuna *vacuna = &(listaVacunas.obtenerDato(i)->data);
 		cola.push(vacuna);
 	}
 	
@@ -1085,11 +1401,7 @@ Cola<Eps*> ControladorData::getEpss(){
 	Cola<Eps*> cola;
 	
 	for(int i = 1; i <= cantidadEPS; i++){
-		// Eps *eps = &(listaEPS.obtenerDato(i)->data);
-		NodoArbolRJ< Casilla<Eps> > * raiz = arbolRJEPS.raiz_arbol();
-		Casilla<Eps> *casilla = arbolRJEPS.buscarNodo(i, &raiz, NULL)->data;
-		Eps *eps = &(casilla->data);
-
+		Eps *eps = &(listaEPS.obtenerDato(i)->data);
 		cola.push(eps);
 	}
 	
@@ -1100,13 +1412,7 @@ Cola<Ips*> ControladorData::getIpss(){
 	Cola<Ips*> cola;
 	
 	for(int i = 1; i <= cantidadIPS; i++){
-		// Ips *ips = &(listaIPS.obtenerDato(i)->data);
-
-		NodoArbolRJ< Casilla<Ips> > * raiz = arbolRJIps.raiz_arbol();
-		Casilla<Ips> *casilla = arbolRJIps.buscarNodo(i, &raiz, NULL)->data;
-		Ips *ips = &(casilla->data);
-
-
+		Ips *ips = &(listaIPS.obtenerDato(i)->data);
 		cola.push(ips);
 	}
 	
@@ -1273,6 +1579,7 @@ Cola<Persona*> ControladorData::getPersonasPorIps(string ips, bool asignada){
 	return deArbolACola(arbolPersonas);
 }
 
+
 Cola<Persona*> ControladorData::getPersonasPorSexo(string sexo){
 	ArbolBinarioOrdenado *arbolPersonas;
 	
@@ -1296,6 +1603,7 @@ Cola<Persona*> ControladorData::getPersonasPorCiudadResidencia(string ciudad){
 			arbolPersonas = pacientes;
 		}
 	}
+	
 	
 	
 	return deArbolACola(arbolPersonas);	
