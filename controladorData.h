@@ -55,9 +55,11 @@ class ControladorData{
 		Lista < Casilla <string> > listaCiudades;
 		Lista < Casilla<string> > listaPaises;
 		Lista < Casilla<string> > listaLaburo;
-		Lista <Fecha> listaFechas;
+		Lista<Fecha> listaFechas;
+
+
 		
-		 
+
 		//---------------------Arboles ordenados----------------------------------//
 		
 		ArbolBinarioOrdenado pacientesPorEdad;
@@ -121,18 +123,17 @@ class ControladorData{
 		
 		//---------------Mutacion de estructuras--------------------------------//
 		//posiblemente a otra clase
-		void agregarPersona(Persona, int);
-		void agregarCiudad(string, int);
+		
 		void agregarLaburo(string, int);
 		void agregarVacuna(Vacuna, int);
+		void agregarPersona(Persona, int);
 		void agregarEps(Eps, int);
 		void agregarIps(Ips, int);
-		void agregarPais(string, int);
 		
 		void agregarEpsVacuna(Eps_Vacuna, int);
 		void agregarIpsVacuna(Ips_Vacuna, int);
 		
-		int ingresarFecha(string);
+		
 		//cambios de datos
 		//--------------------------Utils-------------------------------------//
 		int validarID(string);
@@ -142,6 +143,18 @@ class ControladorData{
 	public:
 		
 		ControladorData();
+		int ingresarFecha(string);
+		
+		void setPersona(Persona p, int id){
+			agregarPersona(p, id);
+		};
+		
+		void agregarPais(string, int);
+		void agregarCiudad(string, int);
+		Lista<Fecha> getListaFechas()
+		{
+			return this->listaFechas;
+		}
 		
 		//-----------------------------Getters-----------------------------------//
 		
