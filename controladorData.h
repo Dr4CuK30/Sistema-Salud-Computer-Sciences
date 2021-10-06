@@ -167,7 +167,8 @@ class ControladorData{
 		Cola<Persona*> getVacunados();
 		Cola<Persona*> getSemiVacunados();
 		Cola<Persona*> getNoVacunados();
-		void getVacunasDisponibles(string ips);
+		Cola<Vacuna*> getVacunaPorEps(string);
+		Cola<Ips_Vacuna*> getVacunasDisponibles(string ips);
 		
 		Persona *getPersona(int id);
 		Eps *getEps(int id);
@@ -1153,7 +1154,16 @@ Cola<Persona*> ControladorData::getVacunadosPorFecha(string fecha, bool praDosis
 		pacientesPorFechaSegundaDosis.inordenArrayFechas(pacientesPorFechaSegundaDosis.obtenerRaiz(), 0, idPersonas);
 	}
 	
-	for(int i = 0; i < size; i++) colaPersonas.push(&(listaPersonas.obtenerDato(i)->data));
+	for(int i = 0; i < size; i++){
+		Persona *persona = &(listaPersonas.obtenerDato(idPersonas[i])->data);
+		Fecha fecha;
+		if(praDosis) fecha = *persona->getF_primera_dosis();
+		else fecha = *persona->getF_segunda_dosis();
+		
+		if(esMayorQue(fechaVacuna, fecha) == "igual") colaPersonas.push(persona);
+	}
+	return colaPersonas;
+		
 }
 
 Cola<Persona*> ControladorData::getVacunados(){
@@ -1333,5 +1343,47 @@ Cola<Ips*> ControladorData::getIpsPorEps(string eps){
 	for(int i = 1 ; i <= listaIpss->getSize(); i++) colaIps.push(*(listaIpss->obtenerDato(i)));
 
 	return colaIps;
+}
+
+Cola<Vacuna*> ControladorData::getVacunaPorEps(string eps){
+	Cola<Vacuna*> colaVacunas;
+	Lista<Eps_Vacuna*> *vacunasDisponibles;
+	
+	for(int i = 1; i <= cantidadEPS; i++){
+		Lista<Eps_Vacuna*> *vacunas = listaVacunasPorEps.obtenerDato(i);
+		
+		if(vacunas->getEtiqueta() == eps){
+			vacunasDisponibles = vacunas;
+			break;
+		}
+	}
+	
+	for(int i = 1; i <= vacunasDisponibles->getSize(); i++){
+		Eps_Vacuna *epsVacuna = *vacunasDisponibles->obtenerDato(i);
+		colaVacunas.push(epsVacuna->getVacuna());
+	} 
+	
+	return colaVacunas;
+}
+
+Cola<Ips_Vacuna*> ControladorData::getVacunasDisponibles(string ips){
+	Cola<Ips_Vacuna*> colaVacunas;
+	Lista<Ips_Vacuna*> *vacunasDisponibles;
+	
+	for(int i = 1; i <= cantidadEPS; i++){
+		Lista<Ips_Vacuna*> *vacunas = listaVacunasPorIps.obtenerDato(i);
+		
+		if(vacunas->getEtiqueta() == ips){
+			vacunasDisponibles = vacunas;
+			break;
+		}
+	}
+	
+	for(int i = 1; i <= vacunasDisponibles->getSize(); i++){
+		Ips_Vacuna *ipsVacuna = *vacunasDisponibles->obtenerDato(i);
+		colaVacunas.push(ipsVacuna);
+	} 
+	
+	return colaVacunas;
 }
 #endif

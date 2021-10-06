@@ -207,8 +207,22 @@ void consultarPacientesPor(){
 				         
 				break;
 			}
-			case 3:
+			case 3:{
+				cout<<"-----------------------------"<<endl;
+				cout<<"Ingrese la fecha: "<<endl;
+				string fecha;
+				cin>>fecha;
+				cout<<endl;
+				//preguntar por dosis
+				Cola<Persona*> personas = data.getVacunadosPorFecha(fecha, true);
+				cout<<"obtiene bien "<<endl;
+				cout<<personas.getSize()<<endl;  
+				
+				impresionPersonaBasico(personas);
+				
+				
 				break;
+			}			
 			case 4:{
 				string eps = escogerEps(); 
 				Cola<Persona*> personas = data.getPersonasPorEps(eps);
@@ -724,12 +738,14 @@ void consultasDobles(){
 void consultarEstadisticas(){
 	int opcion; 
 	
-	while(opcion != 10){    
+	while(opcion != 5){    
 		cout<<"---------------------------------"<<endl;
 		cout<<"Puede consultar las siguientes estadisticas: "<<endl;
     	cout<<"1. Total de personas por EPS"<<endl;
     	cout<<"2. Hombres y mujeres vacunados por eps"<<endl;
-		cout<<"10. Volver al menu principal"<<endl<<endl;
+    	cout<<"3. EPSs con una cantidad minima de afiliados"<<endl;
+    	cout<<"4. Vacunados en una fecha"<<endl;
+		cout<<"5. Volver al menu principal"<<endl<<endl;
 		        
 		cout<<"Opcion: ";
 		cin>>opcion;     
@@ -738,6 +754,10 @@ void consultarEstadisticas(){
 		Cola<Eps*> colaEps = data.getEpss();
 		Eps *epss[data.getCantidadEps()];
 		for(int i = 0; i < data.getCantidadEps(); i++) epss[i] = colaEps.pop();
+		
+		Cola<Vacuna*> colaVacunas = data.getVacunas();
+		Vacuna *vacunas[data.getCantidadVacunas()];
+		for(int i = 0; i < data.getCantidadVacunas(); i++) vacunas[i] = colaVacunas.pop(); 
 		
 		switch(opcion){
 			case 1:{
@@ -833,6 +853,49 @@ void consultarEstadisticas(){
 					cout<<"|-------------------|"<<endl<<endl;
 				}
 				
+				
+				break;
+			}
+			case 3:{
+				break;
+			}
+			case 4:{
+				cout<<"-----------------------------"<<endl;
+				cout<<"Ingrese la fecha: "<<endl;
+				string fecha;
+				cin>>fecha;
+				cout<<endl;
+				
+				Cola<Persona*> personasPrimeraDosis = data.getVacunadosPorFecha(fecha, true);
+				Cola<Persona*> personasSegundaDosis = data.getVacunadosPorFecha(fecha, false);
+				int size = personasPrimeraDosis.getSize() + personasSegundaDosis.getSize();
+				
+				cout<<"las obtiene bien"<<endl;
+				
+				int vacunadosPorEps[data.getCantidadEps()];
+				for(int i = 0; i < data.getCantidadEps(); i++) vacunadosPorEps[i] = 0;
+				
+				for(int j = 0; j < size;j++){
+					cout<<"recorre personas"<<endl;
+					Persona *persona;
+					if(personasPrimeraDosis.getSize() != 0) persona = personasPrimeraDosis.pop();
+					else persona = personasSegundaDosis.pop();
+					
+					for(int i = 0; i < data.getCantidadEps(); i++){
+						if(epss[i]->getNombre() == persona->getEpsName()){
+							vacunadosPorEps[i]++;
+						}
+					} 
+				}
+				
+				//impresion
+				cout<<"|-------------------------------------------------------------------------------|"<<endl;
+				cout<<"|------Fecha: "<<fecha<<endl;
+				cout<<"|-------------------------------------------------------------------------------|"<<endl;
+				cout<<"| "; for(int i = 0; i < data.getCantidadEps(); i++) cout<<setw(20)<<epss[i]->getNombre()<<" | ";
+				cout<<endl<<"| "; for(int i = 0; i < data.getCantidadEps(); i++) cout<<setw(20)<<vacunadosPorEps[i]<<" | ";
+				cout<<endl;
+			
 				
 				break;
 			}
