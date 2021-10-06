@@ -306,7 +306,7 @@ ControladorData::ControladorData(){
 	this->organizarPacientesPorEstadoVacunacion();
 	this->organizarPacientesPorCiudadResidencia();
 	this->organizarVacunasPorEps();
-	this->organizarVacunasPorIps();
+	// this->organizarVacunasPorIps();
 	this->organizarPacientesPorRangosDeEdad();
 	this->organizarIpsPorCiudad();
 	this->organizarIpsPorEps();
