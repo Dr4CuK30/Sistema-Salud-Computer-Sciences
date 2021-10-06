@@ -28,6 +28,8 @@ void consultarEstadisticas();
 void crearRegistrosMenu();
 //Persona:
 void registrarPersonaMenu();
+//Eps:
+void registrarEps();
 
 string escogerRangoDeEdad();
 string escogerEps();
@@ -1004,6 +1006,7 @@ string escogerPais(){
 	return *(pais[opcion-1]);
 }
 
+
 string escogerActividadLaboral(){
 	
 	Cola<string*> colaLaburo = data.getLaburos();
@@ -1051,7 +1054,7 @@ void crearRegistrosMenu(){
 		cout<<"---------------------------------"<<endl;
 		cout<<"Ingrese el tipo de registro que desea insertar: "<<endl;
     	cout<<"1. Persona"<<endl;
-		// cout<<"2. Vacunados con un tipo de vacuna"<<endl;
+		cout<<"2. EPS"<<endl;
 		// cout<<"3. Fecha de vacunacion"<<endl;
 		// cout<<"4. EPS"<<endl;
 		// cout<<"5. IPS"<<endl;
@@ -1446,4 +1449,14 @@ void registrarPersonaMenu(){
 
 	data.setPersona(persona, data.getCantidadPersonas()+1);
 	
+}
+
+void registrarEps(){
+
+	string epsName="";
+	while (epsName==""){
+		cout<<"Ingrese el nombre de la EPS que quiere ingresar: "<<endl;
+		cin>>epsName;
+	}
+	Eps epsInsertar(epsName);
 }
