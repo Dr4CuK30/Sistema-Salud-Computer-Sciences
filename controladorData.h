@@ -648,7 +648,7 @@ void ControladorData::guardarDatos(string ruta, int modelo){
 				break;
 			case 2:
 				//VACUNAS
-				for(int i = 1; i <= listaPersonas.getSize(); i++){
+				for(int i = 1; i <= listaVacunas.getSize(); i++){
 					Casilla<Vacuna> *casilla = listaVacunas.obtenerDato(i);
 					Vacuna vacuna = casilla->data;
 					archivo
