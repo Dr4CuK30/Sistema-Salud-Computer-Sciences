@@ -253,6 +253,7 @@ class Persona{
 		}
 
 		string getVacunaName(){
+			if(this->vacuna == NULL) return "";
 			Vacuna * vac = this->getVacuna();
 			Vacuna vacObtained = *vac;
 			return vacObtained.getNombre();
