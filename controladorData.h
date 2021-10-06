@@ -205,6 +205,7 @@ ControladorData::ControladorData(){
 	
 	cargarArchivosLocales();
 	
+	
 	this->organizarPacientesPorEps();
 	this->organizarPacientesPorIps();
 	this->organizarPacientesPorSexo();
@@ -213,10 +214,14 @@ ControladorData::ControladorData(){
 	this->organizarPacientesPorEstadoVacunacion();
 	this->organizarPacientesPorCiudadResidencia();
 	this->organizarVacunasPorEps();
-	this->organizarVacunasPorIps();
+//	this->organizarVacunasPorIps();
+	cout<<"organiza por vac ips"<<endl;
 	this->organizarPacientesPorRangosDeEdad();
+	cout<<"organiza por edad"<<endl;
 	this->organizarIpsPorCiudad();
+	cout<<"organiza por ips city"<<endl;
 	this->organizarIpsPorEps();
+	cout<<"organiza por ips eps"<<endl;
 	
 }
 
@@ -243,7 +248,9 @@ void ControladorData::cargarArchivosLocales(){
 	
 	cargarArchivo("Archivos/personas.txt", CANT_ATRIBUTOS_PERSONA + 1, 1);
 	
+	
 	cargarArchivo("Archivos/eps_vacuna.txt", CANT_ATRIBUTOS_EPS_VACUNA + 1, 5);
+	
 	cargarArchivo("Archivos/ips_vacuna.txt", CANT_ATRIBUTOS_IPS_VACUNA + 1, 6);
 	
 	
@@ -279,7 +286,6 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 			
 			switch(modelo){
 				case 1:{
-					
 					//metodo de validacion para todos
 					int idVacuna =  atoi(atributos[17].c_str());
 					int idCiudadNac =  atoi(atributos[7].c_str());
@@ -913,7 +919,7 @@ void ControladorData::organizarVacunasPorIps(){
 		ipsDisponibles[i-1] = ips->getNombre();
 		listaVacunasPorIps.intertar_final(lista);
 	}
-	
+	cout<<"obtiene las ips"<<endl;
 	for(int i = 1; i <= cantidadEPSVacunas; i++){
 		// Casilla<Ips_Vacuna> *casilla = listaIpsVacuna.obtenerDato(i);
 		// Ips_Vacuna *ipsVacuna = &(casilla->data);
@@ -931,6 +937,7 @@ void ControladorData::organizarVacunasPorIps(){
 			}
 		}
 	}
+	cout<<"cierra piola"<<endl;
 }
 
 void ControladorData::organizarIpsPorCiudad(){
