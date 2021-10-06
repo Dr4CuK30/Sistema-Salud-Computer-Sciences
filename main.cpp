@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 	empezarPrograma();
 	    
     system("PAUSE");       
-    return EXIT_SUCCESS;
+    return EXIT_SUCCESS; 
 }                   
 
 void empezarPrograma(){
@@ -1142,7 +1142,7 @@ void registrarPersonaMenu(){
 			break;
 		}
 
-		cout<<"Ingrese el numero de identificacion"<<endl;
+		cout<<endl<<"Ingrese el numero de identificacion"<<endl;
 		cin>>numId;
 
 		if(numId<=0) {
@@ -1158,7 +1158,7 @@ void registrarPersonaMenu(){
 	string nombrePersona = "";
 	while (nombrePersona == "")
 	{
-		cout<<"Inserte el nombre de la persona que desea registrar"<<endl;
+		cout<<endl<<"Inserte el nombre de la persona que desea registrar"<<endl;
 		cin>>nombrePersona;
 	}
 
@@ -1166,7 +1166,7 @@ void registrarPersonaMenu(){
 	string apelPersona = "";
 	while (apelPersona == "")
 	{
-		cout<<"Inserte el apellido de la persona que desea registrar"<<endl;
+		cout<<endl<<"Inserte el apellido de la persona que desea registrar"<<endl;
 		cin>>apelPersona;
 	}
 
@@ -1176,7 +1176,7 @@ void registrarPersonaMenu(){
 	int generoOpcion;
 	while (genero == "" && generoOpcion!=4)
 	{
-		cout<<"Seleccione el genero de la persona que desea registrar"<<endl;
+		cout<<endl<<"Seleccione el genero de la persona que desea registrar"<<endl;
 		cout<<"1. Masculino"<<endl;
 		cout<<"2. Femenino"<<endl;
 		cout<<"3. Salir"<<endl;
@@ -1185,10 +1185,10 @@ void registrarPersonaMenu(){
 
 		switch (generoOpcion){
 		case 1:
-			genero = "Masculino";
+			genero = "masculino";
 			break;
 		case 2:
-			genero = "Femenino";
+			genero = "femenino";
 			break;
 		case 3:
 			break;	
@@ -1212,7 +1212,7 @@ void registrarPersonaMenu(){
 	//Ciudad de nacimiento:
 	string * ciudadNacimiento=NULL;
 	while (ciudadNacimiento==NULL){
-		cout<<"CIUDAD DE NACIMIENTO"<<endl;
+		cout<<endl<<"CIUDAD DE NACIMIENTO"<<endl;
 		Cola<string*> colaCiudad = data.getCiudades();
 		string *ciudad[data.getCantidadCiudades()];
 					
@@ -1236,7 +1236,7 @@ void registrarPersonaMenu(){
 	//Pais de nacimiento:
 	string * paisNacimiento=NULL;
 	while (paisNacimiento==NULL){
-		cout<<"PAIS DE NACIMIENTO"<<endl;
+		cout<<endl<<"PAIS DE NACIMIENTO"<<endl;
 		Cola<string*> colaPais = data.getPaises();
 		string *pais[data.getCantidadPaises()];
 					
@@ -1260,7 +1260,7 @@ void registrarPersonaMenu(){
 	//Ciudad de Residencia:
 	string * ciudadResi=NULL;
 	while (ciudadResi==NULL){
-		cout<<"CIUDAD DE RESIDENCIA"<<endl;
+		cout<<endl<<"CIUDAD DE RESIDENCIA"<<endl;
 		Cola<string*> colaCiudad = data.getCiudades();
 		string *ciudad[data.getCantidadCiudades()];
 					
@@ -1284,28 +1284,28 @@ void registrarPersonaMenu(){
 	//Direccion
 	string direccion="";
 	while (direccion==""){
-		cout<<"Ingrese la direccion : "<<endl;
+		cout<<endl<<"Ingrese la direccion : "<<endl;
 		cin>>direccion;
 	}
 
 	//Barrio
 	string barrio="";
 	while (barrio==""){
-		cout<<"Ingrese el barrio : "<<endl;
+		cout<<endl<<"Ingrese el barrio : "<<endl;
 		cin>>barrio;
 	}
 
 	//Telefono Celular:
 	long long int telefono_cel=0;
 	while (telefono_cel==0){
-		cout<<"Ingrese su telefono celular : "<<endl;
+		cout<<endl<<"Ingrese su telefono celular : "<<endl;
 		cin>>telefono_cel;
 	}
 
 	//Telefono Fijo:
 	long long int telefono_fijo=0;
 	while (telefono_fijo==0){
-		cout<<"Ingrese su telefono fijo : "<<endl;
+		cout<<endl<<"Ingrese su telefono fijo : "<<endl;
 		cin>>telefono_fijo;
 	}
 
@@ -1317,7 +1317,7 @@ void registrarPersonaMenu(){
 	string f_nacimientoString="";
 	Fecha * f_nacimiento=NULL;
 	while (f_nacimiento==NULL){
-		cout<<"Ingrese su fecha de nacimiento con el siguiente formato DD-MM-AAA: "<<endl;
+		cout<<endl<<"Ingrese su fecha de nacimiento con el siguiente formato DD-MM-AAA: "<<endl;
 		cin>>f_nacimientoString;
 		if(f_nacimientoString!=""){
 			int tam = data.ingresarFecha(f_nacimientoString);
@@ -1332,14 +1332,14 @@ void registrarPersonaMenu(){
 	
 	
 	while (f_primera_dosis==NULL){
-		cout<<"Ingrese la fecha en la que fue aplicada su primera dosis con el siguiente formato DD-MM-AAA: "<<endl;
+		cout<<endl<<"Ingrese la fecha en la que fue aplicada su primera dosis con el siguiente formato DD-MM-AAA: "<<endl;
 		cout<<"En caso de no tener aplicadad dicha dosis, ingrese --: "<<endl;
 		cin>>f_primera_dosisString;
 		if(f_primera_dosisString!="") {
 			int tam = data.ingresarFecha(f_primera_dosisString);
 			f_primera_dosis = data.getListaFechas().obtenerDato(tam);
-		}
-		cout<<f_primera_dosis->anho<<", "<<f_primera_dosis->mes<<", "<<f_primera_dosis->dia<<endl;
+		}else if(f_primera_dosisString != "--") f_primera_dosis=NULL;
+		
 
 	}
 
@@ -1347,25 +1347,25 @@ void registrarPersonaMenu(){
 	string f_segunda_dosisString="";
 	Fecha * f_segunda_dosis=NULL;
 	while (f_segunda_dosis==NULL){
-		cout<<"Ingrese la fecha en la que fue aplicada su segunda dosis con el siguiente formato DD-MM-AAA: "<<endl;
+		cout<<endl<<"Ingrese la fecha en la que fue aplicada su segunda dosis con el siguiente formato DD-MM-AAA: "<<endl;
 		cout<<"En caso de no tener aplicadad dicha dosis, ingrese --: "<<endl;
 		cin>>f_segunda_dosisString;
 		if(f_segunda_dosisString!=""){
 			int tam = data.ingresarFecha(f_segunda_dosisString);
 			f_segunda_dosis = data.getListaFechas().obtenerDato(tam);
-		}
-		cout<<f_segunda_dosis->anho<<", "<<f_segunda_dosis->mes<<", "<<f_segunda_dosis->dia<<endl;
+		}else if(f_primera_dosisString != "--") f_primera_dosis=NULL;
+		
 	}
 
 
 	//Vacuna
 	Vacuna *vacunaPersona;
 	int vacunaOpcion=0;
-	while(vacunaOpcion<=0){
+	while(vacunaOpcion <= 0){
 		Cola<Vacuna*> colaVacuna = data.getVacunas();
 		Vacuna *vacunas[data.getCantidadVacunas()];
 					
-		cout<<"Seleccione la Vacuna que le fue aplicada (Si no se le aplico ninguna vacuna, ingrese el valor 0): "<<endl;
+		cout<<endl<<"Seleccione la Vacuna que le fue aplicada (Si no se le aplico ninguna vacuna, ingrese el valor 0): "<<endl;
 					
 		for(int i = 0; i < data.getCantidadVacunas(); i++){
 			vacunas[i] = colaVacuna.pop();		
@@ -1375,12 +1375,12 @@ void registrarPersonaMenu(){
 		cout<<"Opcion: ";
 		cin>>vacunaOpcion;  
 		
-		if(vacunaOpcion>0 && (vacunaOpcion-1)<data.getCantidadVacunas()){
+		if(vacunaOpcion > 0 && (vacunaOpcion-1) < data.getCantidadVacunas()){
 			vacunaPersona = vacunas[vacunaOpcion-1];
-		} else {
+		} else if(vacunaOpcion == 0){
 			vacunaPersona = NULL;
+			break;
 		}
-		cout<<vacunaPersona->getNombre()<<endl;
 	}
 
 	//Eps
@@ -1390,7 +1390,7 @@ void registrarPersonaMenu(){
 		Cola<Eps*> colaEps = data.getEpss();
 		Eps *epss[data.getCantidadEps()];
 					
-		cout<<"Seleccione la Eps a la que esta registrado: "<<endl;
+		cout<<endl<<"Seleccione la Eps a la que esta registrado: "<<endl;
 					
 		for(int i = 0; i < data.getCantidadEps(); i++){
 			epss[i] = colaEps.pop();		
@@ -1419,7 +1419,7 @@ void registrarPersonaMenu(){
 		int lenghtIps = colaIps.getSize();
 		Ips *ipss[lenghtIps];
 		
-		cout<<"Seleccione la Ips a la que esta registrado: "<<endl;
+		cout<<endl<<"Seleccione la Ips a la que esta registrado: "<<endl;
 					
 		for(int i = 0; i < lenghtIps; i++){
 			ipss[i] = colaIps.pop();		
@@ -1447,7 +1447,7 @@ void registrarPersonaMenu(){
 		string *laburos[data.getCantidadLaburos()];
 		
 		int opcionAct;
-		cout<<"Seleccione la actividad laboral: "<<endl;
+		cout<<endl<<"Seleccione la actividad laboral: "<<endl;
 		
 		for(int i = 0; i < data.getCantidadLaburos(); i++){
 			laburos[i] = colaLaburo.pop();
@@ -1457,7 +1457,10 @@ void registrarPersonaMenu(){
 		
 		cout<<"Opcion: ";
 		cin>>opcionAct;
-
+		
+		cout<<"actividad "<<opcionAct<<endl;
+		cout<<*laburos[opcionAct-1]<<endl;
+		
 		if(opcionAct>0 && (opcionAct-1)<data.getCantidadLaburos())
 		actLaboral = laburos[opcionAct-1];
 	}
@@ -1468,10 +1471,8 @@ void registrarPersonaMenu(){
 												barrio,telefono_cel,telefono_fijo,
 												f_nacimiento ,f_primera_dosis ,f_segunda_dosis ,
 												vacunaPersona,epsPersona,ipsDefault,ipsAsignada, actLaboral);
-
-
-	data.setPersona(persona, data.getCantidadPersonas()+1);
 	
+	data.setPersona(persona, data.getCantidadPersonas()+1); 
 }
 
 

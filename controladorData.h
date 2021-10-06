@@ -178,21 +178,23 @@ class ControladorData{
 			for(int i=1; i<=2; i++){
 				ArbolBinarioOrdenado *arbOrd = listaPacientesPorSexo.obtenerDato(i);
 				string sxEtiqueta;
-				if(p.getGenero()=="Masculino")sxEtiqueta="Hombres";
-				if(p.getGenero()=="Femenino")sxEtiqueta="Mujeres";
+				if(p.getGenero()=="masculino")sxEtiqueta="Hombres";
+				if(p.getGenero()=="femenino")sxEtiqueta="Mujeres";
 				if(arbOrd->getEtiqueta()==sxEtiqueta){
 					arbOrd->insertarNodo(id, p.getEdad());
 				}
 			}
 
 			// Agregar a árboles de Vacuna:
-			for(int i=1; i<=cantidadVacunas; i++){
-				ArbolBinarioOrdenado *arbOrd = listaPacientesPorVacuna.obtenerDato(i);
-				if(arbOrd->getEtiqueta()==p.getVacunaName()){
-					arbOrd->insertarNodo(id, p.getEdad());
+			if(p.getVacuna() != NULL){
+				for(int i=1; i<=cantidadVacunas; i++){
+					ArbolBinarioOrdenado *arbOrd = listaPacientesPorVacuna.obtenerDato(i);
+					if(arbOrd->getEtiqueta()==p.getVacunaName()){
+						arbOrd->insertarNodo(id, p.getEdad());
+					}
 				}
 			}
-
+			
 			// Agregar a arboles de Pais:
 			for(int i=1; i<=cantidadPaises; i++){
 				ArbolBinarioOrdenado *arbOrd = listaPacientesPorPais.obtenerDato(i);
@@ -217,7 +219,6 @@ class ControladorData{
 					arbOrd->insertarNodo(id, p.getEdad());
 				}
 			}
-
 			// Agregar a árboles por Residencia:
 			for(int i=1; i<=cantidadCiudades; i++){
 				ArbolBinarioOrdenado *arbOrd = listaPacientesPorCiudadResidencia.obtenerDato(i);
@@ -230,7 +231,7 @@ class ControladorData{
 			for(int i=1; i<=listaPacientesPorRangosDeEdad.Tam_lista(); i++){
 				listaPacientesPorRangosDeEdad.eliminar(i);
 			}
-
+			
 			this->organizarPacientesPorRangosDeEdad();
 			
 		};
@@ -355,13 +356,9 @@ ControladorData::ControladorData(){
 	this->organizarPacientesPorEstadoVacunacion();
 	this->organizarVacunasPorEps();
 //	this->organizarVacunasPorIps();
-	cout<<"organiza por vac ips"<<endl;
 	this->organizarPacientesPorRangosDeEdad();
-	cout<<"organiza por edad"<<endl;
 	this->organizarIpsPorCiudad();
-	cout<<"organiza por ips city"<<endl;
 	this->organizarIpsPorEps();
-	cout<<"organiza por ips eps"<<endl;
 	
 }
 
@@ -413,8 +410,6 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 				
 			}
 			
-//			for(int i = 0; i < cantAtributos; i++)cout<<atributos[i]<<"-";
-//			cout<<endl;
 			int id = atoi(atributos[0].c_str());
 			
 			if(atributos[pos] == "--") atributos[pos] = "";
@@ -450,12 +445,9 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 					
 					if(idVacuna == 0) pVacuna = NULL;
 					else {
-						// pVacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
-						// cout<<pVacuna->getNombre()<<" HURTADO 1"<<endl;
 
 						NodoArbolRJ< Casilla<Vacuna> > * raiz = arbolRJVacunas.raiz_arbol();
 						pVacuna = &(arbolRJVacunas.buscarNodo(idVacuna, &raiz, NULL)->data->data);
-						// cout<<pVacuna->getNombre()<<" HURTADO 2"<<endl;
 					}
 					
 					if(idCiudadNac == 0) pCiudadNac = NULL;
@@ -558,8 +550,7 @@ void ControladorData::cargarArchivo(string rutaArchivo, int cantAtributos, int m
 				case 5:{
 					int idEps = atoi(atributos[1].c_str());
 					int idVacuna =  atoi(atributos[2].c_str()); 
-					
-					cout<<atributos[1]<<endl;
+				
 					
 					// Eps *eps = &(listaEPS.obtenerDato(idEps)->data);
 					Vacuna *vacuna = &(listaVacunas.obtenerDato(idVacuna)->data);
@@ -1222,7 +1213,6 @@ void ControladorData::organizarVacunasPorIps(){
 		ipsDisponibles[i-1] = ips.getNombre();
 		listaVacunasPorIps.intertar_final(lista);
 	}
-	cout<<"obtiene las ips"<<endl;
 	for(int i = 1; i <= cantidadEPSVacunas; i++){
 		Casilla<Ips_Vacuna> *casilla = listaIpsVacuna.obtenerDato(i);
 		Ips_Vacuna *ipsVacuna = &(casilla->data);
@@ -1236,7 +1226,6 @@ void ControladorData::organizarVacunasPorIps(){
 			}
 		}
 	}
-	cout<<"cierra piola"<<endl;
 }
 
 void ControladorData::organizarIpsPorCiudad(){
@@ -1404,10 +1393,8 @@ Cola<Persona*> ControladorData::deArbolACola(ArbolBinarioOrdenado *arbolPersonas
 		
 		Casilla<Persona> *casilla = arbolRJPersonas.buscarNodo(idBusqueda, &raiz, NULL)->data;
 		Persona *persona = &(casilla->data);
-		cout<<persona->getNombres()<<endl;
 		colaPersonas.push(persona);
 	}
-	cout<<"tamanio "<<colaPersonas.getSize()<<endl;
 	return colaPersonas;
 }
 
