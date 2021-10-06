@@ -7,3 +7,4 @@
 7;;Piloto
 8;;Policia
 9;;Comerciante
+10;;Carpintero

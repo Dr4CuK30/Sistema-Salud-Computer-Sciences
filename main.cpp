@@ -30,6 +30,16 @@ void crearRegistrosMenu();
 void registrarPersonaMenu();
 //Eps:
 void registrarEps();
+//Ips:
+void registrarIPS();
+//Actividad Laboral
+void registrarActLaboral();
+//Pais:
+void registrarPais();
+//Ciudad:
+void registrarCiudad();
+//Vacuna:
+void registrarVacuna();
 
 string escogerRangoDeEdad();
 string escogerEps();
@@ -1055,12 +1065,12 @@ void crearRegistrosMenu(){
 		cout<<"Ingrese el tipo de registro que desea insertar: "<<endl;
     	cout<<"1. Persona"<<endl;
 		cout<<"2. EPS"<<endl;
-		// cout<<"3. Fecha de vacunacion"<<endl;
-		// cout<<"4. EPS"<<endl;
-		// cout<<"5. IPS"<<endl;
-		// cout<<"6. IPS asignada para vacunacion"<<endl;
-		// cout<<"7. Ciudad de residencia"<<endl; 
-		// cout<<"8. Sexo"<<endl;
+		cout<<"3. IPS"<<endl;
+		cout<<"4. Actividades Laborales"<<endl;
+		cout<<"5. Paises"<<endl;
+		cout<<"6. Ciudades"<<endl;
+		cout<<"7. Vacuna"<<endl; 
+		// cout<<"8. Par Eps y Vacuna"<<endl;
 		// cout<<"9. Pais de nacimiento"<<endl;
 		cout<<"11. Volver al menu principal"<<endl<<endl;
 		        
@@ -1072,7 +1082,24 @@ void crearRegistrosMenu(){
 		case 1:
 			registrarPersonaMenu();
 			break;
-		
+		case 2:
+			registrarEps();
+			break;
+		case 3:
+			registrarIPS();
+			break;
+		case 4:
+			registrarActLaboral();
+			break;
+		case 5:
+			registrarPais();
+			break;
+		case 6:
+			registrarCiudad();
+			break;
+		case 7:
+			registrarVacuna();
+			break;
 		default:
 			break;
 		}
@@ -1152,8 +1179,7 @@ void registrarPersonaMenu(){
 		cout<<"Seleccione el genero de la persona que desea registrar"<<endl;
 		cout<<"1. Masculino"<<endl;
 		cout<<"2. Femenino"<<endl;
-		cout<<"3. No Especifica"<<endl;
-		cout<<"4. Salir"<<endl;
+		cout<<"3. Salir"<<endl;
 		cout<<"Genero: ";
 		cin>>generoOpcion;
 
@@ -1165,10 +1191,7 @@ void registrarPersonaMenu(){
 			genero = "Femenino";
 			break;
 		case 3:
-			genero = "No especifica";
-			break;
-		case 4:
-			break;		
+			break;	
 		default:
 			cout<<"Opcion invalida"<<endl;
 			break;
@@ -1451,6 +1474,7 @@ void registrarPersonaMenu(){
 	
 }
 
+
 void registrarEps(){
 
 	string epsName="";
@@ -1459,4 +1483,137 @@ void registrarEps(){
 		cin>>epsName;
 	}
 	Eps epsInsertar(epsName);
+	data.agregarEps(epsInsertar, data.getCantidadEps()+1);
 }
+
+void registrarIPS(){
+	string ipsName="";
+	while (ipsName==""){
+		cout<<"Ingrese el nombre de la IPS que quiere ingresar: "<<endl;
+		cin>>ipsName;
+		cout<<ipsName<<endl;
+	}
+
+	//Direccion
+	string dirIps="";
+	while (dirIps==""){
+		cout<<"Ingrese la direccion : "<<endl;
+		cin>>dirIps;
+	}
+
+	//Ciudad:
+	string * ciudadIps=NULL;
+	while (ciudadIps==NULL){
+		cout<<"CIUDAD DE NACIMIENTO"<<endl;
+		Cola<string*> colaCiudad = data.getCiudades();
+		string *ciudad[data.getCantidadCiudades()];
+					
+		int opcionCiudad;
+		cout<<"Seleccione la ciudad: "<<endl;
+					
+		for(int i = 0; i < data.getCantidadCiudades(); i++){
+			ciudad[i] = colaCiudad.pop();		
+			cout<<i+1<<". "<<*(ciudad[i])<<endl;
+		}
+					
+		cout<<"Opcion: ";
+		cin>>opcionCiudad;
+
+		if(opcionCiudad>0 && (opcionCiudad-1)<data.getCantidadCiudades())
+		ciudadIps = ciudad[(opcionCiudad-1)];
+		else
+		ciudadIps = NULL;
+	}
+
+	//Eps
+	Eps *ipsEps;
+	int epsOpcion=0;
+	while(epsOpcion<=0){
+		Cola<Eps*> colaEps = data.getEpss();
+		Eps *epss[data.getCantidadEps()];
+					
+		cout<<"Seleccione la Eps correspondiente a este IPS: "<<endl;
+					
+		for(int i = 0; i < data.getCantidadEps(); i++){
+			epss[i] = colaEps.pop();		
+			cout<<i+1<<". "<<epss[i]->getNombre()<<endl;
+		}
+					
+		cout<<"Opcion: ";
+		cin>>epsOpcion;  
+		
+		if(epsOpcion>0 && (epsOpcion-1)<data.getCantidadEps()){
+			ipsEps = epss[epsOpcion-1];
+		} else {
+			ipsEps = NULL;
+		}
+	}
+
+	Ips ipsInsertar(ipsName, dirIps, ciudadIps, ipsEps);
+	data.setIPS(ipsInsertar, data.getCantidadIps()+1);
+	
+	
+}
+
+void registrarActLaboral(){
+	string actLabName="";
+	while (actLabName==""){
+		cout<<"Ingrese el nombre de la actividad laboral que desea ingresar : "<<endl;
+		cin>>actLabName;
+	}
+	data.agregarLaburo(actLabName, data.getCantidadLaburos()+1);
+	
+}
+
+void registrarPais(){
+	string paisName="";
+	while (paisName==""){
+		cout<<"Ingrese el nombre del pais que desea ingresar : "<<endl;
+		cin>>paisName;
+	}
+	data.agregarPais(paisName, data.getCantidadPaises()+1);
+}
+
+
+void registrarCiudad(){
+	string ciudadName="";
+	while (ciudadName==""){
+		cout<<"Ingrese el nombre de la ciudad que desea ingresar : "<<endl;
+		cin>>ciudadName;
+	}
+	data.agregarCiudad(ciudadName, data.getCantidadCiudades()+1);
+}
+
+void registrarVacuna(){
+	string vacunaName="";
+	while (vacunaName==""){
+		cout<<"Ingrese el nombre de la vacuna que desea ingresar : "<<endl;
+		cout<<"Nombre de la vacuna: ";
+		cin>>vacunaName;
+		Cola<Vacuna*> colaVacuna = data.getVacunas();
+
+		for(int i = 0; i < data.getCantidadVacunas(); i++){
+			if(vacunaName == colaVacuna.pop()->getNombre()){
+				cout<<"Vacuna ya registrada, intentelo de nuevo"<<endl;
+				vacunaName = "";
+			}
+		}
+	}
+
+	int cantDosis = 0;
+	while (cantDosis <=0 || cantDosis >2)
+	{
+		cout<<"Ingrese la cantidad de dosis correspondientes a esta vacuna : "<<endl;
+		cout<<"Cantidad de dosis:";
+		cin>>cantDosis;
+		if(cantDosis <=0 || cantDosis >2){
+			cout<<"Cantidad de dosis incorrecta. Intentelo de nuevo"<<endl;
+		}
+	}
+	
+
+	Vacuna vacuna(vacunaName, cantDosis);
+	data.setVacuna(vacuna, data.getCantidadVacunas()+1);
+	
+}
+
