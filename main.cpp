@@ -1002,6 +1002,7 @@ string escogerPais(){
 	
 	return *(pais[opcion-1]);
 }
+
 string escogerActividadLaboral(){
 	
 	Cola<string*> colaLaburo = data.getLaburos();
